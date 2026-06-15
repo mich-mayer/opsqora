@@ -1665,6 +1665,89 @@ button:active:not(:disabled) { transform: translateY(0); }
   .stat-delta { font-size: 9.5px; }
 }
 
+/* Equal content rhythm for repeated cards and metric groups. */
+.stat-card {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  grid-template-rows: 1fr;
+  align-items: center;
+  column-gap: 12px;
+  padding-bottom: 28px;
+}
+.stat-icon { grid-column: 1; align-self: center; }
+.stat-meta {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 3px;
+}
+.stat-meta span {
+  height: 2.5em;
+  min-height: 2.5em;
+}
+.stat-meta strong {
+  min-height: 30px;
+  margin-top: 0;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+.stat-delta {
+  right: 14px;
+  bottom: 10px;
+  left: 62px;
+  max-width: none;
+  text-align: right;
+}
+
+.quality-metrics > div { min-height: 104px; }
+.quality-metrics span,
+.cluster-metrics span,
+.drawer-stats span {
+  min-height: 2.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  white-space: normal;
+  overflow: hidden;
+}
+.quality-metrics strong,
+.cluster-metrics strong,
+.drawer-stats strong { line-height: 1.2; }
+.quality-metrics small { top: 42px; }
+
+.cluster-card h3,
+.principles-grid h3,
+.method-cards strong {
+  min-height: 2.6em;
+  display: -webkit-box;
+  align-content: center;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.cluster-card > p,
+.principles-grid p,
+.method-cards p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.cluster-card > p { min-height: 3em; -webkit-line-clamp: 2; }
+.principles-grid p,
+.method-cards p { -webkit-line-clamp: 4; }
+.cluster-tags { min-height: 28px; align-content: flex-start; }
+
+@media (max-width: 640px) {
+  .stat-card {
+    grid-template-columns: 40px minmax(0, 1fr);
+    min-height: 112px;
+    padding: 16px 16px 28px;
+  }
+  .stat-delta { left: 68px; right: 16px; }
+}
+
 /* Phone layout: keep the page fluid and move primary navigation to the bottom. */
 @media (max-width: 640px) {
   :root { --page-gutter: 12px; --layout-gap: 10px; --panel-padding-x: 13px; }
@@ -1756,7 +1839,7 @@ button:active:not(:disabled) { transform: translateY(0); }
   .stats-grid.four,
   .quality-metrics,
   .ticket-operations { grid-template-columns: 1fr; }
-  .stat-card { min-height: 88px; }
+  .stat-card { min-height: 112px; }
   .stat-meta span { -webkit-line-clamp: 2; }
 
   .page-title { margin-bottom: 15px; gap: 12px; }
