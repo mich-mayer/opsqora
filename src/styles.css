@@ -1524,3 +1524,286 @@ button:active:not(:disabled) { transform: translateY(0); }
   .chart-lg { margin-inline: 10px; }
   .limitations { grid-template-columns: 1fr; }
 }
+
+/* Content containment: text must never escape cards, cells, or controls. */
+.stat-card,
+.panel,
+.panel-header,
+.page-title,
+.notice-bar,
+.insight-summary,
+.quality-note,
+.methodology-detail,
+.review-reason-banner,
+.ticket-operations > *,
+.cluster-card,
+.principles-grid > div,
+.method-cards > div,
+.quality-metrics > div,
+.settings-list > div,
+.toggle-setting,
+.action-row,
+.notification-item,
+.related-list button,
+.quick-actions button,
+.activity-row { overflow: hidden; }
+
+.stat-card > *,
+.panel-header > *,
+.page-title > *,
+.notice-bar > *,
+.insight-summary > *,
+.quality-note > *,
+.methodology-detail > *,
+.review-reason-banner > *,
+.ticket-operations > * > *,
+.cluster-card > *,
+.principles-grid > div > *,
+.method-cards > div > *,
+.quality-metrics > div > *,
+.settings-list > div > *,
+.toggle-setting > *,
+.action-row > *,
+.notification-item > *,
+.related-list button > *,
+.quick-actions button > *,
+.activity-row > * { min-width: 0; }
+
+.stat-meta { width: 100%; padding-right: 2px; }
+.stat-meta span {
+  max-width: 100%;
+  line-height: 1.25;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.stat-meta strong { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stat-delta {
+  max-width: calc(100% - 22px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.panel-header h2,
+.panel-header p,
+.page-title h1,
+.page-title p,
+.review-heading h1,
+.review-reason-banner strong,
+.review-reason-banner p,
+.quality-note strong,
+.quality-note span,
+.methodology-detail span,
+.insight-summary span,
+.settings-list strong,
+.settings-list small,
+.toggle-setting strong,
+.toggle-setting small,
+.cluster-card h3,
+.cluster-card > p,
+.principles-grid h3,
+.principles-grid p,
+.method-cards strong,
+.method-cards p { max-width: 100%; overflow-wrap: anywhere; }
+
+.activity-row strong,
+.activity-row span,
+.notification-item strong,
+.notification-item p,
+.related-list strong,
+.related-list small,
+.quick-actions strong,
+.quick-actions small,
+.rank-label,
+.cluster-mini-list strong,
+.cluster-mini-list span,
+.correction-list strong,
+.correction-list small,
+.action-title strong,
+.owner,
+.schema-list code,
+.sample-table span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.badge,
+.sla-pill,
+.btn,
+.compact-select,
+.filter-bar select,
+.saved-queues button,
+.active-filters button {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tag-stack,
+.editable-tags,
+.tag-cloud,
+.cluster-tags,
+.page-actions,
+.review-actions,
+.draft-footer,
+.table-tools { min-width: 0; }
+
+.ticket-table td,
+.ticket-table th,
+.evaluation-table > button > *,
+.sample-table > div > * { overflow: hidden; }
+
+.action-row > span:nth-child(2),
+.action-title,
+.owner { min-width: 0; }
+.action-row > span:nth-child(2) { overflow-wrap: anywhere; }
+
+@media (max-width: 1160px) {
+  .stat-card { padding-right: 13px; }
+  .stat-meta span { font-size: 10.5px; }
+  .stat-delta { font-size: 9.5px; }
+}
+
+/* Phone layout: keep the page fluid and move primary navigation to the bottom. */
+@media (max-width: 640px) {
+  :root { --page-gutter: 12px; --layout-gap: 10px; --panel-padding-x: 13px; }
+
+  html,
+  body { min-width: 0; width: 100%; overflow-x: hidden; }
+
+  .app-shell { width: 100%; min-width: 0; }
+  .main-shell { width: 100%; min-width: 0; margin-left: 0; padding-bottom: 72px; }
+
+  .sidebar {
+    inset: auto 0 0;
+    width: 100%;
+    height: 64px;
+    padding: 7px 8px calc(7px + env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    border-right: 0;
+    background: rgba(238, 243, 245, .96);
+    backdrop-filter: blur(16px);
+  }
+  .sidebar .brand,
+  .sidebar .data-label,
+  .sidebar .sidebar-user { display: none; }
+  .sidebar nav {
+    width: 100%;
+    min-width: 0;
+    flex: 1;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .sidebar nav::-webkit-scrollbar { display: none; }
+  .sidebar nav button {
+    flex: 0 0 48px;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    border-radius: 10px;
+  }
+  .sidebar nav button.active { box-shadow: inset 0 3px #466b7c; }
+
+  .topbar {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px var(--page-gutter);
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
+  .global-search {
+    order: 1;
+    flex: 1 1 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+  }
+  .global-search kbd { display: none; }
+  .topbar-period {
+    order: 2;
+    flex: 1 1 150px;
+    min-width: 0;
+  }
+  .topbar-period select { width: 100%; min-width: 0; max-width: none; }
+  .top-actions { order: 3; flex: 0 0 auto; margin-left: auto; }
+  .demo-tools { min-width: 0; }
+  .demo-tools > span { display: none; }
+  .demo-generate { width: 38px; }
+  .custom-date-range {
+    position: absolute;
+    z-index: 20;
+    top: calc(100% + 5px);
+    left: var(--page-gutter);
+    right: var(--page-gutter);
+    width: auto;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+    box-shadow: var(--shadow-lg);
+  }
+  .custom-date-range input { flex: 1; width: 0; min-width: 0; }
+
+  .content,
+  .content-review { width: 100%; min-width: 0; padding: 14px var(--page-gutter) 28px; }
+  .stats-grid.six,
+  .stats-grid.four,
+  .quality-metrics,
+  .ticket-operations { grid-template-columns: 1fr; }
+  .stat-card { min-height: 88px; }
+  .stat-meta span { -webkit-line-clamp: 2; }
+
+  .page-title { margin-bottom: 15px; gap: 12px; }
+  .main-shell .page-title h1 { font-size: 24px; }
+  .page-actions,
+  .review-actions { width: 100%; }
+  .page-actions .btn,
+  .review-actions .btn { flex: 1 1 auto; }
+
+  .panel-header { align-items: flex-start; flex-wrap: wrap; }
+  .grid-main-side,
+  .three-panels,
+  .two-panels,
+  .settings-layout,
+  .review-layout,
+  .review-right,
+  .cluster-grid,
+  .principles-grid,
+  .method-cards,
+  .limitations { grid-template-columns: 1fr; }
+  .chart-lg { margin-inline: 6px; }
+  .chart-legend { flex-wrap: wrap; padding-inline: 8px; }
+
+  .filter-bar,
+  .selection-bar,
+  .table-footer,
+  .draft-footer,
+  .insight-summary,
+  .quality-note { align-items: flex-start; flex-wrap: wrap; }
+  .search-field { flex: 1 1 100%; min-width: 0; }
+  .table-wrap,
+  .evaluation-table,
+  .sample-table { max-width: 100%; overflow-x: auto; overscroll-behavior-x: contain; }
+
+  .review-heading { top: 0; }
+  .ticket-operations > :last-child { grid-column: auto; }
+  .safety-hero { padding: 22px 18px; }
+  .confirm-backdrop { padding: 14px; }
+  .confirm-dialog { padding: 20px 16px; }
+  .confirm-dialog > div { flex-wrap: wrap; }
+
+  .notification-panel {
+    top: 10px;
+    right: 10px;
+    bottom: 74px;
+    left: 10px;
+    width: auto;
+    max-height: none;
+  }
+}
