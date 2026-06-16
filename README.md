@@ -33,6 +33,9 @@ To create a production build:
 npm run build
 ```
 
+The case study page is available at `/case-study.html` after the GitHub Pages build, for example:
+`https://mich-mayer.github.io/opsqora/case-study.html`.
+
 ## Key screens
 
 - **Overview**: support KPIs, ticket volume, issue clusters, and recent AI activity
