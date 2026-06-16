@@ -1250,50 +1250,18 @@ input:focus-visible,
 select:focus-visible,
 textarea:focus-visible { border-color: #7595a3; box-shadow: 0 0 0 3px rgba(70, 107, 124, .12); }
 
-/* Geometric Opsqora identity, adapted from the supplied logo reference. */
+/* Supplied Opsqora logo asset. */
 .brand {
-  gap: 9px;
+  justify-content: center;
   padding-top: 5px;
   padding-bottom: 31px;
 }
 .brand > .brand-mark {
-  position: relative;
-  width: 34px;
-  height: 34px;
-  flex: 0 0 34px;
+  width: min(158px, 100%);
+  height: auto;
+  flex: 0 0 auto;
   display: block;
-  overflow: visible;
-  border-radius: 50%;
-  background: #24292d;
-  box-shadow: 0 7px 18px rgba(32, 40, 48, .16);
-}
-.brand > .brand-mark::before,
-.brand > .brand-mark::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  height: 3px;
-  border-radius: 2px;
-  transform: translateY(-50%);
-}
-.brand > .brand-mark::before {
-  left: -7px;
-  width: 48px;
-  background: #24292d;
-}
-.brand > .brand-mark::after {
-  left: 0;
-  width: 34px;
-  background: #eef2f4;
-}
-.brand div { justify-content: center; }
-.brand strong {
-  color: #24292d;
-  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
-  font-size: 19px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -.8px;
+  object-fit: contain;
 }
 
 @media (max-width: 1380px) {
@@ -1480,8 +1448,12 @@ button:active:not(:disabled) { transform: translateY(0); }
   .sidebar { width: 72px; padding: 16px 9px 12px; }
   .main-shell { margin-left: 72px; }
   .brand { min-height: 48px; padding: 0 0 20px; }
-  .brand div { display: none; }
-  .brand-mark { flex: 0 0 auto; }
+  .brand > .brand-mark {
+    width: 42px;
+    height: 42px;
+    object-fit: cover;
+    object-position: left center;
+  }
   .sidebar nav { gap: 5px; }
   .sidebar nav button { width: 48px; height: 44px; justify-content: center; margin-inline: auto; padding: 0; }
   .sidebar nav button span, .sidebar nav button em { display: none; }
