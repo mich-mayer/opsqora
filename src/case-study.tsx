@@ -48,7 +48,7 @@ function CaseStudy() {
     <main className="case-study-page">
       <header className="case-nav">
         <a className="case-logo" href={`${baseUrl}`} aria-label="Opsqora home">
-          <img src={`${baseUrl}logo_text.png`} alt="Opsqora" />
+          <img src={`${baseUrl}logo_text_transparent.png`} alt="Opsqora" />
         </a>
         <nav aria-label="Case study sections">
           <a href="#solution">Solution</a>
