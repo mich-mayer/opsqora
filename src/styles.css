@@ -2208,7 +2208,7 @@ button:active:not(:disabled) { transform: translateY(0); }
 
 .case-hero-copy h1 {
   max-width: 820px;
-  margin-top: 18px;
+  margin-top: 0;
   font-size: clamp(40px, 6.35vw, 70px);
   line-height: 1.02;
 }

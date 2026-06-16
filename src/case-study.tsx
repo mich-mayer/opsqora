@@ -59,7 +59,6 @@ function CaseStudy() {
 
       <section className="case-hero">
         <div className="case-hero-copy">
-          <span className="case-kicker">Case Study</span>
           <h1>AI-assisted support operations with human review at the center.</h1>
           <p>
             Opsqora turns support tickets into reliable operational signals: classification, SLA risk,
