@@ -1254,7 +1254,7 @@ textarea:focus-visible { border-color: #7595a3; box-shadow: 0 0 0 3px rgba(70, 1
 .brand {
   align-self: stretch;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   min-height: 48px;
   margin-bottom: 34px;
   padding: 0;
