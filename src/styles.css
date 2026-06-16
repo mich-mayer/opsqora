@@ -36,7 +36,7 @@ h1, h2, h3, .brand strong { font-family: 'Manrope', sans-serif; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
 .app-shell { min-height: 100vh; }
-.sidebar { position: fixed; inset: 0 auto 0 0; width: 228px; background: #181a28; color: #fff; display: flex; flex-direction: column; padding: 19px 13px 14px; z-index: 20; }
+.sidebar { position: fixed; inset: 0 auto 0 0; width: 228px; background: #181a28; color: #fff; display: flex; flex-direction: column; padding: 7px 13px 14px; z-index: 20; }
 .brand { display: flex; align-items: center; justify-content: center; gap: 10px; padding: 0 8px 28px; }
 .brand > span { width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center; background: linear-gradient(135deg, #7c68ed, #5945c7); box-shadow: 0 8px 22px rgba(104,86,217,.35); }
 .brand div { display: flex; flex-direction: column; }
@@ -1252,17 +1252,21 @@ textarea:focus-visible { border-color: #7595a3; box-shadow: 0 0 0 3px rgba(70, 1
 
 /* Supplied Opsqora logo asset. */
 .brand {
-  justify-content: center;
-  padding-top: 5px;
-  padding-bottom: 31px;
+  align-self: stretch;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 48px;
+  margin-bottom: 34px;
+  padding: 0;
 }
 .brand > .brand-mark {
-  width: min(158px, 100%);
+  width: min(180px, 100%);
   height: auto;
   flex: 0 0 auto;
   display: block;
   object-fit: contain;
 }
+.brand > .brand-iconmark { display: none; }
 
 @media (max-width: 1380px) {
   .topbar-period > span { display: none; }
@@ -1445,14 +1449,16 @@ button:active:not(:disabled) { transform: translateY(0); }
 
 @media (max-width: 980px) {
   :root { --page-gutter: 16px; --layout-gap: 12px; --panel-padding-x: 15px; }
-  .sidebar { width: 72px; padding: 16px 9px 12px; }
+  .sidebar { width: 72px; padding: 10px 9px 12px; }
   .main-shell { margin-left: 72px; }
-  .brand { min-height: 48px; padding: 0 0 20px; }
-  .brand > .brand-mark {
+  .brand { justify-content: center; min-height: 48px; margin-bottom: 20px; padding: 0; }
+  .brand > .brand-wordmark { display: none; }
+  .brand > .brand-iconmark {
+    display: block;
     width: 42px;
     height: 42px;
-    object-fit: cover;
-    object-position: left center;
+    object-fit: contain;
+    object-position: center;
   }
   .sidebar nav { gap: 5px; }
   .sidebar nav button { width: 48px; height: 44px; justify-content: center; margin-inline: auto; padding: 0; }
