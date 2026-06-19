@@ -9,6 +9,7 @@ Read these files before making project changes:
 - `README.md` for the product overview and local commands.
 - `docs/project-brief.md` for the product intent and audience.
 - `docs/product-scope.md` for current Phase 1 boundaries and non-goals.
+- `docs/product-decisions.md` for positioning, human-in-the-loop decisions, and metric honesty.
 - `docs/architecture.md` for the source layout and deployment model.
 - `docs/agent-workflow.md` for collaboration rules shared by Claude and Codex.
 - `docs/design-direction.md` for the visual direction, color tokens, typography, case study structure, and implementation tasks.

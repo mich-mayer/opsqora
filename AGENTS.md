@@ -9,6 +9,7 @@ Before changing code or docs, read:
 - `README.md`
 - `docs/project-brief.md`
 - `docs/product-scope.md`
+- `docs/product-decisions.md`
 - `docs/architecture.md`
 - `docs/agent-workflow.md`
 - `docs/design-direction.md` — visual direction and design spec (color tokens, typography, case study structure, screenshot strategy, implementation tasks)

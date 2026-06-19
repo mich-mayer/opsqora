@@ -5,7 +5,10 @@ This directory contains the React/Vite source for Opsqora.
 ## Files
 
 - `main.tsx`: mounts the main interactive prototype from `App.tsx`.
-- `App.tsx`: contains the current Phase 1 product UI, navigation, screens, charts, filters, and review interactions.
+- `App.tsx`: contains the app shell, global state, navigation, search, notifications, reset modal, and screen wiring.
+- `screens/`: one file per prototype screen (`Overview`, `TicketInbox`, `TicketReview`, `DuplicateClusters`, `ProductInsights`, `AIQuality`, `Dataset`, `Safety`, `SettingsPage`).
+- `components/primitives.tsx`: shared badges, panels, stat cards, page title, empty state, column help, and review field controls.
+- `lib/index.ts`: pure helpers and constants for formatting, dates, SLA state, review routing, counts, colors, and default thresholds.
 - `case-study.tsx`: mounts and renders the public case study page.
 - `data.ts`: creates deterministic synthetic tickets and exports taxonomy constants.
 - `types.ts`: defines shared domain types.
@@ -15,4 +18,4 @@ This directory contains the React/Vite source for Opsqora.
 
 - Keep `main.tsx` and `case-study.tsx` as Vite entry modules unless the HTML files and Vite config are updated together.
 - Keep synthetic data deterministic so screenshots, metrics, and review flows remain reproducible.
-- If extracting components later, do it incrementally and verify both entry pages after each move.
+- Keep screen-level behavior in `screens/` and shared behavior in `lib/` or `components/primitives.tsx`.

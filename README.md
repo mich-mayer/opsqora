@@ -50,6 +50,7 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 - `AGENTS.md`: entry context for Codex and other coding agents
 - `docs/project-brief.md`: product intent, audience, and positioning
 - `docs/product-scope.md`: Phase 1 scope, screens, data model, and non-goals
+- `docs/product-decisions.md`: positioning, human-in-the-loop boundaries, metric honesty, and product bets
 - `docs/architecture.md`: source layout, build entries, assets, and deployment
 - `docs/agent-workflow.md`: collaboration rules for humans and AI agents
 - `src/README.md`: source-file map for implementation work
@@ -63,7 +64,7 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 - **Product Insights**: product area demand, co-tagging, emerging issues, and suggested actions
 - **AI Quality**: model metrics, trends, error analysis, low-confidence cases, and evaluation methodology
 - **Dataset**: distributions, taxonomy, schema, and sample records
-- **Safety / About**: intended use, limitations, and explicit non-goals
+- **Safety & About**: intended use, limitations, and explicit non-goals
 
 ## Synthetic dataset explanation
 

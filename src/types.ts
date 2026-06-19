@@ -3,6 +3,7 @@ export type Risk = 'critical' | 'high' | 'medium' | 'low'
 export type ReviewStatus = 'Not analyzed' | 'Analyzed' | 'Needs review' | 'Approved' | 'Edited' | 'Escalated'
 export type TicketStatus = 'New' | 'Open' | 'Pending' | 'Solved'
 export type SourceSystem = 'Zendesk' | 'Intercom' | 'Jira Service Management' | 'Email'
+export type QueueId = 'all' | 'mine' | 'unassigned' | 'sla' | 'human-review' | 'escalated'
 
 export interface AIAnalysis {
   primary_topic: string
