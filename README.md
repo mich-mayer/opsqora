@@ -33,8 +33,26 @@ To create a production build:
 npm run build
 ```
 
+To run the standard project verification used by agents:
+
+```bash
+npm run verify
+```
+
 The case study page is available at `/case-study.html` after the GitHub Pages build, for example:
 `https://mich-mayer.github.io/opsqora/case-study.html`.
+
+## Project documentation
+
+Durable project context lives in the repository so humans, Claude, and Codex use the same source of truth:
+
+- `CLAUDE.md`: entry context for Claude and Claude Code
+- `AGENTS.md`: entry context for Codex and other coding agents
+- `docs/project-brief.md`: product intent, audience, and positioning
+- `docs/product-scope.md`: Phase 1 scope, screens, data model, and non-goals
+- `docs/architecture.md`: source layout, build entries, assets, and deployment
+- `docs/agent-workflow.md`: collaboration rules for humans and AI agents
+- `src/README.md`: source-file map for implementation work
 
 ## Key screens
 

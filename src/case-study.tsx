@@ -2,20 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import {
   ArrowRight,
-  BarChart3,
-  Bot,
-  Boxes,
-  CheckCircle2,
-  ClipboardCheck,
-  Database,
-  Gauge,
   GitBranch,
-  Inbox,
-  Layers3,
-  LockKeyhole,
-  ShieldCheck,
-  Sparkles,
-  Users,
   Zap,
 } from 'lucide-react'
 import './styles.css'
@@ -23,24 +10,141 @@ import './styles.css'
 const baseUrl = '/opsqora/'
 
 const metrics = [
-  ['500', 'synthetic tickets modeled'],
-  ['14', 'product areas tracked'],
-  ['18', 'duplicate patterns surfaced'],
-  ['6', 'AI quality signals monitored'],
+  '500 synthetic tickets',
+  '14 product areas',
+  '18 duplicate patterns',
+  '6 AI quality signals',
 ]
 
-const workflow = [
-  ['Ingest', 'Support tickets arrive with customer, SLA, channel, and workspace context.', Inbox],
-  ['Analyze', 'AI predicts topic, tags, priority, SLA risk, team, confidence, and next action.', Bot],
-  ['Review', 'Low-confidence or high-impact cases move into human decision workflows.', ClipboardCheck],
-  ['Learn', 'Clusters and product insights turn repeated support demand into roadmap evidence.', BarChart3],
+const processSteps = [
+  ['Ingest', 'Support tickets arrive with customer, SLA, channel, and workspace context.'],
+  ['Analyze', 'AI predicts topic, tags, priority, SLA risk, team, confidence, and next action.'],
+  ['Review', 'Low-confidence or high-impact cases move into human decision workflows.'],
+  ['Learn', 'Clusters and product insights turn repeated support demand into roadmap evidence.'],
 ]
 
-const highlights = [
-  ['Human control by design', 'AI recommendations are visible and editable. Customer-facing replies remain drafts, and escalation stays under reviewer control.', ShieldCheck],
-  ['Operationally dense UI', 'The interface favors sortable queues, compact evidence, filters, and review states over a decorative dashboard.', Gauge],
-  ['Synthetic but realistic data', 'The dataset creates reproducible ticket volume, confidence, labels, SLA risk, duplicate clusters, and model error cases.', Database],
-  ['Decision support loop', 'Classification, cluster detection, product insights, and quality monitoring share the same ticket evidence model.', Layers3],
+const stack = ['React', 'TypeScript', 'Vite', 'Recharts', 'Lucide', 'GitHub Pages']
+
+const shots = {
+  overview: {
+    url: 'opsqora.app/overview',
+    label: 'Overview',
+    file: 'overview@2x',
+    caption: 'Operational state at a glance: volume, SLA risk, review load and emerging clusters.',
+  },
+  inbox: {
+    url: 'opsqora.app/inbox',
+    label: 'Inbox',
+    file: 'inbox@2x',
+    caption: '500 searchable tickets with separate operational and AI-review state.',
+  },
+  review: {
+    url: 'opsqora.app/review',
+    label: 'Ticket review',
+    file: 'review@2x',
+    caption: 'AI analysis on the left, the human decision on the right. Replies stay drafts.',
+    callouts: [
+      { label: 'AI confidence', x: '70%', y: '47%', side: 'right' },
+      { label: 'Why AI classified it', x: '57%', y: '88%', side: 'left' },
+      { label: 'Human decision', x: '82%', y: '50%', side: 'right' },
+    ] as const,
+    zoom: 'Confidence + review reasons stay visible before approval.',
+  },
+  clusters: {
+    url: 'opsqora.app/clusters',
+    label: 'Duplicate clusters',
+    file: 'clusters@2x',
+    caption: 'A validated drawer shows why related tickets were grouped before escalation.',
+  },
+  quality: {
+    url: 'opsqora.app/quality',
+    label: 'AI quality',
+    file: 'quality@2x',
+    caption: 'Accuracy, edit rate, confidence and failure modes, made measurable.',
+    callouts: [
+      { label: 'Edit rate', x: '75%', y: '44%', side: 'right' },
+      { label: 'Failure modes', x: '84%', y: '82%', side: 'right' },
+    ] as const,
+  },
+  dataset: {
+    url: 'opsqora.app/dataset',
+    label: 'Dataset',
+    file: 'dataset@2x',
+    caption: 'Synthetic support data stays transparent, deterministic and reviewable.',
+  },
+}
+
+type Callout = {
+  label: string
+  x: string
+  y: string
+  side: 'left' | 'right'
+}
+
+function Shot({ url, label, file, caption, callouts = [], zoom }: { url: string; label: string; file: string; caption: string; callouts?: readonly Callout[]; zoom?: string }) {
+  return (
+    <figure className="case-shot">
+      <div className="case-shot-chrome" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+        <em>{url}</em>
+      </div>
+      <div className="case-shot-media">
+        <picture>
+          <source srcSet={`${baseUrl}shots/${file}.webp`} type="image/webp" />
+          <img src={`${baseUrl}shots/${file}.png`} alt={`${label} screen from the working Opsqora prototype`} loading="lazy" />
+        </picture>
+        {callouts.map(callout => (
+          <span
+            className={`case-callout case-callout-${callout.side}`}
+            key={callout.label}
+            style={{ left: callout.x, top: callout.y }}
+          >
+            {callout.label}
+          </span>
+        ))}
+        {zoom && <span className="case-zoom-crop">{zoom}</span>}
+      </div>
+      <figcaption>
+        <strong>{label}</strong>
+        <span>{caption}</span>
+      </figcaption>
+    </figure>
+  )
+}
+
+function SectionHeader({ number, eyebrow, title }: { number: string; eyebrow: string; title: string }) {
+  return (
+    <header className="case-section-header">
+      <span>{number}</span>
+      <div>
+        <p>{eyebrow}</p>
+        <h2>{title}</h2>
+      </div>
+    </header>
+  )
+}
+
+function StatLine({ compact = false }: { compact?: boolean }) {
+  return (
+    <div className={compact ? 'case-stat-line compact' : 'case-stat-line'} aria-label="Project metrics">
+      {metrics.map(metric => <span key={metric}>{metric}</span>)}
+    </div>
+  )
+}
+
+function StackChips() {
+  return (
+    <div className="case-stack-chips" aria-label="Technology stack">
+      {stack.map(item => <span key={item}>{item}</span>)}
+    </div>
+  )
+}
+
+const ctaLinks = [
+  ['Open live demo', baseUrl],
+  ['View repository', 'https://github.com/mich-mayer/opsqora'],
 ]
 
 function CaseStudy() {
@@ -51,18 +155,28 @@ function CaseStudy() {
           <img src={`${baseUrl}logo_text_transparent.png`} alt="Opsqora" />
         </a>
         <nav aria-label="Case study sections">
-          <a href="#solution">Solution</a>
-          <a href="#architecture">Architecture</a>
+          <a href={`${baseUrl}`}>Live demo ↗</a>
+          <a href="#problem">Problem</a>
+          <a href="#workflow">Workflow</a>
           <a href="#results">Results</a>
         </nav>
       </header>
 
+      <div className="case-meta" aria-label="Case study metadata">
+        <span><strong>Role</strong> Product design + Frontend</span>
+        <span><strong>Type</strong> Phase 1 prototype</span>
+        <span><strong>Stack</strong> React · Vite</span>
+        <span><strong>Year</strong> 2026</span>
+      </div>
+
       <section className="case-hero">
         <div className="case-hero-copy">
-          <h1>AI-assisted support operations with human review at the center.</h1>
+          <span className="case-kicker">AI Support Operations · Case Study</span>
+          <h1>Support tickets, turned into decisions you can trust.</h1>
           <p>
-            Opsqora turns support tickets into reliable operational signals: classification, SLA risk,
-            duplicate clusters, product insights, and quality monitoring in one focused workspace.
+            Opsqora turns B2B support demand — classification, SLA risk, duplicate clusters and
+            product signal — into reliable operational evidence, while keeping every customer-impacting
+            decision with a human.
           </p>
           <div className="case-actions">
             <a className="case-primary-action" href={`${baseUrl}`}>
@@ -73,128 +187,82 @@ function CaseStudy() {
             </a>
           </div>
         </div>
-        <div className="case-product-shot" aria-label="Opsqora product overview">
-          <div className="case-shot-top">
-            <span />
-            <strong>Support Intelligence</strong>
-            <em>Live demo</em>
-          </div>
-          <div className="case-shot-body">
-            <div className="case-mini-sidebar">
-              {['Overview', 'Inbox', 'Review', 'Clusters', 'Insights'].map((item, index) => (
-                <i key={item} className={index === 1 ? 'active' : ''}>{item}</i>
-              ))}
-            </div>
-            <div className="case-mini-main">
-              <div className="case-mini-stats">
-                <span><strong>500</strong><small>Tickets</small></span>
-                <span><strong>91</strong><small>Review</small></span>
-                <span><strong>18</strong><small>Clusters</small></span>
-              </div>
-              <div className="case-mini-chart">
-                {[36, 54, 42, 68, 59, 78, 63, 84].map((height, index) => <i key={index} style={{ height: `${height}%` }} />)}
-              </div>
-              <div className="case-mini-table">
-                {['API task creation failures', 'Timeline latency in large workspaces', 'Billing access after role changes'].map((row, index) => (
-                  <span key={row}><b>{row}</b><em>{index === 0 ? 'High risk' : index === 1 ? 'Clustered' : 'Review'}</em></span>
-                ))}
-              </div>
-            </div>
-          </div>
+        <div className="case-hero-media">
+          <Shot {...shots.overview} />
+          <StatLine />
         </div>
       </section>
 
-      <section className="case-metrics" aria-label="Project metrics">
-        {metrics.map(([value, label]) => (
-          <div key={label}>
-            <strong>{value}</strong>
-            <span>{label}</span>
-          </div>
-        ))}
-      </section>
-
-      <section className="case-section case-two-column">
-        <div>
-          <span className="case-kicker">Problem</span>
-          <h2>Support teams have signal, but it is scattered across queues.</h2>
-        </div>
+      <section className="case-section case-split" id="problem">
         <div className="case-copy">
+          <SectionHeader number="01" eyebrow="The problem" title="A ticket holds more signal than a single request." />
           <p>
-            A support ticket contains more than a customer request. It can expose SLA risk, product
-            friction, repeated incidents, routing decisions, documentation gaps, and feature demand.
-            The hard part is turning that raw volume into trusted action without hiding judgment inside automation.
+            A support ticket can expose SLA risk, product friction, repeated incidents,
+            routing decisions, documentation gaps and feature demand. The hard part is
+            turning that raw volume into trusted action.
           </p>
           <p>
-            Opsqora explores a safer pattern: AI can organize evidence and recommend decisions, while humans
-            keep control over review, edits, escalation, and customer-impacting actions.
+            Opsqora explores a safer pattern: AI can organize evidence and recommend decisions,
+            while humans keep control over review, edits, escalation and customer-impacting actions.
           </p>
         </div>
+        <Shot {...shots.inbox} />
       </section>
 
-      <section className="case-section" id="solution">
-        <span className="case-kicker">Solution</span>
-        <h2>A compact workspace for ticket intelligence.</h2>
-        <div className="case-workflow">
-          {workflow.map(([title, copy, Icon]) => (
-            <article key={String(title)}>
-              <span><Icon size={21} /></span>
-              <h3>{String(title)}</h3>
-              <p>{String(copy)}</p>
-            </article>
-          ))}
+      <section className="case-section" id="workflow">
+        <SectionHeader number="02" eyebrow="How it works" title="One evidence model, four moves: ingest, analyze, review, learn." />
+        <div className="case-workflow-spine">
+          <div className="case-step-list">
+            {processSteps.map(([title, copy], index) => (
+              <article key={title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+          <Shot {...shots.clusters} />
         </div>
       </section>
 
-      <section className="case-section case-two-column" id="architecture">
-        <div>
-          <span className="case-kicker">Architecture</span>
-          <h2>Built as a fast, static GitHub Pages application.</h2>
+      <section className="case-section case-split reverse">
+        <div className="case-copy">
+          <SectionHeader number="03" eyebrow="Human in the loop" title="AI organizes the evidence. People stay accountable." />
+          <p>
+            AI recommendations are visible and editable. Customer-facing replies remain drafts,
+            and escalation stays under reviewer control.
+          </p>
+          <p>
+            The interface favors sortable queues, compact evidence, filters and review states
+            over decorative dashboard chrome.
+          </p>
         </div>
-        <div className="case-architecture">
-          <div><strong>React + TypeScript</strong><span>Typed UI state, reusable components, and deterministic ticket generation.</span></div>
-          <div><strong>Vite on GitHub Pages</strong><span>Static build served from the `/opsqora/` base path.</span></div>
-          <div><strong>Recharts + Lucide</strong><span>Operational charts and crisp tool icons without heavy application chrome.</span></div>
-          <div><strong>Session-state prototype</strong><span>Review edits, generated tickets, and settings stay local to the browser session.</span></div>
-        </div>
-      </section>
-
-      <section className="case-section">
-        <span className="case-kicker">Implementation Highlights</span>
-        <h2>Design choices that make the prototype feel operational.</h2>
-        <div className="case-highlight-grid">
-          {highlights.map(([title, copy, Icon]) => (
-            <article key={String(title)}>
-              <Icon size={22} />
-              <h3>{String(title)}</h3>
-              <p>{String(copy)}</p>
-            </article>
-          ))}
+        <div className="case-shot-stack">
+          <Shot {...shots.review} />
+          <Shot {...shots.quality} />
         </div>
       </section>
 
       <section className="case-section case-results" id="results">
-        <div>
-          <span className="case-kicker">Results</span>
-          <h2>From demo data to an end-to-end support intelligence flow.</h2>
+        <div className="case-copy">
+          <SectionHeader number="04" eyebrow="Results" title="An end-to-end support intelligence loop — as a demo." />
           <p>
-            The project now demonstrates the full loop: queue triage, AI classification, human review,
-            duplicate detection, product signal analysis, quality evaluation, and safety boundaries.
+            The project demonstrates queue triage, AI classification, human review, duplicate
+            detection, product signal analysis, quality evaluation and safety boundaries.
           </p>
+          <StatLine compact />
+          <StackChips />
+          <div className="case-result-links">
+            {ctaLinks.map(([label, href]) => (
+              <a key={label} href={href}>
+                {label} <ArrowRight size={15} />
+              </a>
+            ))}
+          </div>
         </div>
-        <div className="case-result-list">
-          {[
-            ['AI Quality', 'Confidence, edit rate, precision, recall, and failure modes are surfaced for review.', Sparkles],
-            ['Safe Boundaries', 'No automatic replies, no hidden escalations, and no unreviewed customer-impacting actions.', LockKeyhole],
-            ['Product Feedback', 'Repeated pain points are grouped into evidence-backed product actions.', Boxes],
-            ['Team Workflow', 'Support, product, and operations can inspect the same structured ticket evidence.', Users],
-          ].map(([title, copy, Icon]) => (
-            <div key={String(title)}>
-              <Icon size={19} />
-              <span><strong>{String(title)}</strong><small>{String(copy)}</small></span>
-              <CheckCircle2 size={18} />
-            </div>
-          ))}
-        </div>
+        <Shot {...shots.dataset} />
       </section>
 
       <section className="case-cta">
