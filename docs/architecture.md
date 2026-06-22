@@ -30,30 +30,28 @@ Do not move or rename these entry files without updating Vite config, internal l
 Current source files and folders:
 
 - `src/main.tsx`: React bootstrap for the main prototype.
-- `src/App.tsx`: main application shell, global state, navigation, search, notifications, reset modal, and screen wiring.
+- `src/App.tsx`: main application shell, global state, navigation, search, pattern selection, evidence validation state, brief-generation state, and screen wiring.
 - `src/screens/`: one file per prototype screen:
-  - `Overview.tsx`
-  - `TicketInbox.tsx`
-  - `TicketReview.tsx`
-  - `DuplicateClusters.tsx`
-  - `ProductInsights.tsx`
-  - `AIQuality.tsx`
-  - `Dataset.tsx`
-  - `Safety.tsx`
-  - `SettingsPage.tsx`
+  - `PatternFeed.tsx`
+  - `PatternReview.tsx`
+  - `ProductBriefScreen.tsx`
+  - `EvalDashboard.tsx`
+  - `DesignNotes.tsx`
+  - legacy Concept A screens remain in source for historical context and typecheck compatibility but are not mounted by the live app.
 - `src/components/primitives.tsx`: shared UI primitives such as badges, panels, stat cards, page titles, empty states, table column help, and review field selects.
 - `src/lib/index.ts`: pure helpers and constants such as date formatting, SLA calculation, human-review reasons, counts, colors, and the default review threshold.
 - `src/case-study.tsx`: React bootstrap and content for the case study page.
-- `src/data.ts`: deterministic synthetic ticket generator, taxonomy, teams, product areas, and cluster summaries.
-- `src/types.ts`: domain types for tickets, AI analysis, review status, priorities, pages, and ticket queues.
+- `src/mock/index.ts`: deterministic Concept B mock layer for recurring patterns, evidence snippets, product briefs, mocked outcomes, eval metrics, and costs.
+- `src/data.ts`: legacy deterministic synthetic ticket generator from Concept A; not mounted by the active app.
+- `src/types.ts`: domain types for legacy tickets and active Concept B pattern validation.
 - `src/styles.css`: global styling for the app and case study.
 
 The app has been split by screen while keeping Phase 1 behavior in local React state. If the app grows further, prefer gradual extraction by product capability:
 
 - `src/app/` for app shell and shared layout;
-- `src/features/tickets/` for inbox and review workflows;
-- `src/features/insights/` for product insights and clusters;
-- `src/features/quality/` for AI quality views;
+- `src/features/patterns/` for pattern feed, evidence review, and readiness rules;
+- `src/features/briefs/` for generated product brief workflows;
+- `src/features/eval/` for AI quality and cost views;
 - `src/data/` for synthetic data generation;
 - `src/pages/` for standalone pages such as the case study.
 

@@ -1,15 +1,15 @@
 # Project Brief
 
-Opsqora is a portfolio-grade visual prototype for an AI-assisted B2B SaaS support operations workspace.
+Opsqora is a portfolio-grade visual prototype for an AI-assisted support feedback pattern validation tool.
 
-The prototype shows how support, product, and AI operations teams can turn support tickets into structured evidence:
+The prototype shows how product and AI operations teams can turn recurring support feedback into validated product decisions:
 
-- classify tickets with a primary topic and secondary tags;
-- review AI recommendations with human control;
-- identify duplicate issue clusters;
-- surface product insights from repeated support demand;
-- monitor AI quality, confidence, errors, and reviewer corrections;
-- explain responsible AI boundaries clearly.
+- review AI-suggested recurring feedback patterns;
+- validate representative evidence snippets with human control;
+- make readiness logic explicit before a pattern becomes a backlog candidate;
+- generate a mocked product brief from a ready pattern;
+- monitor AI quality, confidence, costs, and reviewer disagreement;
+- explain responsible AI boundaries and the wrapper/moat question clearly.
 
 ## Audience
 
@@ -22,9 +22,9 @@ Opsqora is designed to be reviewed by:
 
 ## Product Positioning
 
-Opsqora treats AI as a decision-support layer, not an autonomous production actor.
+Opsqora treats AI as a pattern-suggestion layer, not an autonomous production actor.
 
-The product idea is to help support teams move faster while giving product teams evidence about repeated pain points and giving AI product owners a measurable governance surface.
+The product idea is to help PMs distinguish a genuine recurring support pattern from noise, while giving AI product owners a measurable quality and cost governance surface.
 
 ## Current Status
 
@@ -32,6 +32,6 @@ The project is in Phase 1:
 
 - frontend-only;
 - static GitHub Pages deployment;
-- deterministic synthetic dataset;
+- deterministic synthetic pattern/evidence dataset;
 - mocked AI analysis;
 - no backend, authentication, persistence, or real integrations.

@@ -6,42 +6,42 @@ case-study work, alongside `AGENTS.md` and the other files in `docs/`.
 
 ## Status
 
-- Phase 1, frontend-only. Design spec only — no product/behavior changes implied.
+- Phase 1, frontend-only. The product has pivoted from a broad support operations workspace to a support feedback pattern validation tool.
 - Session 1 is implemented: one theme token set, Fraunces + DM Sans, a reusable `Shot`
   figure, and the five-section case study structure are in place.
 - Session 2 is implemented: real screenshots, annotated callouts, app polish, and the
   wider media-band layout are in place. `public/shots/placeholder.svg` has been removed.
+- Concept B pivot is implemented in the live app: Pattern Feed, Pattern Review, Product Brief,
+  AI Eval, and Design Notes.
 
 ## Scope & guardrails
 
 Do:
-- Keep the **live prototype as a quiet enterprise SaaS / dense B2B operations workspace**.
-- Make the **case study a screenshot-led editorial product case study**.
+- Keep the **live prototype as a quiet enterprise SaaS / dense B2B product validation workspace**.
+- Make the **case study a screenshot-led editorial AI PM case study**.
 - Use **real product screenshots** as the primary visual asset.
 - Unify both surfaces on **one token set, one accent, one UI font**.
 
 Do NOT:
 - No backend, auth, persistence, or real AI (Phase 1 boundary stands).
 - No dark "sci-fi" dashboard, no neon glows.
-- No rebuild of the app navigation, screen set, table density, or behavior logic.
+- No return to helpdesk-clone navigation, ticket inbox, routing, internal notes, or reply drafts.
 - No new abstractions where existing patterns work. Keep changes reviewable.
 
 ## Direction summary
 
-Two surfaces, one DNA. The app stays the dense slate-teal workspace it already is
-(effective theme currently lives in the lower `:root` block of `src/styles.css`). The
-case study becomes a warm "paper" editorial layout where real screenshots are the hero
-and copy frames them: serif display headings, generous whitespace, numbered sections,
-alternating text/media rhythm.
+Two surfaces, one DNA. The app stays a dense slate-teal workspace, but the workflow is now
+pattern validation rather than support operations. The case study remains a warm "paper"
+editorial layout where real screenshots are the hero and copy frames them: serif display
+headings, generous whitespace, numbered sections, alternating text/media rhythm.
 
 The link between them is systemic, not accidental: the same `--accent`, `--ink`, and UI
 font, a shared browser-frame for screenshots (same border/shadow language as app panels),
 and two-way links. Clicking "Open live demo" from the case study should land in a UI that
 visually rhymes with the screenshots.
 
-Current state, in one line: the strongest asset — the real, well-built dashboard — is
-shown nowhere. The case study sells an abstraction (a fake CSS mock) instead of the
-product. Fixing that is the whole point of this direction.
+Current Concept B design principle: clarity of AI PM judgment beats feature breadth.
+Recurring feedback patterns are the unit of work; support items appear only as evidence.
 
 ---
 

@@ -2,41 +2,43 @@
 
 ## Phase 1 Screens
 
-Opsqora currently includes these user-facing surfaces:
+Opsqora now uses recurring feedback patterns as the unit of work. The live prototype includes these user-facing surfaces:
 
-- Overview: support KPIs, ticket volume, issue clusters, and recent AI activity.
-- Ticket Inbox: searchable and filterable synthetic support tickets.
-- Ticket Review: original ticket, structured AI analysis, drafts, editable labels, and review controls.
-- Duplicate Clusters: repeated issue patterns and related ticket drill-down.
-- Product Insights: product area demand, co-tagging, emerging issues, and suggested actions.
-- AI Quality: live prototype review rates, illustrative evaluation metrics, error analysis, low-confidence cases, and methodology.
-- Dataset: distributions, taxonomy, schema, and sample records.
-- Safety & About: intended use, limitations, and explicit non-goals.
+- Pattern Feed: AI-suggested recurring feedback patterns with summary, mention count, trend, product area, confidence, and readiness state.
+- Pattern Review: representative support evidence quotes, four evidence decisions, five pattern verdicts, and visible readiness logic.
+- Product Brief: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking.
+- AI Eval: quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
+- Design Notes: positioning, helpdesk boundary, wrapper/moat discussion, and Phase 1 limitations.
 - Case Study: public narrative page at `case-study.html`.
 
 ## Data Model
 
-The local generator creates 500 English-language support tickets for a fictional project management and team collaboration company.
+The active Concept B prototype uses `src/mock/` as the deterministic mock layer for all visible AI outputs.
 
-Each ticket includes:
+The mock layer includes:
 
-- operational metadata such as channel, plan, assignee, ticket status, SLA due date, and support team;
-- expected labels and ground-truth explanation;
-- mocked AI analysis with confidence, rationale, routing, duplicate cluster, internal note, and customer reply draft;
-- review state, reviewer note, and synthetic quality signals.
+- recurring feedback patterns;
+- representative support evidence snippets from fictional helpdesk exports;
+- evidence validation defaults;
+- pattern verdict defaults;
+- product brief templates;
+- mocked outcomes;
+- quality metrics and definitions;
+- cost metrics, cost by AI task, and production eval rules.
 
-AI Quality separates live prototype values from illustrative evaluation data: human edit rate and low-confidence rate are derived from current synthetic tickets, while accuracy, recall, error categories, run trends, and deltas are synthetic evaluation snapshots.
+Legacy ticket-generation code remains in source for historical context and typecheck compatibility, but it is not mounted in the live app. Tickets/support items appear only as evidence snippets for recurring patterns.
 
 ## In Scope
 
 - Polished frontend interactions and visual presentation.
 - Static deployment through GitHub Pages.
 - Deterministic local mock data.
-- Human-in-the-loop AI review patterns.
-- A configurable confidence review threshold that changes which tickets enter human review.
-- Product insight reporting windows that filter the visible synthetic ticket evidence.
-- Case study narrative for the project.
-- Documentation that helps humans, Claude, and Codex work consistently.
+- Human-in-the-loop pattern and evidence validation.
+- Visible readiness rules before product brief generation.
+- Mocked product brief generation from a validated pattern.
+- Mocked outcome tracking, clearly labeled as not connected to live systems.
+- AI quality and cost evaluation with plain-language definitions.
+- Design notes that explicitly address differentiation versus helpdesk tools, feedback repositories, and model providers.
 
 ## Out Of Scope
 
@@ -45,8 +47,8 @@ AI Quality separates live prototype values from illustrative evaluation data: hu
 - Backend services.
 - Databases or persistent storage.
 - Authentication and account management.
-- Support platform integrations.
-- Automated customer messaging.
+- Helpdesk write-back, ticket routing, per-ticket notes, or customer replies.
+- Automated backlog insertion.
 - Billing or production SaaS infrastructure.
 
 Any move into these areas should be treated as a new phase and documented before implementation.

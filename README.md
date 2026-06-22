@@ -1,22 +1,23 @@
 # Opsqora
 
-Opsqora is a portfolio-grade visual prototype for an AI-assisted B2B SaaS support operations workspace. It shows how support and product teams can classify tickets, review AI recommendations, identify duplicate patterns, measure AI quality, and turn support demand into product insight.
+Opsqora is a portfolio-grade visual prototype for an AI-assisted support feedback pattern validation tool. It shows how a small product team can find recurring complaints, verify representative evidence, and turn confirmed support patterns into product decisions.
 
-> This is a Phase 1 visual prototype using synthetic support tickets and mocked AI analysis. No real customer data or real AI API is used.
+> This is a Phase 1 frontend-only prototype using synthetic support evidence and mocked/illustrative AI outputs. No real customer data, backend, authentication, persistence, or real AI API is used.
 
 ## What this prototype demonstrates
 
-- A support operations overview and searchable ticket inbox
-- Multi-label classification with one primary topic and multiple secondary tags
-- Human-in-the-loop approval, editing, and reviewer notes
-- Duplicate cluster discovery and cluster inspection
-- Product insights including topic co-occurrence and suggested product actions
-- AI quality measurement, evaluation cases, errors, and review corrections
-- Transparent synthetic data and responsible AI positioning
+- A pattern feed of AI-suggested recurring support feedback patterns
+- Evidence validation where support snippets are marked `Belongs`, `Does not belong`, `Different problem`, or `Unsure`
+- Pattern verdicts: `Valid`, `Too broad`, `Mixed issues`, `Not actionable`, and `Not a product issue`
+- Visible readiness rules: evidence threshold + human verdict + model confidence
+- Mocked product brief generation for a validated pattern
+- Mocked outcome tracking, clearly labeled as not connected to live systems
+- AI eval with quality metrics, cost metrics, and production thresholds/actions
+- Honest positioning: Opsqora complements the helpdesk; it does not process tickets or draft replies
 
 ## Phase 1 scope
 
-The prototype is frontend-only. All tickets, AI outputs, quality metrics, clusters, and charts are local deterministic mock data. There is no authentication, backend, database, production integration, customer messaging, or external model call.
+The prototype is frontend-only. All patterns, evidence snippets, AI outputs, eval metrics, costs, outcomes, and charts are local deterministic mock data. There is no authentication, backend, database, production integration, customer messaging, or external model call.
 
 ## How to run locally
 
@@ -57,32 +58,30 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 
 ## Key screens
 
-- **Overview**: support KPIs, ticket volume, issue clusters, and recent AI activity
-- **Ticket Inbox**: 500 searchable and filterable synthetic tickets
-- **Ticket Review**: original ticket, structured AI analysis, drafts, editable labels, and review controls
-- **Duplicate Clusters**: repeated issue patterns and related ticket drill-down
-- **Product Insights**: product area demand, co-tagging, emerging issues, and suggested actions
-- **AI Quality**: model metrics, trends, error analysis, low-confidence cases, and evaluation methodology
-- **Dataset**: distributions, taxonomy, schema, and sample records
-- **Safety & About**: intended use, limitations, and explicit non-goals
+- **Pattern Feed**: AI-suggested recurring feedback patterns with mention count, trend, product area, and confidence
+- **Pattern Review**: representative evidence quotes, four evidence decisions, five pattern verdicts, and explicit readiness logic
+- **Product Brief**: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking
+- **AI Eval**: quality and cost metrics with plain-language definitions and production threshold/action rules
+- **Design Notes**: positioning, helpdesk boundary, wrapper/moat discussion, and Phase 1 limitations
+- **Case Study**: public narrative page at `case-study.html`
 
 ## Synthetic dataset explanation
 
-The local generator creates 500 English-language support tickets for a fictional project management and team collaboration company. The dataset contains 250 one-tag tickets, 170 two-tag tickets, 60 three-tag tickets, and 20 tickets with four or more tags. Every ticket includes expected labels, operational attributes, duplicate cluster metadata, and a synthetic ground-truth explanation.
+The active prototype uses a deterministic mock layer in `src/mock/`. It creates fictional recurring feedback patterns, representative support evidence quotes, product brief content, mocked outcomes, AI quality metrics, and cost metrics. The legacy ticket generator remains in source for historical context, but the live Concept B app routes all visible AI outputs through `src/mock/`.
 
 ## Mock AI provider explanation
 
-The simulated triage provider is deterministic and runs entirely in the browser. It produces structured classifications, confidence, rationale, routing suggestions, internal notes, and customer reply drafts. Intentional classification errors and low-confidence cases make the review and evaluation workflows demonstrable.
+The simulated AI layer is deterministic and runs entirely in the browser. It suggests patterns, attaches evidence, provides confidence/rationale, generates a product brief template, and exposes illustrative eval and cost metrics. It does not route tickets, draft customer replies, or call a real model.
 
 ## Main product idea
 
-Opsqora treats AI as a decision-support layer between raw support demand and accountable human action. The product helps support teams move faster while giving product teams structured evidence about repeated pain points and giving AI product managers a measurable quality and governance surface.
+Opsqora treats AI as a pattern-suggestion layer, not an autonomous decision maker. The AI suggests recurring feedback patterns; humans validate evidence; transparent rules compute readiness; PMs make the final product decision.
 
 ## Future implementation plan
 
-1. Add a typed backend API and persistent database.
-2. Introduce authenticated roles and workspace-level access controls.
+1. Validate the pattern-review workflow with real support exports in a privacy-safe research setting.
+2. Add a typed backend API, persistent database, and authenticated roles.
 3. Connect a production model behind a schema-validated provider interface.
-4. Add offline evaluation pipelines and versioned ground-truth datasets.
-5. Integrate a support platform in read-only mode before enabling controlled write actions.
-6. Add audit logs, reviewer assignment, incident workflows, and privacy controls.
+4. Add offline evaluation pipelines, reviewer-labeled ground truth, and cost monitoring.
+5. Integrate helpdesk systems in read-only mode before considering any write-back workflow.
+6. Add audit logs, reviewer assignment, outcome tracking, and privacy controls.
