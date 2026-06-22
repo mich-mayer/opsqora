@@ -128,7 +128,7 @@ export function ProductBriefScreen({
 
         <Panel title="Decision posture" subtitle="Portfolio signal">
           <div className="decision-posture">
-            <div><Lightbulb size={16} /><span>Depth on one validated pattern beats a broad ticket workspace.</span></div>
+            <div><Lightbulb size={16} /><span>Depth on one validated pattern makes the product decision easier to defend.</span></div>
             <div><BarChart3 size={16} /><span>Cost and quality are measured against validated outcomes, not model activity.</span></div>
           </div>
         </Panel>

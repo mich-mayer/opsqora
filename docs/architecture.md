@@ -30,29 +30,25 @@ Do not move or rename these entry files without updating Vite config, internal l
 Current source files and folders:
 
 - `src/main.tsx`: React bootstrap for the main prototype.
-- `src/App.tsx`: main application shell, global state, navigation, search, pattern selection, evidence validation state, brief-generation state, and screen wiring.
-- `src/screens/`: one file per prototype screen:
-  - `PatternFeed.tsx`
-  - `PatternReview.tsx`
-  - `ProductBriefScreen.tsx`
-  - `EvalDashboard.tsx`
-  - `DesignNotes.tsx`
-  - legacy Concept A screens remain in source for historical context and typecheck compatibility but are not mounted by the live app.
-- `src/components/primitives.tsx`: shared UI primitives such as badges, panels, stat cards, page titles, empty states, table column help, and review field selects.
-- `src/lib/index.ts`: pure helpers and constants such as date formatting, SLA calculation, human-review reasons, counts, colors, and the default review threshold.
-- `src/case-study.tsx`: React bootstrap and content for the case study page.
-- `src/mock/index.ts`: deterministic Concept B mock layer for recurring patterns, evidence snippets, product briefs, mocked outcomes, eval metrics, and costs.
-- `src/data.ts`: legacy deterministic synthetic ticket generator from Concept A; not mounted by the active app.
-- `src/types.ts`: domain types for legacy tickets and active Concept B pattern validation.
+- `src/App.tsx`: app shell, navigation, search, pattern selection, evidence validation state, brief-generation state, and screen wiring.
+- `src/screens/PatternFeed.tsx`: pattern list, summary metrics, search, and featured pattern.
+- `src/screens/PatternReview.tsx`: evidence decisions, pattern verdict, readiness logic, and brief preview.
+- `src/screens/ProductBriefScreen.tsx`: generated brief, readiness snapshot, and mocked outcome.
+- `src/screens/EvalDashboard.tsx`: quality metrics, cost metrics, production eval rules, and charts.
+- `src/screens/DesignNotes.tsx`: positioning, boundaries, differentiation, and review cadence.
+- `src/components/primitives.tsx`: shared badges, panels, stat cards, page titles, and empty states.
+- `src/lib/index.ts`: small shared helpers and visual constants.
+- `src/mock/index.ts`: deterministic mock layer for patterns, evidence, briefs, outcomes, eval metrics, and costs.
+- `src/types.ts`: domain types for pattern validation.
+- `src/case-study.tsx`: React bootstrap and content for the public case study page.
 - `src/styles.css`: global styling for the app and case study.
 
-The app has been split by screen while keeping Phase 1 behavior in local React state. If the app grows further, prefer gradual extraction by product capability:
+If the app grows further, prefer gradual extraction by product capability:
 
 - `src/app/` for app shell and shared layout;
 - `src/features/patterns/` for pattern feed, evidence review, and readiness rules;
 - `src/features/briefs/` for generated product brief workflows;
 - `src/features/eval/` for AI quality and cost views;
-- `src/data/` for synthetic data generation;
 - `src/pages/` for standalone pages such as the case study.
 
 ## Assets
@@ -61,7 +57,8 @@ Static assets live in `public/` and are copied by Vite:
 
 - favicon;
 - Opsqora mark;
-- logo text images.
+- logo text images;
+- current product screenshots under `public/shots/`.
 
 Generated local experiment assets may exist under `tmp/`, but they should not be treated as project source.
 

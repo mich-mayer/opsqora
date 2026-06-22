@@ -122,7 +122,7 @@ export default function App() {
       </nav>
       <div className="sidebar-context">
         <Sparkles size={15} />
-        <span>Recurring feedback patterns, not ticket operations.</span>
+        <span>Recurring feedback patterns validated into product decisions.</span>
       </div>
       <a className="case-study-link" href="/opsqora/case-study.html"><ExternalLink size={13} /> Case study</a>
       <div className="data-label"><Database size={13} /> Synthetic pattern data</div>

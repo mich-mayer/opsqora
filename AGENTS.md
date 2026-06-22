@@ -26,7 +26,7 @@ Before changing code or docs, read:
 ## Boundaries
 
 - This is a Phase 1 frontend-only prototype.
-- All tickets, labels, charts, quality metrics, and AI outputs are synthetic mock data.
+- All patterns, evidence snippets, charts, quality metrics, costs, outcomes, and AI outputs are synthetic mock data.
 - Do not introduce production integrations, external model calls, auth, databases, or real customer data without an explicit request.
 - Do not edit `dist/`, `node_modules/`, or `tmp/`; they are generated or local-only.
 

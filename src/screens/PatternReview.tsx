@@ -72,7 +72,7 @@ export function PatternReview({
         </div>
       </Panel>
 
-      <Panel title="Representative evidence" subtitle="Tickets are evidence only; Opsqora does not reply, route, or process them." className="evidence-panel">
+      <Panel title="Representative evidence" subtitle="Feedback items are evidence only; product readiness comes from human validation." className="evidence-panel">
         <div className="evidence-list">
           {pattern.evidence.map(evidence => (
             <article className="evidence-card" key={evidence.id}>

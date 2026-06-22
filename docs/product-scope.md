@@ -2,23 +2,23 @@
 
 ## Phase 1 Screens
 
-Opsqora now uses recurring feedback patterns as the unit of work. The live prototype includes these user-facing surfaces:
+Opsqora uses recurring feedback patterns as the unit of work. The live prototype includes these user-facing surfaces:
 
 - Pattern Feed: AI-suggested recurring feedback patterns with summary, mention count, trend, product area, confidence, and readiness state.
 - Pattern Review: representative support evidence quotes, four evidence decisions, five pattern verdicts, and visible readiness logic.
 - Product Brief: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking.
 - AI Eval: quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
-- Design Notes: positioning, helpdesk boundary, wrapper/moat discussion, and Phase 1 limitations.
+- Design Notes: positioning, product boundaries, differentiation, and Phase 1 limitations.
 - Case Study: public narrative page at `case-study.html`.
 
 ## Data Model
 
-The active Concept B prototype uses `src/mock/` as the deterministic mock layer for all visible AI outputs.
+The active prototype uses `src/mock/` as the deterministic mock layer for all visible AI outputs.
 
 The mock layer includes:
 
 - recurring feedback patterns;
-- representative support evidence snippets from fictional helpdesk exports;
+- representative support evidence snippets from fictional feedback exports;
 - evidence validation defaults;
 - pattern verdict defaults;
 - product brief templates;
@@ -26,7 +26,7 @@ The mock layer includes:
 - quality metrics and definitions;
 - cost metrics, cost by AI task, and production eval rules.
 
-Legacy ticket-generation code remains in source for historical context and typecheck compatibility, but it is not mounted in the live app. Tickets/support items appear only as evidence snippets for recurring patterns.
+Support feedback items appear only as evidence snippets for recurring patterns.
 
 ## In Scope
 
@@ -38,7 +38,7 @@ Legacy ticket-generation code remains in source for historical context and typec
 - Mocked product brief generation from a validated pattern.
 - Mocked outcome tracking, clearly labeled as not connected to live systems.
 - AI quality and cost evaluation with plain-language definitions.
-- Design notes that explicitly address differentiation versus helpdesk tools, feedback repositories, and model providers.
+- Design notes that explicitly address differentiation versus feedback repositories and model providers.
 
 ## Out Of Scope
 
@@ -47,7 +47,7 @@ Legacy ticket-generation code remains in source for historical context and typec
 - Backend services.
 - Databases or persistent storage.
 - Authentication and account management.
-- Helpdesk write-back, ticket routing, per-ticket notes, or customer replies.
+- Production integrations, workflow write-back, customer messaging, or autonomous backlog insertion.
 - Automated backlog insertion.
 - Billing or production SaaS infrastructure.
 

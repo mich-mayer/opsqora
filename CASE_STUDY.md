@@ -2,7 +2,7 @@
 
 ## 1. The Problem
 
-Small product teams drown in support feedback; real, recurring product problems are buried under ticket volume, and PMs struggle to tell a genuine pattern from noise.
+Small product teams receive recurring support feedback in many different phrasings, and PMs need a reliable way to separate a genuine product pattern from noise before committing roadmap attention.
 
 ## 2. Why AI?
 
@@ -10,13 +10,13 @@ Semantic clustering is a real AI task because the same complaint appears in many
 
 ## 3. Your Role
 
-I framed the problem, narrowed the scope from a broad support operations workspace to a feedback pattern validation tool, designed the AI workflow, defined the human-in-the-loop boundary, shaped the eval strategy and cost model, and built the frontend prototype. [PM to confirm exact ownership]
+I framed the problem, scoped the pattern-validation workflow, designed the AI assistive boundary, shaped the eval strategy and cost model, and built the frontend prototype. [PM to confirm exact ownership]
 
 ## 4. The Approach
 
-The key product move was narrowing Concept A into Concept B. Concept A tried to classify and route tickets, surface duplicate clusters, and draft support responses. That made Opsqora look like a helpdesk clone and implied double work for support agents. Concept B sits next to the helpdesk instead: the unit of work is a recurring feedback pattern, and tickets appear only as evidence.
+Opsqora centers the product workflow on recurring feedback patterns. Each pattern has a concise summary, mention count, trend, product area, model confidence, representative evidence snippets, and a human verdict.
 
-For production model selection, the prototype assumes a frontier model would handle clustering, evidence selection, and final problem synthesis, while a cheaper model could handle low-stakes formatting, labels, and brief cleanup. The Phase 1 data strategy is synthetic and deterministic; in production, the input would be privacy-safe support exports with reviewer-labeled ground truth. The major trade-off was cutting broad support-ops features so the demo could focus on evidence validation, readiness rules, and AI eval discipline.
+For production model selection, the prototype assumes a frontier model would handle clustering, evidence selection, and final problem synthesis, while a cheaper model could handle low-stakes formatting, labels, and brief cleanup. The Phase 1 data strategy is synthetic and deterministic; in production, the input would be privacy-safe feedback exports with reviewer-labeled ground truth.
 
 ## 5. What You Built
 
@@ -27,14 +27,14 @@ The live prototype includes:
 - Readiness Logic: visible rules requiring enough confirmed evidence, a `Valid` verdict, and sufficient confidence before a product brief can be generated.
 - Product Brief: a mocked backlog candidate auto-filled from a validated pattern.
 - AI Eval: quality metrics, cost metrics, and a prominent "How I’d evaluate this in production" panel with thresholds and actions.
-- Design Notes: positioning, helpdesk boundary, and the moat question versus Productboard, Enterpret, unitQ, Dovetail, and model providers.
+- Design Notes: positioning, product boundaries, and the moat question versus Productboard, Enterpret, unitQ, Dovetail, and model providers.
 
-Screenshot placeholders:
+Current screenshots:
 
-- [Insert Pattern Feed screenshot]
-- [Insert Pattern Review screenshot]
-- [Insert Product Brief screenshot]
-- [Insert AI Eval screenshot]
+- Pattern Feed: `public/shots/patterns@2x`
+- Pattern Review: `public/shots/pattern-review@2x`
+- Product Brief: `public/shots/product-brief@2x`
+- AI Eval: `public/shots/ai-eval@2x`
 
 ## 6. Results
 
@@ -50,6 +50,4 @@ All numbers below are estimates from the mocked prototype, not production outcom
 
 ## 7. What You Learned
 
-The biggest lesson was that the broad workspace was weaker than the narrow loop. Concept A looked like a helpdesk clone with unclear differentiation and support-agent double work. Concept B is sharper because it makes the AI PM judgment visible: AI finds possible patterns, humans validate evidence, transparent rules compute readiness, and PMs decide what moves forward.
-
-The wrapper/moat realization is also explicit: the model is not the moat. The product value is the workflow around the model: evidence states, human verdicts, readiness rules, eval thresholds, and cost per validated pattern. Next, I would validate whether teams adopt the review cadence, collect real eval data from support exports, and test outcome tracking through read-only integrations before adding any write-back workflow.
+The core product lesson is that AI product value comes from the workflow around the model: evidence states, human verdicts, readiness rules, eval thresholds, and cost per validated pattern. Next, I would validate review-cadence adoption, collect real eval data from feedback exports, and test outcome tracking through read-only integrations before adding any write-back workflow.

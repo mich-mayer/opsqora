@@ -3,7 +3,6 @@ import {
   ExternalLink,
   Layers3,
   LockKeyhole,
-  MessageSquareOff,
   ShieldCheck,
   Sparkles,
   X,
@@ -15,8 +14,8 @@ export function DesignNotes() {
   return <>
     <PageTitle
       eyebrow="About / Design notes"
-      title="Why this is narrower than a helpdesk"
-      description="Opsqora is a thin AI-assisted layer for evidence validation and eval discipline, not a replacement for support tooling."
+      title="Current product boundaries"
+      description="Opsqora is an AI-assisted validation layer for recurring support feedback patterns."
       action={<Badge tone="green" dot>{MOCK_LABEL}</Badge>}
     />
 
@@ -24,7 +23,7 @@ export function DesignNotes() {
       <Sparkles size={22} />
       <div>
         <h2>Find recurring complaints, verify the evidence, turn confirmed patterns into product decisions.</h2>
-        <p>The pivot deliberately kills the broad operations workspace because that version looked like a helpdesk clone. Concept B is narrower: recurring feedback patterns are the unit of work, and support items are only evidence.</p>
+        <p>Opsqora centers the workflow on recurring feedback patterns. Evidence snippets support the pattern, transparent rules compute readiness, and the PM owns the final product decision.</p>
       </div>
     </div>
 
@@ -40,12 +39,12 @@ export function DesignNotes() {
           ].map(item => <div key={item}><Check size={15} />{item}</div>)}
         </div>
       </Panel>
-      <Panel title="What Opsqora is not" subtitle="Boundaries that keep the product honest">
+      <Panel title="What Opsqora is not" subtitle="Phase 1 boundaries">
         <div className="boundary-list bad-list">
           {[
-            'Not a helpdesk, ticket inbox, or support-agent workspace',
-            'No automatic replies, internal notes, routing, or escalation actions',
             'No backend, auth, persistence, real customer data, or live model call',
+            'No autonomous product decisions',
+            'No production write-back workflow',
             'No claim that mocked outcomes are production evidence',
             'No AI self-approval for backlog candidates',
           ].map(item => <div key={item}><X size={15} />{item}</div>)}
@@ -54,27 +53,26 @@ export function DesignNotes() {
     </div>
 
     <div className="notes-grid">
-      <Panel title="The moat question" subtitle="Acknowledge it before the interview asks it">
+      <Panel title="The moat question" subtitle="The product value lives around the model">
         <div className="note-card-list">
           <article>
             <Layers3 size={17} />
-            <h3>Vs. Productboard / Enterpret / unitQ / Dovetail</h3>
-            <p>Those tools own broad feedback repositories and research workflows. Opsqora’s prototype is narrower: support-feedback patterns only, explicit evidence validation, readiness logic, and cost-aware AI eval.</p>
+            <h3>Focused workflow</h3>
+            <p>Opsqora is intentionally centered on recurring support-feedback patterns, evidence validation, readiness logic, and product brief generation.</p>
           </article>
           <article>
             <ShieldCheck size={17} />
-            <h3>Vs. the model provider</h3>
-            <p>The differentiation is not the model. It is the product workflow around the model: evidence states, human verdicts, PM decision boundary, eval thresholds, and cost per validated pattern.</p>
+            <h3>Model plus workflow</h3>
+            <p>The differentiation is not the model alone. It is the product workflow around the model: evidence states, human verdicts, PM decision boundary, eval thresholds, and cost per validated pattern.</p>
           </article>
         </div>
       </Panel>
 
       <Panel title="Human-in-the-loop boundary" subtitle="What the AI may and may not do">
         <div className="note-principles">
-          <div><Sparkles size={16} /><span>AI suggests recurring patterns and drafts summaries.</span></div>
+          <div><Sparkles size={16} /><span>AI suggests recurring patterns and summaries.</span></div>
           <div><LockKeyhole size={16} /><span>Humans validate evidence and choose the pattern verdict.</span></div>
           <div><ShieldCheck size={16} /><span>Transparent rules compute readiness; PMs make the backlog decision.</span></div>
-          <div><MessageSquareOff size={16} /><span>No customer-impacting message or support action exists in this prototype.</span></div>
         </div>
       </Panel>
     </div>

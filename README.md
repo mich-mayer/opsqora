@@ -13,7 +13,7 @@ Opsqora is a portfolio-grade visual prototype for an AI-assisted support feedbac
 - Mocked product brief generation for a validated pattern
 - Mocked outcome tracking, clearly labeled as not connected to live systems
 - AI eval with quality metrics, cost metrics, and production thresholds/actions
-- Honest positioning: Opsqora complements the helpdesk; it does not process tickets or draft replies
+- Honest positioning: Opsqora validates recurring feedback patterns and keeps every product decision human-owned
 
 ## Phase 1 scope
 
@@ -62,16 +62,16 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 - **Pattern Review**: representative evidence quotes, four evidence decisions, five pattern verdicts, and explicit readiness logic
 - **Product Brief**: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking
 - **AI Eval**: quality and cost metrics with plain-language definitions and production threshold/action rules
-- **Design Notes**: positioning, helpdesk boundary, wrapper/moat discussion, and Phase 1 limitations
+- **Design Notes**: positioning, product boundaries, differentiation, and Phase 1 limitations
 - **Case Study**: public narrative page at `case-study.html`
 
 ## Synthetic dataset explanation
 
-The active prototype uses a deterministic mock layer in `src/mock/`. It creates fictional recurring feedback patterns, representative support evidence quotes, product brief content, mocked outcomes, AI quality metrics, and cost metrics. The legacy ticket generator remains in source for historical context, but the live Concept B app routes all visible AI outputs through `src/mock/`.
+The active prototype uses a deterministic mock layer in `src/mock/`. It creates fictional recurring feedback patterns, representative support evidence quotes, product brief content, mocked outcomes, AI quality metrics, and cost metrics. The live app routes all visible AI outputs through `src/mock/`.
 
 ## Mock AI provider explanation
 
-The simulated AI layer is deterministic and runs entirely in the browser. It suggests patterns, attaches evidence, provides confidence/rationale, generates a product brief template, and exposes illustrative eval and cost metrics. It does not route tickets, draft customer replies, or call a real model.
+The simulated AI layer is deterministic and runs entirely in the browser. It suggests patterns, attaches evidence, provides confidence/rationale, generates a product brief template, and exposes illustrative eval and cost metrics. It does not call a real model.
 
 ## Main product idea
 
@@ -83,5 +83,5 @@ Opsqora treats AI as a pattern-suggestion layer, not an autonomous decision make
 2. Add a typed backend API, persistent database, and authenticated roles.
 3. Connect a production model behind a schema-validated provider interface.
 4. Add offline evaluation pipelines, reviewer-labeled ground truth, and cost monitoring.
-5. Integrate helpdesk systems in read-only mode before considering any write-back workflow.
+5. Integrate feedback sources in read-only mode before considering any write-back workflow.
 6. Add audit logs, reviewer assignment, outcome tracking, and privacy controls.

@@ -6,13 +6,16 @@ This directory contains the React/Vite source for Opsqora.
 
 - `main.tsx`: mounts the main interactive prototype from `App.tsx`.
 - `App.tsx`: contains the app shell, global state, navigation, search, pattern selection, evidence validation, product brief generation, and screen wiring.
-- `screens/`: active Concept B screens are `PatternFeed`, `PatternReview`, `ProductBriefScreen`, `EvalDashboard`, and `DesignNotes`. Legacy Concept A screens remain in source for historical context and typecheck compatibility but are not mounted by the live app.
-- `components/primitives.tsx`: shared badges, panels, stat cards, page title, empty state, column help, and review field controls.
-- `lib/index.ts`: pure helpers and constants for formatting, dates, SLA state, review routing, counts, colors, and default thresholds.
+- `screens/PatternFeed.tsx`: pattern list, summary metrics, search, and featured pattern.
+- `screens/PatternReview.tsx`: evidence decisions, pattern verdict, readiness logic, and brief preview.
+- `screens/ProductBriefScreen.tsx`: generated product brief, readiness snapshot, and mocked outcome tracking.
+- `screens/EvalDashboard.tsx`: AI quality and cost metrics with threshold/action rules.
+- `screens/DesignNotes.tsx`: positioning, boundaries, differentiation, and review cadence.
+- `components/primitives.tsx`: shared badges, panels, stat cards, page title, and empty state.
+- `lib/index.ts`: small shared helpers and visual constants.
+- `mock/index.ts`: deterministic patterns, evidence snippets, eval metrics, costs, product briefs, and mocked outcomes.
+- `types.ts`: domain types for pattern validation.
 - `case-study.tsx`: mounts and renders the public case study page.
-- `mock/index.ts`: creates deterministic Concept B patterns, evidence snippets, eval metrics, costs, product briefs, and mocked outcomes.
-- `data.ts`: legacy deterministic synthetic tickets and taxonomy constants from Concept A.
-- `types.ts`: defines shared domain types for both legacy tickets and active Concept B pattern validation.
 - `styles.css`: global CSS for the prototype and case study.
 
 ## Notes For Agents

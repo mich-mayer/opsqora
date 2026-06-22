@@ -4,22 +4,26 @@ This document captures the product choices that should stay stable while Opsqora
 
 ## Positioning
 
-Opsqora is a support feedback pattern validation tool for small B2B SaaS product teams. It sits next to a helpdesk and turns recurring support feedback into validated product evidence.
+Opsqora is a support feedback pattern validation tool for small B2B SaaS product teams.
 
-The product should be presented as a focused AI Product Manager prototype, not a support-agent workspace.
+The product turns recurring support feedback into validated product evidence. It should be presented as a focused AI Product Manager prototype with evidence validation, readiness logic, product brief generation, and AI eval discipline.
 
-## Deliberate Narrowing
+## Unit Of Work
 
-Concept A was a broad AI-assisted support operations workspace. It included ticket inbox, routing, duplicate clusters, notes, reply drafts, and support operations metrics.
+The recurring feedback pattern is the primary unit of work.
 
-Concept B deliberately removes that surface. The product no longer tries to run support. The unit of work is a recurring feedback pattern, and support items appear only as evidence.
+Each pattern includes:
 
-This narrowing is a product decision:
-
-- it avoids duplicating Zendesk, Intercom, Front, or Freshdesk;
-- it avoids double work for support agents;
-- it gives the portfolio demo a sharper AI PM point of view;
-- it puts human evidence validation and eval discipline at the center.
+- a short summary;
+- mention count;
+- trend;
+- product area;
+- confidence;
+- representative evidence snippets;
+- a human pattern verdict;
+- readiness status;
+- a product brief template;
+- mocked outcome tracking.
 
 ## Human-In-The-Loop Boundary
 
@@ -47,14 +51,14 @@ The AI Eval screen should answer two questions:
 - Can we trust the model?
 - What does validated product signal cost?
 
-The key value-linked cost metric is cost per validated pattern, not raw model spend or cost per support item. Production eval rules should pair thresholds with actions, such as pausing auto-suggestion, inspecting failed product areas, or moving low-stakes tasks to a cheaper model.
+The key value-linked cost metric is cost per validated pattern, not raw model spend. Production eval rules should pair thresholds with actions, such as pausing auto-suggestion, inspecting failed product areas, or moving low-stakes tasks to a cheaper model.
 
 ## Portfolio Story
 
 For interviews, Opsqora should emphasize three product bets:
 
-- product focus: recurring feedback patterns are a stronger unit of work than tickets;
+- product focus: recurring feedback patterns are the core unit of work;
 - operational trust: every pattern is backed by inspectable evidence and human verdicts;
 - AI governance as product surface: quality, disagreement, and cost are visible in the workflow.
 
-Future phases can add backend persistence, model providers, read-only support integrations, auth, audit logs, and evaluation pipelines, but those are intentionally out of scope for the current prototype.
+Future phases can add backend persistence, model providers, read-only feedback integrations, auth, audit logs, and evaluation pipelines, but those are intentionally out of scope for the current prototype.

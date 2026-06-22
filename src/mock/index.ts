@@ -157,7 +157,7 @@ export const feedbackPatterns: FeedbackPattern[] = [
       after_mentions: 18,
       measurement_window: 'Estimated 30 days after release',
       note:
-        'Illustrative tracking shows mentions decreasing after adding import-preview warnings. This is not connected to a real helpdesk.',
+        'Illustrative tracking shows mentions decreasing after adding import-preview warnings. This is not connected to a real production integration.',
     },
   },
   {
@@ -174,7 +174,7 @@ export const feedbackPatterns: FeedbackPattern[] = [
       'Customers describe a permissions edge case where guests can open a shared project link but cannot preview attached files.',
     why_suggested: [
       'Quotes align around guest access and file preview behavior.',
-      'The pattern appears in both support tickets and product feedback exports.',
+      'The pattern appears in multiple support feedback exports.',
       'Affected users describe workflow blocking rather than preference confusion.',
     ],
     default_verdict: 'Mixed issues',
@@ -264,7 +264,7 @@ export const feedbackPatterns: FeedbackPattern[] = [
         id: 'EV-202',
         source_system: 'Email',
         source_id: 'EML-12788',
-        quote: 'Our report export is missing owner and region fields for older projects.',
+        quote: 'Our report export is missing owner and region fields for archived projects.',
         account_segment: 'Business · 230 seats',
         created_at: '2026-06-04T11:48:00.000Z',
         product_area: 'Analytics',
@@ -427,9 +427,9 @@ export const costMetrics: EvalMetric[] = [
     kind: 'cost',
   },
   {
-    label: 'Cost per ticket processed',
+    label: 'Cost per feedback item processed',
     value: '$0.018',
-    definition: 'Estimated model cost to embed/classify one imported helpdesk item before pattern grouping.',
+    definition: 'Estimated model cost to embed/classify one imported feedback item before pattern grouping.',
     status: 'Low-level unit cost',
     kind: 'cost',
   },

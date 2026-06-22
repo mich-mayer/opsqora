@@ -63,7 +63,7 @@ export function PatternFeed({
     />
     <div className="positioning-banner">
       <Layers3 size={17} />
-      <span>Opsqora complements the helpdesk; it does not process tickets, route agents, or draft customer replies. Support items appear only as evidence for recurring feedback patterns.</span>
+      <span>Opsqora turns recurring support feedback into validated product evidence. Feedback items appear only as evidence for recurring patterns.</span>
     </div>
 
     <div className="stats-grid four pattern-stat-grid">

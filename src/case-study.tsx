@@ -29,7 +29,7 @@ const shots = {
     url: 'opsqora.app/patterns',
     label: 'Pattern feed',
     file: 'patterns@2x',
-    caption: 'Recurring feedback patterns replace the old ticket inbox as the unit of work.',
+    caption: 'Recurring feedback patterns are the unit of work.',
   },
   review: {
     url: 'opsqora.app/review',
@@ -177,15 +177,15 @@ function CaseStudy() {
 
       <section className="case-section case-split" id="problem">
         <div className="case-copy">
-          <SectionHeader number="01" eyebrow="The problem" title="A ticket queue is the wrong product surface." />
+          <SectionHeader number="01" eyebrow="The problem" title="Recurring complaints need proof before they become roadmap work." />
           <p>
-            The first version of Opsqora tried to run support operations. That made the demo
-            look like a helpdesk clone and created double work for support agents.
+            Product teams can see repeated complaints in exports, calls and notes, but the signal is
+            hard to trust until the evidence is grouped, reviewed and tied to a clear decision rule.
           </p>
           <p>
-            The pivot narrows the job: Opsqora sits next to Zendesk, Intercom or Front and
-            turns support exports into validated recurring feedback patterns. Support items
-            appear only as evidence.
+            Opsqora narrows that job to one loop: suggest a recurring pattern, validate the
+            supporting snippets, compute readiness, and turn the confirmed pattern into a product
+            brief.
           </p>
         </div>
         <Shot {...shots.patterns} />
