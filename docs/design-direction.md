@@ -91,7 +91,7 @@ Rules:
 
 ## App Shell
 
-- Top bar (58px): typographic wordmark (accent square + "Opsqora"), horizontal nav with mono
+- Top bar (58px): typographic wordmark (accent square with white "O" + "Opsqora"), horizontal nav with mono
   indices and an underline active state, case-study link, mock reviewer block.
 - The shell fills the viewport; `.shell-main` is the internal scroll container.
 - `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and
