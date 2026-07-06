@@ -1539,8 +1539,27 @@ table {
 
 .metric-table {
   width: 100%;
+  table-layout: fixed;
   background: var(--surface);
   border: 1px solid var(--line);
+}
+
+.metric-table th:nth-child(1),
+.metric-table .cell-metric {
+  width: 24%;
+}
+
+.metric-table .col-value {
+  width: 12%;
+}
+
+.metric-table th:nth-child(3),
+.metric-table .cell-definition {
+  width: 42%;
+}
+
+.metric-table .col-status {
+  width: 22%;
 }
 
 .metric-table thead th {
@@ -2777,6 +2796,19 @@ table {
 
   .demo-frame-chrome em {
     display: none;
+  }
+
+  .metric-table {
+    table-layout: auto;
+  }
+
+  .metric-table th:nth-child(1),
+  .metric-table .cell-metric,
+  .metric-table .col-value,
+  .metric-table th:nth-child(3),
+  .metric-table .cell-definition,
+  .metric-table .col-status {
+    width: auto;
   }
 
   .metric-table .cell-status,
