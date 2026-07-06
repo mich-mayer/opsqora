@@ -7,7 +7,6 @@ import {
   getInitialPatternVerdicts,
   getReadiness,
 } from './mock'
-import { DesignNotes } from './screens/DesignNotes'
 import { EvalDashboard } from './screens/EvalDashboard'
 import { PatternFeed } from './screens/PatternFeed'
 import { PatternReview } from './screens/PatternReview'
@@ -17,11 +16,9 @@ import type { ConceptBPage, EvidenceDecision, PatternVerdict } from './types'
 const BASE = import.meta.env.BASE_URL
 
 const navItems: { id: ConceptBPage; label: string }[] = [
-  { id: 'patterns', label: 'Pattern Feed' },
-  { id: 'review-pattern', label: 'Pattern Review' },
-  { id: 'brief', label: 'Product Brief' },
-  { id: 'eval', label: 'AI Eval' },
-  { id: 'notes', label: 'Design Notes' },
+  { id: 'patterns', label: 'Patterns' },
+  { id: 'review-pattern', label: 'Review' },
+  { id: 'brief', label: 'Brief' },
 ]
 
 export default function App({
@@ -43,6 +40,9 @@ export default function App({
   const selectedPattern = patterns.find(pattern => pattern.id === selectedPatternId) ?? patterns[0]
   const selectedDecisions = decisions[selectedPattern.id]
   const selectedVerdict = verdicts[selectedPattern.id]
+  const visibleNavItems = page === 'eval'
+    ? [...navItems, { id: 'eval' as const, label: 'Eval' }]
+    : navItems
 
   const showToast = (message: string) => {
     setToast(message)
@@ -93,25 +93,17 @@ export default function App({
     <header className="topbar">
       <Wordmark href={embedded ? undefined : BASE} />
       <nav className="topnav" aria-label="Primary navigation">
-        {navItems.map((item, index) => <button
+        {visibleNavItems.map((item) => <button
           key={item.id}
           aria-current={page === item.id ? 'page' : undefined}
           className={page === item.id ? 'is-active' : ''}
           onClick={() => navigate(item.id)}
         >
-          <span aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
           {item.label}
-          {item.id === 'patterns' && <em aria-hidden="true">{patterns.length}</em>}
         </button>)}
       </nav>
       <div className="topbar-side">
-        {embedded
-          ? <a className="topbar-link" href={BASE} target="_blank" rel="noreferrer">Full app <ArrowUpRight size={13} /></a>
-          : <a className="topbar-link" href={`${BASE}case-study.html`}>Case study <ArrowUpRight size={13} /></a>}
-        <div className="topbar-user" aria-label="Mock reviewer">
-          <span className="topbar-avatar" aria-hidden="true">MR</span>
-          <span className="topbar-user-meta"><strong>Maya Rodriguez</strong><em>Product lead</em></span>
-        </div>
+        <span className="topbar-note">Synthetic data</span>
       </div>
     </header>
 
@@ -125,7 +117,6 @@ export default function App({
           search={search}
           onSearch={setSearch}
           onOpenPattern={openPattern}
-          onOpenBrief={openBrief}
         />}
         {page === 'review-pattern' && <PatternReview
           patterns={patterns}
@@ -148,7 +139,6 @@ export default function App({
           onReviewPattern={() => navigate('review-pattern')}
         />}
         {page === 'eval' && <EvalDashboard />}
-        {page === 'notes' && <DesignNotes />}
       </main>
       <footer className="shell-foot">
         <span>Frontend-only prototype — synthetic data, no real AI calls</span>

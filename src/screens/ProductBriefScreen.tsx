@@ -1,23 +1,7 @@
 import { ArrowRight } from 'lucide-react'
 import { Chip, ScreenHead } from '../components/primitives'
-import { MOCK_LABEL, MODEL_BOUNDARY, READINESS_RULE, getReadiness } from '../mock'
+import { READINESS_RULE, getReadiness } from '../mock'
 import type { EvidenceDecision, FeedbackPattern, PatternVerdict } from '../types'
-
-function OutcomeBars({ before, after }: { before: number; after: number }) {
-  const max = Math.max(before, after, 1)
-  return <div className="outcome-bars" aria-label={`Mentions before: ${before}, after: ${after}`}>
-    <div className="outcome-bar">
-      <strong>{before}</strong>
-      <i style={{ height: `${(before / max) * 100}%` }} />
-      <span>Before</span>
-    </div>
-    <div className="outcome-bar outcome-bar--after">
-      <strong>{after}</strong>
-      <i style={{ height: `${(after / max) * 100}%` }} />
-      <span>After</span>
-    </div>
-  </div>
-}
 
 export function ProductBriefScreen({
   pattern,
@@ -49,9 +33,8 @@ export function ProductBriefScreen({
     <ScreenHead
       index="03"
       kicker="Backlog candidate"
-      title="Product Brief"
-      lede="A ready pattern becomes a PM-owned backlog candidate with evidence, scope, and mocked outcome tracking."
-      aside={<Chip tone="line" square>{MOCK_LABEL}</Chip>}
+      title="Brief"
+      lede="A concise PM-owned backlog candidate generated from validated evidence."
     />
 
     <div className="brief-layout">
@@ -67,15 +50,10 @@ export function ProductBriefScreen({
           <p className="brief-doc-problem">{pattern.brief.problem}</p>
           <dl className="brief-doc-sections">
             <div><dt>Evidence summary</dt><dd>{pattern.brief.evidence_summary}</dd></div>
-            <div><dt>Affected area</dt><dd>{pattern.brief.affected_area}</dd></div>
             <div><dt>Suggested next step</dt><dd>{pattern.brief.suggested_next_step}</dd></div>
-            <div><dt>PM owner</dt><dd>{pattern.brief.decision_owner}</dd></div>
             <div><dt>Risk to watch</dt><dd>{pattern.brief.risk_to_watch}</dd></div>
+            <div><dt>Owner</dt><dd>{pattern.brief.decision_owner}</dd></div>
           </dl>
-          <footer className="brief-doc-foot">
-            <span>Model boundary</span>
-            <p>{MODEL_BOUNDARY}</p>
-          </footer>
         </article>
         : <div className="brief-blocked">
           <span className="mono-id">Blocked</span>
@@ -93,8 +71,8 @@ export function ProductBriefScreen({
       <aside className="brief-rail">
         <section className="rail-block">
           <header className="block-head">
-            <h2>Readiness snapshot</h2>
-            <p>Computed from visible rules.</p>
+            <h2>Status</h2>
+            <p>Computed from review decisions.</p>
           </header>
           <dl className="brief-readiness">
             <div><dt>Evidence belongs</dt><dd>{readiness.belongsCount}/{readiness.totalEvidence}</dd></div>
@@ -102,29 +80,7 @@ export function ProductBriefScreen({
             <div><dt>Confidence</dt><dd>{Math.round(pattern.confidence * 100)}%</dd></div>
           </dl>
           <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Not ready'}</Chip>
-        </section>
-
-        <section className="rail-block">
-          <header className="block-head">
-            <h2>Mocked outcome</h2>
-            <p>No live integration or causal claim.</p>
-          </header>
-          <Chip tone="warn" square>{pattern.outcome.label}</Chip>
-          <h3 className="outcome-status">{pattern.outcome.status}</h3>
-          <p className="outcome-note">{pattern.outcome.note}</p>
-          <OutcomeBars before={pattern.outcome.before_mentions} after={pattern.outcome.after_mentions} />
-          <p className="outcome-window">{pattern.outcome.measurement_window}</p>
-        </section>
-
-        <section className="rail-block">
-          <header className="block-head">
-            <h2>Decision posture</h2>
-            <p>Portfolio signal.</p>
-          </header>
-          <ul className="posture-list">
-            <li>Depth on one validated pattern makes the product decision easier to defend.</li>
-            <li>Cost and quality are measured against validated outcomes, not model activity.</li>
-          </ul>
+          <button className="btn btn--ghost btn--block" onClick={onReviewPattern}>Back to review <ArrowRight size={14} /></button>
         </section>
       </aside>
     </div>

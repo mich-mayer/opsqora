@@ -1,4 +1,4 @@
-export type ConceptBPage = 'patterns' | 'review-pattern' | 'brief' | 'eval' | 'notes'
+export type ConceptBPage = 'patterns' | 'review-pattern' | 'brief' | 'eval'
 export type PatternTrend = 'up' | 'down' | 'flat'
 export type EvidenceDecision = 'Belongs' | 'Does not belong' | 'Different problem' | 'Unsure'
 export type PatternVerdict = 'Valid' | 'Too broad' | 'Mixed issues' | 'Not actionable' | 'Not a product issue'

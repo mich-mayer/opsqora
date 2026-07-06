@@ -30,12 +30,11 @@ Do not move or rename these entry files without updating Vite config, internal l
 Current source files and folders:
 
 - `src/main.tsx`: React bootstrap for the main prototype.
-- `src/App.tsx`: app shell, navigation, pattern selection, evidence validation state, brief-generation state, and screen wiring. Accepts `embedded` and `initialPage` props so the case study can render the live product inside demo frames.
-- `src/screens/PatternFeed.tsx`: stat band, pattern table, search, and featured pattern.
-- `src/screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief preview.
-- `src/screens/ProductBriefScreen.tsx`: generated brief document, readiness snapshot, and mocked outcome bars.
-- `src/screens/EvalDashboard.tsx`: quality/cost metric tables, production eval rules, and hand-rolled SVG charts.
-- `src/screens/DesignNotes.tsx`: positioning, boundaries, differentiation, and review cadence.
+- `src/App.tsx`: app shell, minimal product navigation, pattern selection, evidence validation state, brief-generation state, and screen wiring. Accepts `embedded` and `initialPage` props so the case study can render the live product and secondary eval demo inside frames.
+- `src/screens/PatternFeed.tsx`: concise pattern table and search.
+- `src/screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief action.
+- `src/screens/ProductBriefScreen.tsx`: generated brief document and readiness snapshot.
+- `src/screens/EvalDashboard.tsx`: secondary case-study/demo surface with quality/cost metric tables, production eval rules, and hand-rolled SVG charts.
 - `src/components/primitives.tsx`: shared wordmark, kicker, screen header, chips, stats, rule checks, and empty states.
 - `src/mock/index.ts`: deterministic mock layer for patterns, evidence, briefs, outcomes, eval metrics, and costs.
 - `src/types.ts`: domain types for pattern validation.

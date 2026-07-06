@@ -5,12 +5,11 @@ This directory contains the React/Vite source for Opsqora.
 ## Files
 
 - `main.tsx`: mounts the main interactive prototype from `App.tsx`.
-- `App.tsx`: app shell, global state, navigation, pattern selection, evidence validation, and product brief generation. Accepts `embedded` and `initialPage` props so the case study can render the live product inside demo frames; `.shell-main` is the internal scroll container in both contexts.
-- `screens/PatternFeed.tsx`: stat band, pattern table with confidence meters, search, and featured pattern.
-- `screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief preview.
-- `screens/ProductBriefScreen.tsx`: generated brief document, readiness snapshot, and mocked outcome bars.
-- `screens/EvalDashboard.tsx`: quality/cost metric tables, threshold/action rules, and hand-rolled SVG charts (no charting library).
-- `screens/DesignNotes.tsx`: positioning, boundaries, differentiation, and review cadence.
+- `App.tsx`: app shell, global state, minimal product navigation, pattern selection, evidence validation, and product brief generation. Accepts `embedded` and `initialPage` props so the case study can render the live product inside demo frames; `.shell-main` is the internal scroll container in both contexts.
+- `screens/PatternFeed.tsx`: concise pattern table with search, area, signal strength, and readiness state.
+- `screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief action.
+- `screens/ProductBriefScreen.tsx`: generated brief document and readiness snapshot.
+- `screens/EvalDashboard.tsx`: secondary case-study/demo surface with quality/cost metric tables, threshold/action rules, and hand-rolled SVG charts (no charting library).
 - `components/primitives.tsx`: shared wordmark, kicker, screen header, chip, stat, rule check, and empty state.
 - `mock/index.ts`: deterministic patterns, evidence snippets, eval metrics, costs, product briefs, and mocked outcomes.
 - `types.ts`: domain types for pattern validation.

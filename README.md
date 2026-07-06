@@ -12,7 +12,7 @@ Opsqora is a Phase 1 frontend prototype for validating recurring support feedbac
 - Visible readiness rules: evidence threshold + human verdict + model confidence
 - Mocked product brief generation for a validated pattern
 - Mocked outcome tracking, clearly labeled as not connected to live systems
-- AI eval with quality metrics, cost metrics, and production thresholds/actions
+- A lighter AI eval surface for the case study, with quality/cost thresholds and actions
 - Honest positioning: Opsqora validates recurring feedback patterns and keeps every product decision human-owned
 
 ## Phase 1 scope
@@ -58,11 +58,10 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 
 ## Key screens
 
-- **Pattern Feed**: AI-suggested recurring feedback patterns with mention count, trend, product area, and confidence
-- **Pattern Review**: representative evidence quotes, four evidence decisions, five pattern verdicts, and explicit readiness logic
-- **Product Brief**: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking
-- **AI Eval**: quality and cost metrics with plain-language definitions and production threshold/action rules
-- **Design Notes**: positioning, product boundaries, differentiation, and Phase 1 limitations
+- **Patterns**: AI-suggested recurring feedback patterns with area, signal strength, and readiness state
+- **Review**: representative evidence quotes, four evidence decisions, five pattern verdicts, and explicit readiness logic
+- **Brief**: concise mocked backlog candidate generated from a ready pattern
+- **AI Eval**: secondary case-study surface with quality and cost metrics, definitions, and production threshold/action rules
 - **Case Study**: public narrative page at `case-study.html`
 
 ## Synthetic dataset explanation

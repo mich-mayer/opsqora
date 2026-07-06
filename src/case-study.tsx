@@ -207,7 +207,7 @@ function CaseStudy() {
         <DemoFrame
           url="opsqora.app"
           height={680}
-          note="This is the actual product embedded in the page, not a screenshot. Click through the feed, flip evidence decisions, generate the brief, and open the eval."
+          note="This is the actual product embedded in the page, not a screenshot. Click through the patterns, flip evidence decisions, and open the brief."
         >
           <App embedded />
         </DemoFrame>

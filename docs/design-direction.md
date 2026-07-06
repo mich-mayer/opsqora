@@ -6,7 +6,8 @@ Visual direction and implementation spec for the current Opsqora prototype.
 
 - Phase 1, frontend-only.
 - Active product: support feedback pattern validation.
-- Active app screens: Pattern Feed, Pattern Review, Product Brief, AI Eval, and Design Notes.
+- Active app workflow: Patterns, Review, and Brief.
+- The case study keeps the AI Eval explanation/demo outside the main product path.
 - Case study embeds the live product (the real `App` component), not screenshots.
 
 ## Scope & Guardrails
@@ -91,25 +92,19 @@ Rules:
 
 ## App Shell
 
-- Top bar (58px): typographic wordmark (accent square with white "O" + "Opsqora"), horizontal nav with mono
-  indices and an underline active state, case-study link, mock reviewer block.
+- Top bar (56px): typographic wordmark (accent square with white "O" + "Opsqora"), three-item
+  workflow nav, and a synthetic-data note.
 - The shell fills the viewport; `.shell-main` is the internal scroll container.
 - `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and
   `initialPage` (which screen opens first).
 
 ## Active App Screens
 
-1. Pattern Feed: stat band, positioning line + underline search, patterns as a full table
-   (ID, pattern, area, mentions, trend, confidence meter, status), featured pattern band.
-2. Pattern Review: pattern switcher tabs, summary with figures strip and model boundary,
-   evidence cards with segmented decisions, sticky rail (readiness logic, verdict radio list,
-   brief preview).
-3. Product Brief: the brief as a printed document (ink border, mono header row, dt/dd
-   sections), rail with readiness snapshot, mocked outcome bars, decision posture.
-4. AI Eval: disclaimer note, headline stat band, quality/cost definition tables, IF/THEN
-   production rules, hand-rolled SVG trend chart + cost bars.
-5. Design Notes: display-size positioning statement, is/is-not lists, HITL boundary steps,
-   moat and cadence columns.
+1. Patterns: concise searchable pattern list with area, signal strength, and readiness state.
+2. Review: pattern switcher, compact summary, evidence cards with segmented decisions, and
+   a sticky rail for readiness, verdict, and brief action.
+3. Brief: concise PM-owned document plus a small readiness status rail.
+4. AI Eval: secondary case-study/demo surface, not part of the primary workflow.
 
 ## Case Study Structure
 

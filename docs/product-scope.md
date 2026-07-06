@@ -2,13 +2,14 @@
 
 ## Phase 1 Screens
 
-Opsqora uses recurring feedback patterns as the unit of work. The live prototype includes these user-facing surfaces:
+Opsqora uses recurring feedback patterns as the unit of work. The main product workflow is intentionally minimal:
 
-- Pattern Feed: AI-suggested recurring feedback patterns with summary, mention count, trend, product area, confidence, and readiness state.
-- Pattern Review: representative support evidence quotes, four evidence decisions, five pattern verdicts, and visible readiness logic.
-- Product Brief: mocked backlog candidate generated from a ready pattern, plus mocked outcome tracking.
-- AI Eval: quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
-- Design Notes: positioning, product boundaries, differentiation, and Phase 1 limitations.
+- Patterns: AI-suggested recurring feedback patterns with product area, signal strength, search, and readiness state.
+- Review: representative support evidence quotes, four evidence decisions, five pattern verdicts, and visible readiness logic.
+- Brief: concise mocked backlog candidate generated from a ready pattern.
+
+The case study also contains a secondary AI Eval surface with quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
+
 - Case Study: public narrative page at `case-study.html`.
 
 ## Data Model
@@ -36,9 +37,9 @@ Support feedback items appear only as evidence snippets for recurring patterns.
 - Human-in-the-loop pattern and evidence validation.
 - Visible readiness rules before product brief generation.
 - Mocked product brief generation from a validated pattern.
-- Mocked outcome tracking, clearly labeled as not connected to live systems.
+- Mocked outcome tracking in the case study, clearly labeled as not connected to live systems.
 - AI quality and cost evaluation with plain-language definitions.
-- Design notes that explicitly address differentiation versus feedback repositories and model providers.
+- Case study notes that explicitly address differentiation versus feedback repositories and model providers.
 
 ## Out Of Scope
 
