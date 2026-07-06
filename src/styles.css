@@ -754,6 +754,7 @@ table {
 }
 
 .feed-table tbody tr {
+  position: relative;
   border-bottom: 1px solid var(--line);
 }
 
@@ -762,6 +763,7 @@ table {
 }
 
 .feed-table tbody tr:hover {
+  cursor: pointer;
   background: var(--wash);
 }
 
@@ -795,6 +797,18 @@ table {
   display: block;
   width: 100%;
   text-align: left;
+}
+
+.pattern-open::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.pattern-open:focus-visible::after {
+  outline: 2px solid var(--accent);
+  outline-offset: -3px;
 }
 
 .pattern-open:hover strong {
