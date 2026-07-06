@@ -49,6 +49,12 @@ export default function App({
   const selectedDecisions = decisions[selectedPattern.id]
   const selectedConfirmations = confirmations[selectedPattern.id]
   const selectedVerdict = verdicts[selectedPattern.id]
+  const patternReadiness = useMemo(() => Object.fromEntries(
+    patterns.map(pattern => [
+      pattern.id,
+      getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id], confirmations[pattern.id]).ready,
+    ]),
+  ), [confirmations, decisions, patterns, verdicts])
   const visibleNavItems = page === 'eval'
     ? [...navItems, { id: 'eval' as const, label: 'Eval' }]
     : navItems
@@ -144,6 +150,7 @@ export default function App({
         {page === 'review-pattern' && <PatternReview
           patterns={patterns}
           pattern={selectedPattern}
+          patternReadiness={patternReadiness}
           decisions={selectedDecisions}
           confirmations={selectedConfirmations}
           verdict={selectedVerdict}

@@ -991,7 +991,11 @@ table {
 }
 
 .review-switch button {
-  padding: 10px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 14px;
   border-right: 1px solid var(--line);
   font: 600 12px/1 var(--font-mono);
   letter-spacing: 0.03em;
@@ -1005,12 +1009,25 @@ table {
 }
 
 .review-switch button span {
-  display: block;
-  font: 400 10px/1 var(--font-mono);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: none;
+  font: 500 9.5px/1 var(--font-mono);
   color: var(--ink-3);
-  margin-top: 5px;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.review-switch-status i {
+  width: 6px;
+  height: 6px;
+  flex: none;
+  background: var(--warn);
+}
+
+.review-switch-status.is-ready i {
+  background: var(--ok);
 }
 
 .review-switch button:hover {

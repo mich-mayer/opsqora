@@ -43,6 +43,7 @@ function evidenceRuleDetail(belongsCount: number, totalEvidence: number) {
 export function PatternReview({
   patterns,
   pattern,
+  patternReadiness,
   decisions,
   confirmations,
   verdict,
@@ -55,6 +56,7 @@ export function PatternReview({
 }: {
   patterns: FeedbackPattern[]
   pattern: FeedbackPattern
+  patternReadiness: Record<string, boolean>
   decisions: Record<string, EvidenceDecision>
   confirmations: EvidenceConfirmations
   verdict: PatternVerdict
@@ -83,7 +85,10 @@ export function PatternReview({
         onClick={() => onSelectPattern(option.id)}
       >
         {option.short_name}
-        <span>{option.id} · {option.product_area}</span>
+        <span className={patternReadiness[option.id] ? 'review-switch-status is-ready' : 'review-switch-status'}>
+          <i aria-hidden="true" />
+          {patternReadiness[option.id] ? 'Ready' : 'Needs validation'}
+        </span>
       </button>)}
     </div>
 
