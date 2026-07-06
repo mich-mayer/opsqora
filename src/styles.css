@@ -1503,6 +1503,10 @@ table {
   margin-bottom: 44px;
 }
 
+.chart-block {
+  margin-bottom: 44px;
+}
+
 .metric-table {
   width: 100%;
   background: var(--surface);

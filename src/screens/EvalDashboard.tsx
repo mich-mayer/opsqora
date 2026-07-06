@@ -120,7 +120,22 @@ export function EvalDashboard() {
     </div>
 
     <MetricTable title="Quality metrics" note="Plain-language definitions for non-technical review." metrics={qualityMetrics} />
+    <section className="chart-block">
+      <header className="block-head">
+        <h2>Quality trend</h2>
+        <p>Mocked weekly eval snapshots.</p>
+      </header>
+      <TrendChart />
+    </section>
+
     <MetricTable title="Cost metrics" note="Cost tied to validated pattern value, not raw model activity." metrics={costMetrics} />
+    <section className="chart-block">
+      <header className="block-head">
+        <h2>Cost by AI task</h2>
+        <p>Mocked daily spend split — $38 total.</p>
+      </header>
+      <CostBars />
+    </section>
 
     <section className="eval-rules">
       <header className="block-head">
@@ -134,23 +149,6 @@ export function EvalDashboard() {
         </article>)}
       </div>
     </section>
-
-    <div className="eval-charts">
-      <section className="chart-block">
-        <header className="block-head">
-          <h2>Quality trend</h2>
-          <p>Mocked weekly eval snapshots.</p>
-        </header>
-        <TrendChart />
-      </section>
-      <section className="chart-block">
-        <header className="block-head">
-          <h2>Cost by AI task</h2>
-          <p>Mocked daily spend split — $38 total.</p>
-        </header>
-        <CostBars />
-      </section>
-    </div>
 
     <p className="eval-foot">
       Production model choice would split tasks: a frontier model for clustering and final synthesis,
