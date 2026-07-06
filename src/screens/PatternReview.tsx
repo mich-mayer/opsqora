@@ -103,7 +103,6 @@ export function PatternReview({
           <div className="review-summary-head">
             <span className="mono-id">{pattern.id}</span>
             <Chip tone="line">{pattern.product_area}</Chip>
-            <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip>
           </div>
           <h2>{pattern.summary}</h2>
           <p>{pattern.ai_summary}</p>
@@ -115,8 +114,6 @@ export function PatternReview({
           </div>
           <dl className="review-figures">
             <div><dt>Mentions</dt><dd>{pattern.mention_count}</dd></div>
-            <div><dt>Evidence</dt><dd>{readiness.belongsCount}/{READINESS_RULE.belongsMinimum} confirmed</dd></div>
-            <div><dt>Confidence</dt><dd>{percent(pattern.confidence)}</dd></div>
             <div><dt>Trend</dt><dd><TrendIndicator trend={pattern.trend} /></dd></div>
           </dl>
         </section>
