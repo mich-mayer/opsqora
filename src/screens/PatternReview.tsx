@@ -83,10 +83,10 @@ export function PatternReview({
         className={option.id === pattern.id ? 'is-active' : ''}
         onClick={() => onSelectPattern(option.id)}
       >
-        {option.short_name}
+        <span className="review-switch-title">{option.short_name}</span>
         <span className={patternReadiness[option.id] ? 'review-switch-status is-ready' : 'review-switch-status'}>
           <i aria-hidden="true" />
-          {patternReadiness[option.id] ? 'Ready' : 'Needs validation'}
+          {patternReadiness[option.id] ? 'Ready' : 'Needs'}
         </span>
       </button>)}
     </div>

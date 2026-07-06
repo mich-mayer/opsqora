@@ -1011,7 +1011,7 @@ table {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   border: 1px solid var(--line);
   background: var(--surface);
-  margin-bottom: 32px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
@@ -1020,7 +1020,7 @@ table {
   align-items: center;
   justify-content: space-between;
   gap: 10px;
-  padding: 11px 14px;
+  padding: 10px 12px;
   border-right: 1px solid var(--line);
   font: 600 12px/1 var(--font-mono);
   letter-spacing: 0.03em;
@@ -1033,7 +1033,14 @@ table {
   border-right: none;
 }
 
-.review-switch button span {
+.review-switch-title {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.review-switch button .review-switch-status {
   display: inline-flex;
   align-items: center;
   gap: 5px;
