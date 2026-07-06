@@ -36,7 +36,7 @@ export function ProductBriefScreen({
       index="03"
       kicker="Backlog candidate"
       title="Brief"
-      lede="A concise PM-owned backlog candidate generated from validated evidence."
+      lede="A PM-owned backlog candidate generated from validated evidence."
     />
 
     <div className="brief-layout">

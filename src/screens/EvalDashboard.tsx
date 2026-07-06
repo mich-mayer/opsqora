@@ -54,10 +54,10 @@ function metricStatus(metric: EvalMetric) {
   if (status.includes('below target') || status.includes('needs prompt')) {
     return { tone: 'bad' as const, label: 'Needs review' }
   }
-  if (status.includes('watchlist') || status.includes('estimated')) {
+  if (status.includes('watchlist')) {
     return { tone: 'warn' as const, label: 'Watchlist' }
   }
-  if (status.includes('above') || status.includes('healthy') || status.includes('key value')) {
+  if (status.includes('above') || status.includes('healthy')) {
     return { tone: 'ok' as const, label: 'Healthy' }
   }
 
@@ -103,13 +103,13 @@ export function EvalDashboard() {
       index="04"
       kicker="Model quality and cost"
       title="AI Eval"
-      lede="Two questions for the prototype: can we trust the model, and what does validated product signal cost?"
+      lede="Two questions: can we trust the model, and what does one validated pattern cost?"
       aside={<Chip tone="line" square>{MOCK_LABEL}</Chip>}
     />
 
     <div className="stat-band">
       <Stat label="Pattern precision" value="76%" note="Target ≥ 70%" />
-      <Stat label="Pattern F1" value="69%" note="Precision + recall" />
+      <Stat label="Pattern F1" value="69%" note="Balance of precision + recall" />
       <Stat label="Evidence precision" value="81%" note="Target ≥ 80%" />
       <Stat label="Cost per validated pattern" value="$8.90" note="Key value metric" />
     </div>
@@ -138,7 +138,7 @@ export function EvalDashboard() {
 
     <section className="eval-rules">
       <header className="block-head">
-        <h2>How I’d evaluate this in production</h2>
+        <h2>Production evaluation plan</h2>
         <p>Thresholds paired with product actions, not passive dashboard watching.</p>
       </header>
       <div className="eval-rules-grid">
@@ -150,8 +150,8 @@ export function EvalDashboard() {
     </section>
 
     <p className="eval-foot">
-      Production model choice would split tasks: a frontier model for clustering and final synthesis,
-      a cheaper model for low-stakes labels and formatting.
+      Production model choice would split tasks: a top-tier (“frontier”) model for clustering and
+      final synthesis, a cheaper model for low-stakes labels and formatting.
       <a href={`${BASE}case-study.html`}>Case study <ArrowUpRight size={13} /></a>
     </p>
   </>

@@ -18,7 +18,7 @@ const BASE = import.meta.env.BASE_URL
 const REPO_URL = 'https://github.com/mich-mayer/opsqora'
 
 const projectMeta = [
-  ['Role', 'AI PM framing + frontend'],
+  ['Role', 'Product framing, AI boundary + eval design, frontend build'],
   ['Type', 'Phase 1 frontend prototype'],
   ['Stack', 'React · TypeScript · Vite'],
   ['Data', 'Synthetic, deterministic'],
@@ -52,8 +52,7 @@ const results = [
   ['Pattern F1', '69%', 'Combined precision + recall signal for suggested recurring problems'],
   ['Evidence precision', '81%', 'Target ≥ 80% — share of attached snippets reviewers marked as Belongs'],
   ['Cost per validated pattern', '$8.90', 'The key value-linked cost metric, paired with a $12 action threshold'],
-  ['Review time per pattern', '6–9 min', 'Estimated human effort to validate evidence and set a verdict'],
-  ['Flagship mocked outcome', '42 → 18', 'Mentions after a product action shipped in the mocked timeline'],
+  ['Example mocked outcome', '42 → 18', 'Mentions after a product action shipped in the mocked timeline'],
 ]
 
 const stack = ['React 18', 'TypeScript', 'Vite', 'Lucide', 'GitHub Pages']
@@ -129,7 +128,7 @@ function ReadinessPlayground() {
         >
           <i aria-hidden="true" />
           {evidence.id}
-          <span>{decisions[evidence.id] === 'Belongs' ? 'Belongs' : 'Out'}</span>
+          <span>{decisions[evidence.id] === 'Belongs' ? 'Belongs' : 'Excluded'}</span>
         </button>)}
       </div>
       <p className="playground-label">Human verdict</p>
@@ -179,7 +178,7 @@ function CaseStudy() {
       <nav aria-label="Case study sections">
         <a href="#product">Product</a>
         <a href="#problem">Problem</a>
-        <a href="#loop">Loop</a>
+        <a href="#loop">How it works</a>
         <a href="#eval">Eval</a>
         <a href="#results">Results</a>
       </nav>
@@ -192,8 +191,8 @@ function CaseStudy() {
         <h1>Recurring support feedback, turned into product decisions you can defend.</h1>
         <p className="case-lede">
           Opsqora helps a small product team find recurring complaints, verify the supporting
-          evidence, and turn confirmed patterns into product briefs — while keeping AI assistive,
-          mocked, and visibly bounded.
+          evidence, and turn confirmed patterns into product briefs — with AI kept assistive: it
+          suggests, humans decide. Phase 1 is a frontend prototype on synthetic data.
         </p>
         <div className="case-actions">
           <a className="btn btn--primary" href={BASE}>Open live demo <ArrowRight size={14} /></a>
@@ -228,12 +227,18 @@ function CaseStudy() {
             the job to a single loop: suggest a recurring pattern, validate the supporting
             snippets, compute readiness, and turn the confirmed pattern into a product brief.
           </p>
+          <p>
+            My role: I framed the problem, scoped the validation workflow, designed the
+            AI-assistive boundary and eval strategy, and built the Phase 1 frontend with AI coding
+            agents (Claude Code and Codex) under a documented collaboration workflow in the repo.
+            All product decisions, scope boundaries, and the readiness rule are mine.
+          </p>
         </div>
         <ul className="case-figures" aria-label="Prototype scope figures">
           <li><strong>4</strong><span>mocked feedback patterns</span></li>
-          <li><strong>1</strong><span>flagship validation path</span></li>
+          <li><strong>1</strong><span>fully validated demo path</span></li>
           <li><strong>5</strong><span>pattern verdicts</span></li>
-          <li><strong>13</strong><span>quality + cost metrics</span></li>
+          <li><strong>4</strong><span>eval thresholds paired with actions</span></li>
         </ul>
       </CaseSection>
 
@@ -264,11 +269,12 @@ function CaseStudy() {
           <p>
             The eval dashboard answers two product questions: can we trust the model, and what does
             one validated pattern cost? Precision, recall, F1, evidence precision, and
-            high-confidence disagreement measure trust; cost per validated pattern ties spend to
-            value instead of raw model activity.
+            high-confidence disagreement (reviewers rejecting evidence the model was sure about)
+            measure trust; cost per validated pattern ties spend to value instead of raw model
+            activity.
           </p>
           <p>
-            Every metric is paired with a production threshold and an action — pause suggestions,
+            Every metric is paired with a launch threshold and an action — pause suggestions,
             block readiness, or move low-stakes work to a cheaper model tier. Dashboards without
             actions are decoration.
           </p>
@@ -302,7 +308,7 @@ function CaseStudy() {
         </div>
       </CaseSection>
 
-      <CaseSection id="results" index="06" kicker="Results" title="A narrower demo with sharper AI PM judgment.">
+      <CaseSection id="results" index="06" kicker="Results (mocked)" title="Estimated results from a mocked prototype — and what would come next.">
         <table className="case-results">
           <caption>All values are estimated from the mocked prototype — not production outcomes.</caption>
           <tbody>
@@ -317,9 +323,9 @@ function CaseStudy() {
           <p>
             The core lesson: AI product value comes from the workflow around the model — evidence
             states, human verdicts, readiness rules, eval thresholds, and cost per validated
-            pattern. Next steps would be validating review-cadence adoption, collecting real eval
-            data from privacy-safe feedback exports, and testing outcome tracking through
-            read-only integrations before any write-back workflow.
+            pattern. Next steps: test whether teams actually adopt a regular pattern-review
+            ritual, collect real evaluation data from privacy-safe support exports, and track
+            outcomes through read-only integrations before letting the product write anything back.
           </p>
         </div>
       </CaseSection>

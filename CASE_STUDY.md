@@ -10,7 +10,7 @@ Semantic clustering is a real AI task because the same complaint appears in many
 
 ## 3. Your Role
 
-I framed the problem, scoped the pattern-validation workflow, designed the AI assistive boundary, shaped the eval strategy and cost model, and built the Phase 1 frontend prototype. [PM to confirm exact ownership]
+I framed the problem, scoped the pattern-validation workflow, designed the AI assistive boundary, shaped the eval strategy and cost model, and built the Phase 1 frontend prototype with AI coding agents (Claude Code and Codex) under a documented collaboration workflow. All product decisions, scope boundaries, and the readiness rule are mine.
 
 ## 4. The Approach
 
@@ -26,7 +26,7 @@ The live prototype includes:
 - Pattern Review: representative evidence quotes marked as `Belongs`, `Does not belong`, `Different problem`, or `Unsure`, plus a human pattern verdict.
 - Readiness Logic: visible rules requiring enough confirmed evidence, a `Valid` verdict, and sufficient confidence before a product brief can be generated.
 - Product Brief: a mocked backlog candidate auto-filled from a validated pattern.
-- AI Eval: quality metrics, cost metrics, and a prominent "How I’d evaluate this in production" panel with thresholds and actions.
+- AI Eval: quality metrics, cost metrics, and a prominent "Production evaluation plan" panel with thresholds and actions.
 - Design Notes: positioning, product boundaries, and the moat question versus Productboard, Enterpret, unitQ, Dovetail, and model providers.
 
 The case study page does not use screenshots: it embeds the live prototype twice
@@ -45,9 +45,8 @@ All numbers below are estimates from the mocked prototype, not production outcom
 - Target evidence precision: >= 80% `(estimated, mocked prototype)`
 - Mocked current evidence precision: 81% `(estimated, mocked prototype)`
 - Cost per validated pattern: approximately $8.90 `(estimated, mocked prototype)`
-- Review time per pattern: approximately 6-9 minutes `(estimated, mocked prototype)`
-- Flagship mocked outcome: mentions decreased from 42 to 18 after a product action `(estimated, mocked prototype; no live integration)`
+- Example mocked outcome: mentions decreased from 42 to 18 after a product action `(estimated, mocked prototype; no live integration)`
 
 ## 7. What You Learned
 
-The core product lesson is that AI product value comes from the workflow around the model: evidence states, human verdicts, readiness rules, eval thresholds, and cost per validated pattern. Next, I would validate review-cadence adoption, collect real eval data from feedback exports, and test outcome tracking through read-only integrations before adding any write-back workflow.
+The core lesson: AI product value comes from the workflow around the model — evidence states, human verdicts, readiness rules, eval thresholds, and cost per validated pattern. Next steps: test whether teams actually adopt a regular pattern-review ritual, collect real evaluation data from privacy-safe support exports, and track outcomes through read-only integrations before letting the product write anything back.

@@ -86,7 +86,7 @@ export function PatternReview({
         <span className="review-switch-title">{option.short_name}</span>
         <span className={patternReadiness[option.id] ? 'review-switch-status is-ready' : 'review-switch-status'}>
           <i aria-hidden="true" />
-          {patternReadiness[option.id] ? 'Ready' : 'Needs'}
+          {patternReadiness[option.id] ? 'Ready' : 'Not ready'}
         </span>
       </button>)}
     </div>
@@ -137,7 +137,7 @@ export function PatternReview({
                 </span>
                 <span className="evidence-status-group">
                   <Chip tone={confirmations[evidence.id] ? 'ok' : 'accent'} square>
-                    {confirmations[evidence.id] ? (pattern.id === 'PAT-001' ? 'Demo confirmed' : 'Confirmed') : 'AI suggested'}
+                    {confirmations[evidence.id] ? (pattern.id === 'PAT-001' ? 'Pre-confirmed (demo)' : 'Confirmed') : 'AI suggested'}
                   </Chip>
                   <Chip tone={decisionTone(decisions[evidence.id])} square>{decisions[evidence.id]}</Chip>
                 </span>
@@ -195,9 +195,9 @@ export function PatternReview({
             </label>)}
           </div>
           <button className="btn btn--primary btn--block" disabled={!readiness.ready} onClick={generated ? onOpenBrief : onGenerateBrief}>
-            {generated ? 'Open product brief' : 'Generate product brief'} <ArrowRight size={14} />
+            {generated ? 'Open brief' : 'Generate brief'} <ArrowRight size={14} />
           </button>
-          {!readiness.ready && <p className="rail-blocked-note">Blocked until the transparent readiness rule passes.</p>}
+          {!readiness.ready && <p className="rail-blocked-note">Blocked until the readiness rule passes.</p>}
         </section>
       </aside>
     </div>

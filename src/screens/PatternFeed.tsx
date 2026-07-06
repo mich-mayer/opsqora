@@ -33,7 +33,7 @@ function ConfidenceMeter({ value }: { value: number }) {
       <span className="meter-tick" />
     </span>
     <span>{percent(value)}</span>
-    {belowThreshold && <em>Below rule</em>}
+    {belowThreshold && <em>Below 70% rule</em>}
   </span>
 }
 
@@ -80,7 +80,7 @@ export function PatternFeed({
     />
 
     <div className="feed-toolbar">
-      <p><strong>{patterns.length} patterns</strong> · {readyCount} ready · {confirmedEvidence} confirmed · {totalEvidence - confirmedEvidence} AI-suggested</p>
+      <p><strong>{patterns.length} patterns</strong> · {readyCount} ready — evidence: {confirmedEvidence} confirmed · {totalEvidence - confirmedEvidence} AI-suggested</p>
       <label className="search-field">
         <Search size={14} />
         <input
