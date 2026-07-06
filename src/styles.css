@@ -319,7 +319,7 @@ table {
   grid-template-columns: repeat(4, 1fr);
   border: 1px solid var(--line);
   background: var(--surface);
-  margin-bottom: 36px;
+  margin-bottom: 16px;
 }
 
 .stat {
@@ -1491,11 +1491,11 @@ table {
   border: 1px solid var(--line);
   border-left: 3px solid var(--accent);
   background: var(--surface);
-  padding: 14px 18px;
-  font-size: 13.5px;
-  line-height: 1.55;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  line-height: 1.4;
   color: var(--ink-2);
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   max-width: 860px;
 }
 

@@ -107,17 +107,16 @@ export function EvalDashboard() {
       aside={<Chip tone="line" square>{MOCK_LABEL}</Chip>}
     />
 
-    <p className="eval-note">
-      All values are mocked and illustrative. This surface shows the production discipline Opsqora
-      would need before real model suggestions reached PM workflows.
-    </p>
-
     <div className="stat-band">
       <Stat label="Pattern precision" value="76%" note="Target ≥ 70%" />
       <Stat label="Pattern F1" value="69%" note="Precision + recall" />
       <Stat label="Evidence precision" value="81%" note="Target ≥ 80%" />
       <Stat label="Cost per validated pattern" value="$8.90" note="Key value metric" />
     </div>
+
+    <p className="eval-note">
+      Mocked and illustrative values only; no real model suggestions or production workflows are connected.
+    </p>
 
     <MetricTable title="Quality metrics" note="Plain-language definitions for non-technical review." metrics={qualityMetrics} />
     <section className="chart-block">
