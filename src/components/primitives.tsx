@@ -28,14 +28,14 @@ export function ScreenHead({
   index: string
   kicker: string
   title: string
-  lede: string
+  lede?: string
   aside?: React.ReactNode
 }) {
   return <header className="screen-head">
     <div className="screen-head-copy">
       <Kicker index={index}>{kicker}</Kicker>
       <h1>{title}</h1>
-      <p className="lede">{lede}</p>
+      {lede && <p className="lede">{lede}</p>}
     </div>
     {aside && <div className="screen-head-aside">{aside}</div>}
   </header>

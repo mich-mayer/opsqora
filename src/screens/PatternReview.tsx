@@ -74,7 +74,6 @@ export function PatternReview({
       index="02"
       kicker="Evidence validation"
       title="Review"
-      lede="Mark the snippets that actually belong to this pattern."
     />
 
     <div className="review-switch" role="group" aria-label="Pattern under review">
