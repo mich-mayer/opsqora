@@ -108,19 +108,20 @@ export function PatternReview({
           <div className="review-summary-head">
             <span className="mono-id">{pattern.id}</span>
             <Chip tone="line">{pattern.product_area}</Chip>
+            <span className="review-summary-facts">
+              {pattern.mention_count} mentions
+              <span aria-hidden="true">·</span>
+              <TrendIndicator trend={pattern.trend} />
+            </span>
           </div>
           <h2>{pattern.summary}</h2>
           <p>{pattern.ai_summary}</p>
-          <div className="why-suggested" aria-label="Why AI suggested this pattern">
-            <h3>Why suggested</h3>
+          <details className="why-suggested">
+            <summary>Why suggested</summary>
             <ul>
               {pattern.why_suggested.map(reason => <li key={reason}>{reason}</li>)}
             </ul>
-          </div>
-          <dl className="review-figures">
-            <div><dt>Mentions</dt><dd>{pattern.mention_count}</dd></div>
-            <div><dt>Trend</dt><dd><TrendIndicator trend={pattern.trend} /></dd></div>
-          </dl>
+          </details>
         </section>
 
         <section className="evidence-block" aria-label="Representative evidence">
