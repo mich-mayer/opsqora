@@ -41,10 +41,12 @@ All data is synthetic and deterministic. Metrics, outcomes, costs, and AI output
 The prototype is strongest when it shows judgment around the model:
 
 - pattern precision;
+- pattern recall;
+- pattern F1;
 - evidence precision;
 - high-confidence disagreement;
 - cost per validated pattern;
 - human correction rate;
 - clear thresholds and actions.
 
-Opsqora should continue to optimize for a portfolio-grade AI PM story: product value comes from the workflow around AI suggestions, not from the model alone.
+Opsqora should continue to optimize for a focused AI PM story: product value comes from the workflow around AI suggestions, not from the model alone.

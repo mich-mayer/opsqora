@@ -389,6 +389,20 @@ export const qualityMetrics: EvalMetric[] = [
     kind: 'quality',
   },
   {
+    label: 'Pattern recall',
+    value: '64%',
+    definition: 'Of reviewer-confirmed recurring problems in the eval sample, the share the AI suggested as patterns.',
+    status: 'Below target; missed clusters need review',
+    kind: 'quality',
+  },
+  {
+    label: 'Pattern F1',
+    value: '69%',
+    definition: 'The harmonic mean of pattern precision and pattern recall for suggested recurring problems.',
+    status: 'Launch watchlist',
+    kind: 'quality',
+  },
+  {
     label: 'Summary acceptance',
     value: '68%',
     definition: 'How often PMs accepted the AI pattern summary without rewriting the core problem statement.',
@@ -471,6 +485,12 @@ export const evalRules: ProductionEvalRule[] = [
     threshold: '< 70%',
     action:
       'Pause auto-suggestion, re-tune the clustering prompt, and inspect failing product areas before resuming.',
+  },
+  {
+    metric: 'Pattern recall',
+    threshold: '< 60%',
+    action:
+      'Sample missed recurring problems, expand the eval set, and check whether clustering is over-filtering weak but real signals.',
   },
   {
     metric: 'High-confidence disagreement',

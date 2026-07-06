@@ -1,24 +1,23 @@
-import {
-  ArrowRight,
-  BarChart3,
-  CheckCircle2,
-  FileText,
-  Lightbulb,
-  LockKeyhole,
-  TrendingDown,
-} from 'lucide-react'
-import {
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
-import { Badge, PageTitle, Panel } from '../components/primitives'
-import { MOCK_LABEL, MODEL_BOUNDARY, getReadiness } from '../mock'
+import { ArrowRight } from 'lucide-react'
+import { Chip, ScreenHead } from '../components/primitives'
+import { MOCK_LABEL, MODEL_BOUNDARY, READINESS_RULE, getReadiness } from '../mock'
 import type { EvidenceDecision, FeedbackPattern, PatternVerdict } from '../types'
+
+function OutcomeBars({ before, after }: { before: number; after: number }) {
+  const max = Math.max(before, after, 1)
+  return <div className="outcome-bars" aria-label={`Mentions before: ${before}, after: ${after}`}>
+    <div className="outcome-bar">
+      <strong>{before}</strong>
+      <i style={{ height: `${(before / max) * 100}%` }} />
+      <span>Before</span>
+    </div>
+    <div className="outcome-bar outcome-bar--after">
+      <strong>{after}</strong>
+      <i style={{ height: `${(after / max) * 100}%` }} />
+      <span>After</span>
+    </div>
+  </div>
+}
 
 export function ProductBriefScreen({
   pattern,
@@ -36,102 +35,97 @@ export function ProductBriefScreen({
   onReviewPattern: () => void
 }) {
   const readiness = getReadiness(pattern, decisions, verdict)
-  const outcomeData = [
-    { label: 'Before', mentions: pattern.outcome.before_mentions },
-    { label: 'After', mentions: pattern.outcome.after_mentions },
-  ]
+  const blockedReasons = [
+    !readiness.evidenceReady
+      ? `${readiness.belongsCount}/${readiness.totalEvidence} snippets are marked Belongs; ${READINESS_RULE.belongsMinimum} are required`
+      : null,
+    !readiness.verdictReady ? `the human verdict is ${verdict}, not Valid` : null,
+    !readiness.confidenceReady
+      ? `confidence is ${Math.round(pattern.confidence * 100)}%, below the ${Math.round(READINESS_RULE.confidenceMinimum * 100)}% rule`
+      : null,
+  ].filter(Boolean)
 
   return <>
-    <PageTitle
-      eyebrow="Backlog candidate"
+    <ScreenHead
+      index="03"
+      kicker="Backlog candidate"
       title="Product Brief"
-      description="A ready pattern can become a PM-owned backlog candidate with evidence, scope, and mocked outcome tracking."
-      action={<Badge tone="green" dot>{MOCK_LABEL}</Badge>}
+      lede="A ready pattern becomes a PM-owned backlog candidate with evidence, scope, and mocked outcome tracking."
+      aside={<Chip tone="line" square>{MOCK_LABEL}</Chip>}
     />
 
-    <div className="brief-screen-grid">
-      <Panel title="Generated product brief" subtitle="Auto-filled from the validated pattern, then owned by a PM" className="product-brief-panel">
-        {generated && readiness.ready ? (
-          <article className="product-brief-doc">
-            <header>
-              <Badge tone="green"><CheckCircle2 size={12} /> Ready pattern</Badge>
-              <Badge tone="purple">{pattern.product_area}</Badge>
-              <h2>{pattern.short_name}</h2>
-              <p>{pattern.brief.problem}</p>
-            </header>
-            <div className="brief-doc-grid">
-              <section>
-                <h3>Evidence summary</h3>
-                <p>{pattern.brief.evidence_summary}</p>
-              </section>
-              <section>
-                <h3>Affected area</h3>
-                <p>{pattern.brief.affected_area}</p>
-              </section>
-              <section>
-                <h3>Suggested next step</h3>
-                <p>{pattern.brief.suggested_next_step}</p>
-              </section>
-              <section>
-                <h3>PM owner</h3>
-                <p>{pattern.brief.decision_owner}</p>
-              </section>
-              <section className="wide-section">
-                <h3>Risk to watch</h3>
-                <p>{pattern.brief.risk_to_watch}</p>
-              </section>
-            </div>
-            <div className="brief-boundary"><LockKeyhole size={16} />{MODEL_BOUNDARY}</div>
-          </article>
-        ) : (
-          <div className="brief-blocked">
-            <FileText size={34} />
-            <h2>Brief generation is blocked until the pattern is ready.</h2>
-            <p>Opsqora does not let the mock AI self-approve. Confirm at least five evidence snippets as Belongs, set verdict to Valid, and meet the confidence rule first.</p>
-            <div>
-              <button className="btn btn-primary" onClick={onReviewPattern}>Review evidence <ArrowRight size={15} /></button>
-              <button className="btn btn-secondary" disabled={!readiness.ready} onClick={onGenerateBrief}>Generate brief</button>
-            </div>
+    <div className="brief-layout">
+      {generated && readiness.ready
+        ? <article className="brief-doc">
+          <header className="brief-doc-head">
+            <span>Product brief</span>
+            <span>{pattern.id}</span>
+            <span>{pattern.product_area}</span>
+            <span>{pattern.brief.decision_owner}</span>
+          </header>
+          <h2>{pattern.short_name}</h2>
+          <p className="brief-doc-problem">{pattern.brief.problem}</p>
+          <dl className="brief-doc-sections">
+            <div><dt>Evidence summary</dt><dd>{pattern.brief.evidence_summary}</dd></div>
+            <div><dt>Affected area</dt><dd>{pattern.brief.affected_area}</dd></div>
+            <div><dt>Suggested next step</dt><dd>{pattern.brief.suggested_next_step}</dd></div>
+            <div><dt>PM owner</dt><dd>{pattern.brief.decision_owner}</dd></div>
+            <div><dt>Risk to watch</dt><dd>{pattern.brief.risk_to_watch}</dd></div>
+          </dl>
+          <footer className="brief-doc-foot">
+            <span>Model boundary</span>
+            <p>{MODEL_BOUNDARY}</p>
+          </footer>
+        </article>
+        : <div className="brief-blocked">
+          <span className="mono-id">Blocked</span>
+          <h2>Brief generation waits for the readiness rule.</h2>
+          <p>
+            Opsqora does not let the mock AI self-approve. This pattern stays blocked because
+            {' '}{blockedReasons.join('; ')}.
+          </p>
+          <div className="brief-blocked-actions">
+            <button className="btn btn--primary" onClick={onReviewPattern}>Review evidence <ArrowRight size={14} /></button>
+            <button className="btn btn--ghost" disabled={!readiness.ready} onClick={onGenerateBrief}>Generate brief</button>
           </div>
-        )}
-      </Panel>
+        </div>}
 
-      <aside className="brief-side-rail">
-        <Panel title="Readiness snapshot" subtitle="Computed from visible rules">
-          <div className="brief-readiness">
-            <span><strong>{readiness.belongsCount}/{readiness.totalEvidence}</strong> evidence belongs</span>
-            <span><strong>{verdict}</strong> verdict</span>
-            <span><strong>{Math.round(pattern.confidence * 100)}%</strong> confidence</span>
-            <Badge tone={readiness.ready ? 'green' : 'amber'}>{readiness.ready ? 'Ready' : 'Not ready'}</Badge>
-          </div>
-        </Panel>
+      <aside className="brief-rail">
+        <section className="rail-block">
+          <header className="block-head">
+            <h2>Readiness snapshot</h2>
+            <p>Computed from visible rules.</p>
+          </header>
+          <dl className="brief-readiness">
+            <div><dt>Evidence belongs</dt><dd>{readiness.belongsCount}/{readiness.totalEvidence}</dd></div>
+            <div><dt>Verdict</dt><dd>{verdict}</dd></div>
+            <div><dt>Confidence</dt><dd>{Math.round(pattern.confidence * 100)}%</dd></div>
+          </dl>
+          <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Not ready'}</Chip>
+        </section>
 
-        <Panel title="Mocked outcome" subtitle="No live integration or causal claim">
-          <div className="outcome-card">
-            <Badge tone="amber">{pattern.outcome.label}</Badge>
-            <h3>{pattern.outcome.status}</h3>
-            <p>{pattern.outcome.note}</p>
-            <div className="outcome-chart">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart data={outcomeData} margin={{ top: 10, right: 8, left: -18, bottom: 0 }}>
-                  <CartesianGrid vertical={false} stroke="#e2ded5" strokeDasharray="3 5" />
-                  <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#67747b' }} />
-                  <YAxis allowDecimals={false} tickLine={false} axisLine={false} tick={{ fontSize: 11, fill: '#67747b' }} />
-                  <Tooltip />
-                  <Bar dataKey="mentions" fill="#3f6b75" radius={[6, 6, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-            <small><TrendingDown size={13} /> {pattern.outcome.measurement_window}</small>
-          </div>
-        </Panel>
+        <section className="rail-block">
+          <header className="block-head">
+            <h2>Mocked outcome</h2>
+            <p>No live integration or causal claim.</p>
+          </header>
+          <Chip tone="warn" square>{pattern.outcome.label}</Chip>
+          <h3 className="outcome-status">{pattern.outcome.status}</h3>
+          <p className="outcome-note">{pattern.outcome.note}</p>
+          <OutcomeBars before={pattern.outcome.before_mentions} after={pattern.outcome.after_mentions} />
+          <p className="outcome-window">{pattern.outcome.measurement_window}</p>
+        </section>
 
-        <Panel title="Decision posture" subtitle="Portfolio signal">
-          <div className="decision-posture">
-            <div><Lightbulb size={16} /><span>Depth on one validated pattern makes the product decision easier to defend.</span></div>
-            <div><BarChart3 size={16} /><span>Cost and quality are measured against validated outcomes, not model activity.</span></div>
-          </div>
-        </Panel>
+        <section className="rail-block">
+          <header className="block-head">
+            <h2>Decision posture</h2>
+            <p>Portfolio signal.</p>
+          </header>
+          <ul className="posture-list">
+            <li>Depth on one validated pattern makes the product decision easier to defend.</li>
+            <li>Cost and quality are measured against validated outcomes, not model activity.</li>
+          </ul>
+        </section>
       </aside>
     </div>
   </>

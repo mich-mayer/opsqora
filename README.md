@@ -1,10 +1,10 @@
 # Opsqora
 
-Opsqora is a portfolio-grade visual prototype for an AI-assisted support feedback pattern validation tool. It shows how a small product team can find recurring complaints, verify representative evidence, and turn confirmed support patterns into product decisions.
+Opsqora is a Phase 1 frontend prototype for validating recurring support feedback patterns. It shows how a small product team can review AI-suggested patterns, verify representative evidence, apply readiness rules, and turn confirmed signals into product briefs.
 
 > This is a Phase 1 frontend-only prototype using synthetic support evidence and mocked/illustrative AI outputs. No real customer data, backend, authentication, persistence, or real AI API is used.
 
-## What this prototype demonstrates
+## What This Prototype Demonstrates
 
 - A pattern feed of AI-suggested recurring support feedback patterns
 - Evidence validation where support snippets are marked `Belongs`, `Does not belong`, `Different problem`, or `Unsure`

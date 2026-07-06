@@ -1,119 +1,140 @@
-import {
-  AlertTriangle,
-  ArrowRight,
-  CircleDollarSign,
-  Info,
-  LineChart,
-  ShieldCheck,
-} from 'lucide-react'
-import {
-  Area,
-  AreaChart,
-  Bar,
-  BarChart,
-  CartesianGrid,
-  ResponsiveContainer,
-  Tooltip,
-  XAxis,
-  YAxis,
-} from 'recharts'
-import { Badge, PageTitle, Panel } from '../components/primitives'
+import { ArrowUpRight } from 'lucide-react'
+import { Chip, ScreenHead, Stat } from '../components/primitives'
 import { MOCK_LABEL, costByTask, costMetrics, evalRules, evalTrend, qualityMetrics } from '../mock'
+import type { EvalMetric } from '../types'
+
+const BASE = import.meta.env.BASE_URL
+
+function TrendChart() {
+  const width = 560
+  const height = 236
+  const pad = { top: 16, right: 14, bottom: 30, left: 36 }
+  const plotW = width - pad.left - pad.right
+  const plotH = height - pad.top - pad.bottom
+  const min = 60
+  const max = 90
+  const x = (index: number) => pad.left + (plotW / (evalTrend.length - 1)) * index
+  const y = (value: number) => pad.top + ((max - value) / (max - min)) * plotH
+  const line = (key: 'precision' | 'evidence') =>
+    evalTrend.map((point, index) => `${x(index)},${y(point[key])}`).join(' ')
+
+  return <figure className="trendchart">
+    <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Mocked weekly eval trend: pattern precision rises from 69% to 76%, evidence precision from 74% to 81%.">
+      {[60, 70, 80, 90].map(tick => <g key={tick}>
+        <line x1={pad.left} y1={y(tick)} x2={width - pad.right} y2={y(tick)} className={tick === 70 ? 'grid grid--rule' : 'grid'} />
+        <text x={pad.left - 8} y={y(tick) + 3} className="axis" textAnchor="end">{tick}</text>
+      </g>)}
+      {evalTrend.map((point, index) => <text key={point.week} x={x(index)} y={height - 8} className="axis" textAnchor="middle">{point.week}</text>)}
+      <polyline points={line('evidence')} className="series series--evidence" />
+      <polyline points={line('precision')} className="series series--precision" />
+      {evalTrend.map((point, index) => <rect key={`e-${point.week}`} x={x(index) - 3} y={y(point.evidence) - 3} width="6" height="6" className="marker marker--evidence" />)}
+      {evalTrend.map((point, index) => <rect key={`p-${point.week}`} x={x(index) - 3} y={y(point.precision) - 3} width="6" height="6" className="marker marker--precision" />)}
+    </svg>
+    <figcaption>
+      <span className="legend legend--precision">Pattern precision</span>
+      <span className="legend legend--evidence">Evidence precision</span>
+      <span className="legend legend--rule">70% launch threshold</span>
+    </figcaption>
+  </figure>
+}
+
+function CostBars() {
+  const maxShare = Math.max(...costByTask.map(task => task.share))
+  return <div className="costbars">
+    {costByTask.map(task => <div className="costbar" key={task.task}>
+      <span className="costbar-label">{task.task}</span>
+      <span className="costbar-track"><i style={{ width: `${(task.share / maxShare) * 100}%` }} /></span>
+      <span className="costbar-value">${task.spend.toFixed(2)} · {task.share}%</span>
+    </div>)}
+  </div>
+}
+
+function MetricTable({ title, note, metrics }: { title: string; note: string; metrics: EvalMetric[] }) {
+  return <section className="metric-block">
+    <header className="block-head">
+      <h2>{title}</h2>
+      <p>{note}</p>
+    </header>
+    <table className="metric-table">
+      <thead>
+        <tr>
+          <th scope="col">Metric</th>
+          <th scope="col" className="col-value">Value</th>
+          <th scope="col">Plain-language definition</th>
+          <th scope="col" className="col-status">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {metrics.map(metric => <tr key={metric.label} className={metric.emphasis ? 'is-emphasis' : ''}>
+          <td className="cell-metric">{metric.label}</td>
+          <td className="col-value cell-value">{metric.value}</td>
+          <td className="cell-definition">{metric.definition}</td>
+          <td className="col-status cell-status">{metric.status}</td>
+        </tr>)}
+      </tbody>
+    </table>
+  </section>
+}
 
 export function EvalDashboard() {
   return <>
-    <PageTitle
-      eyebrow="Model quality and cost"
+    <ScreenHead
+      index="04"
+      kicker="Model quality and cost"
       title="AI Eval"
-      description="Two questions for the prototype: can we trust the model, and what does validated product signal cost?"
-      action={<Badge tone="green" dot>{MOCK_LABEL}</Badge>}
+      lede="Two questions for the prototype: can we trust the model, and what does validated product signal cost?"
+      aside={<Chip tone="line" square>{MOCK_LABEL}</Chip>}
     />
 
-    <div className="eval-hero">
-      <ShieldCheck size={18} />
-      <span>All values are mocked/illustrative. The eval surface shows the production discipline Opsqora would need before real model suggestions reached PM workflows.</span>
+    <p className="eval-note">
+      All values are mocked and illustrative. This surface shows the production discipline Opsqora
+      would need before real model suggestions reached PM workflows.
+    </p>
+
+    <div className="stat-band">
+      <Stat label="Pattern precision" value="76%" note="Target ≥ 70%" />
+      <Stat label="Pattern F1" value="69%" note="Precision + recall" />
+      <Stat label="Evidence precision" value="81%" note="Target ≥ 80%" />
+      <Stat label="Cost per validated pattern" value="$8.90" note="Key value metric" />
     </div>
 
-    <div className="eval-grid">
-      <Panel title="Quality metrics" subtitle="Plain-language definitions for non-technical review" className="metric-panel">
-        <div className="metric-card-grid">
-          {qualityMetrics.map(metric => (
-            <article className={metric.emphasis ? 'eval-metric-card emphasis' : 'eval-metric-card'} key={metric.label}>
-              <header><span>{metric.label}</span><Info size={13} aria-hidden="true" /></header>
-              <strong>{metric.value}</strong>
-              <p>{metric.definition}</p>
-              <small>{metric.status}</small>
-            </article>
-          ))}
-        </div>
-      </Panel>
+    <MetricTable title="Quality metrics" note="Plain-language definitions for non-technical review." metrics={qualityMetrics} />
+    <MetricTable title="Cost metrics" note="Cost tied to validated pattern value, not raw model activity." metrics={costMetrics} />
 
-      <Panel title="Cost metrics" subtitle="Cost tied to validated pattern value" className="metric-panel">
-        <div className="metric-card-grid cost-grid">
-          {costMetrics.map(metric => (
-            <article className={metric.emphasis ? 'eval-metric-card emphasis' : 'eval-metric-card'} key={metric.label}>
-              <header><span>{metric.label}</span><CircleDollarSign size={13} aria-hidden="true" /></header>
-              <strong>{metric.value}</strong>
-              <p>{metric.definition}</p>
-              <small>{metric.status}</small>
-            </article>
-          ))}
-        </div>
-      </Panel>
-    </div>
-
-    <Panel title="How I’d evaluate this in production" subtitle="Thresholds paired with product actions, not passive dashboard watching" className="production-eval-panel">
-      <div className="production-rule-grid">
-        {evalRules.map(rule => (
-          <article key={rule.metric}>
-            <span><AlertTriangle size={16} /> If {rule.metric} {rule.threshold}</span>
-            <p>{rule.action}</p>
-          </article>
-        ))}
+    <section className="eval-rules">
+      <header className="block-head">
+        <h2>How I’d evaluate this in production</h2>
+        <p>Thresholds paired with product actions, not passive dashboard watching.</p>
+      </header>
+      <div className="eval-rules-grid">
+        {evalRules.map(rule => <article key={rule.metric}>
+          <span className="eval-rule-if">If {rule.metric} {rule.threshold}</span>
+          <p>{rule.action}</p>
+        </article>)}
       </div>
-    </Panel>
+    </section>
 
-    <div className="eval-chart-grid">
-      <Panel title="Quality trend" subtitle="Mocked weekly eval snapshots">
-        <div className="chart-lg eval-chart">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={evalTrend} margin={{ top: 16, right: 12, left: -15, bottom: 4 }}>
-              <defs>
-                <linearGradient id="evalPrecision" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#3f6b75" stopOpacity={0.24} />
-                  <stop offset="100%" stopColor="#3f6b75" stopOpacity={0.02} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid vertical={false} stroke="#ddd9d1" strokeDasharray="3 5" />
-              <XAxis dataKey="week" axisLine={{ stroke: '#d8d4cc' }} tickLine={false} tick={{ fill: '#737873', fontSize: 11 }} />
-              <YAxis domain={[60, 90]} axisLine={false} tickLine={false} tick={{ fill: '#737873', fontSize: 11 }} />
-              <Tooltip />
-              <Area dataKey="precision" name="Pattern precision" type="monotone" stroke="#3f6b75" fill="url(#evalPrecision)" strokeWidth={3} />
-              <Area dataKey="evidence" name="Evidence precision" type="monotone" stroke="#6f8f6a" fill="transparent" strokeWidth={2.5} strokeDasharray="7 5" />
-            </AreaChart>
-          </ResponsiveContainer>
-        </div>
-      </Panel>
-
-      <Panel title="Cost by AI task" subtitle="Mocked daily spend split">
-        <div className="chart-lg eval-chart">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={costByTask} layout="vertical" margin={{ top: 8, right: 18, left: 50, bottom: 0 }}>
-              <CartesianGrid horizontal={false} stroke="#ddd9d1" strokeDasharray="3 5" />
-              <XAxis type="number" axisLine={false} tickLine={false} tick={{ fill: '#737873', fontSize: 11 }} />
-              <YAxis type="category" dataKey="task" width={118} axisLine={false} tickLine={false} tick={{ fill: '#52616a', fontSize: 11 }} />
-              <Tooltip formatter={(value: number) => [`$${value.toFixed(2)}`, 'Daily spend']} />
-              <Bar dataKey="spend" fill="#3f6b75" radius={[0, 6, 6, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </Panel>
+    <div className="eval-charts">
+      <section className="chart-block">
+        <header className="block-head">
+          <h2>Quality trend</h2>
+          <p>Mocked weekly eval snapshots.</p>
+        </header>
+        <TrendChart />
+      </section>
+      <section className="chart-block">
+        <header className="block-head">
+          <h2>Cost by AI task</h2>
+          <p>Mocked daily spend split — $38 total.</p>
+        </header>
+        <CostBars />
+      </section>
     </div>
 
-    <div className="eval-footer-note">
-      <LineChart size={17} />
-      <span>Production model choice would split tasks: frontier model for clustering and final synthesis, cheaper model for low-stakes labels and formatting.</span>
-      <a href="/opsqora/case-study.html">Case study <ArrowRight size={14} /></a>
-    </div>
+    <p className="eval-foot">
+      Production model choice would split tasks: a frontier model for clustering and final synthesis,
+      a cheaper model for low-stakes labels and formatting.
+      <a href={`${BASE}case-study.html`}>Case study <ArrowUpRight size={13} /></a>
+    </p>
   </>
 }

@@ -1,12 +1,12 @@
 # Product Decisions
 
-This document captures the product choices that should stay stable while Opsqora remains a Phase 1 portfolio prototype.
+This document captures the product choices that should stay stable while Opsqora remains a Phase 1 frontend prototype.
 
 ## Positioning
 
 Opsqora is a support feedback pattern validation tool for small B2B SaaS product teams.
 
-The product turns recurring support feedback into validated product evidence. It should be presented as a focused AI Product Manager prototype with evidence validation, readiness logic, product brief generation, and AI eval discipline.
+The product turns recurring support feedback into validated product evidence. It should be presented as a focused AI Product Manager prototype with evidence review, readiness logic, product brief generation, and AI eval discipline.
 
 ## Unit Of Work
 

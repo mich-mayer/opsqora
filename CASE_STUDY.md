@@ -10,7 +10,7 @@ Semantic clustering is a real AI task because the same complaint appears in many
 
 ## 3. Your Role
 
-I framed the problem, scoped the pattern-validation workflow, designed the AI assistive boundary, shaped the eval strategy and cost model, and built the frontend prototype. [PM to confirm exact ownership]
+I framed the problem, scoped the pattern-validation workflow, designed the AI assistive boundary, shaped the eval strategy and cost model, and built the Phase 1 frontend prototype. [PM to confirm exact ownership]
 
 ## 4. The Approach
 
@@ -29,12 +29,10 @@ The live prototype includes:
 - AI Eval: quality metrics, cost metrics, and a prominent "How I’d evaluate this in production" panel with thresholds and actions.
 - Design Notes: positioning, product boundaries, and the moat question versus Productboard, Enterpret, unitQ, Dovetail, and model providers.
 
-Current screenshots:
-
-- Pattern Feed: `public/shots/patterns@2x`
-- Pattern Review: `public/shots/pattern-review@2x`
-- Product Brief: `public/shots/product-brief@2x`
-- AI Eval: `public/shots/ai-eval@2x`
+The case study page does not use screenshots: it embeds the live prototype twice
+(`<App embedded />` in the hero and `<App embedded initialPage="eval" />` in the eval
+section) plus an interactive readiness playground that calls the real `getReadiness()`
+rule on the flagship pattern.
 
 ## 6. Results
 
@@ -42,6 +40,8 @@ All numbers below are estimates from the mocked prototype, not production outcom
 
 - Target pattern precision: >= 70% `(estimated, mocked prototype)`
 - Mocked current pattern precision: 76% `(estimated, mocked prototype)`
+- Mocked current pattern recall: 64% `(estimated, mocked prototype)`
+- Mocked current pattern F1: 69% `(estimated, mocked prototype)`
 - Target evidence precision: >= 80% `(estimated, mocked prototype)`
 - Mocked current evidence precision: 81% `(estimated, mocked prototype)`
 - Cost per validated pattern: approximately $8.90 `(estimated, mocked prototype)`

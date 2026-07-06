@@ -30,18 +30,18 @@ Do not move or rename these entry files without updating Vite config, internal l
 Current source files and folders:
 
 - `src/main.tsx`: React bootstrap for the main prototype.
-- `src/App.tsx`: app shell, navigation, search, pattern selection, evidence validation state, brief-generation state, and screen wiring.
-- `src/screens/PatternFeed.tsx`: pattern list, summary metrics, search, and featured pattern.
-- `src/screens/PatternReview.tsx`: evidence decisions, pattern verdict, readiness logic, and brief preview.
-- `src/screens/ProductBriefScreen.tsx`: generated brief, readiness snapshot, and mocked outcome.
-- `src/screens/EvalDashboard.tsx`: quality metrics, cost metrics, production eval rules, and charts.
+- `src/App.tsx`: app shell, navigation, pattern selection, evidence validation state, brief-generation state, and screen wiring. Accepts `embedded` and `initialPage` props so the case study can render the live product inside demo frames.
+- `src/screens/PatternFeed.tsx`: stat band, pattern table, search, and featured pattern.
+- `src/screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief preview.
+- `src/screens/ProductBriefScreen.tsx`: generated brief document, readiness snapshot, and mocked outcome bars.
+- `src/screens/EvalDashboard.tsx`: quality/cost metric tables, production eval rules, and hand-rolled SVG charts.
 - `src/screens/DesignNotes.tsx`: positioning, boundaries, differentiation, and review cadence.
-- `src/components/primitives.tsx`: shared badges, panels, stat cards, page titles, and empty states.
-- `src/lib/index.ts`: small shared helpers and visual constants.
+- `src/components/primitives.tsx`: shared wordmark, kicker, screen header, chips, stats, rule checks, and empty states.
 - `src/mock/index.ts`: deterministic mock layer for patterns, evidence, briefs, outcomes, eval metrics, and costs.
 - `src/types.ts`: domain types for pattern validation.
-- `src/case-study.tsx`: React bootstrap and content for the public case study page.
-- `src/styles.css`: global styling for the app and case study.
+- `src/case-study.tsx`: the public case study page with live `App` embeds and the readiness playground.
+- `src/styles.css`: the shared Swiss design system for the app and case study.
+- `src/vite-env.d.ts`: Vite client type reference (`import.meta.env`).
 
 If the app grows further, prefer gradual extraction by product capability:
 
@@ -55,10 +55,8 @@ If the app grows further, prefer gradual extraction by product capability:
 
 Static assets live in `public/` and are copied by Vite:
 
-- favicon;
-- Opsqora mark;
-- logo text images;
-- current product screenshots under `public/shots/`.
+- `favicon.svg` — the only brand asset; the wordmark is set in type, and the case study
+  embeds the live app instead of screenshots.
 
 Generated local experiment assets may exist under `tmp/`, but they should not be treated as project source.
 

@@ -1,8 +1,8 @@
 # Project Brief
 
-Opsqora is a portfolio-grade visual prototype for an AI-assisted support feedback pattern validation tool.
+Opsqora is a Phase 1 frontend prototype for AI-assisted support feedback pattern validation.
 
-The prototype shows how product and AI operations teams can turn recurring support feedback into validated product decisions:
+The prototype shows how product and AI product teams can turn recurring support feedback into validated product decisions:
 
 - review AI-suggested recurring feedback patterns;
 - validate representative evidence snippets with human control;
@@ -16,7 +16,7 @@ The prototype shows how product and AI operations teams can turn recurring suppo
 Opsqora is designed to be reviewed by:
 
 - hiring teams evaluating product engineering and frontend craft;
-- product and support leaders exploring AI-assisted operations;
+- product and support leaders exploring evidence-backed feedback pattern workflows;
 - AI product managers thinking about review workflows and quality measurement;
 - engineers assessing static React/Vite prototype architecture.
 

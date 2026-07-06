@@ -16,7 +16,7 @@ Read these files before making project changes:
 
 ## Project Guardrails
 
-- Opsqora is a polished frontend-only React/Vite prototype.
+- Opsqora is a polished frontend-only React/Vite prototype for validating recurring support feedback patterns.
 - Keep all data local, deterministic, and synthetic.
 - Preserve both entry pages: `/` via `index.html` and `/case-study.html` via `case-study.html`.
 - Do not add a backend, authentication, persistence, billing, real AI calls, or real customer data unless explicitly requested.

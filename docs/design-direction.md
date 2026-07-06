@@ -1,4 +1,4 @@
-# Design Direction — Pattern Validation Workspace
+# Design Direction — Swiss International
 
 Visual direction and implementation spec for the current Opsqora prototype.
 
@@ -7,106 +7,125 @@ Visual direction and implementation spec for the current Opsqora prototype.
 - Phase 1, frontend-only.
 - Active product: support feedback pattern validation.
 - Active app screens: Pattern Feed, Pattern Review, Product Brief, AI Eval, and Design Notes.
-- Case study is screenshot-led and uses current product screenshots only.
+- Case study embeds the live product (the real `App` component), not screenshots.
 
 ## Scope & Guardrails
 
 Do:
 
-- Keep the live prototype as a quiet enterprise SaaS / dense B2B product validation workspace.
-- Use recurring feedback patterns as the unit of work.
-- Use support evidence snippets only as evidence for patterns.
+- Keep both surfaces in one light Swiss/International-Style system: white ground, near-black ink, hairline grid rules, one ultramarine accent.
+- Use recurring feedback patterns as the unit of work; feedback items appear only as evidence.
 - Make mocked/illustrative status visible wherever AI outputs, costs, or outcomes appear.
-- Keep the case study as a warm editorial product case study using real current screenshots.
-- Use one token set, one accent, and one UI font across both surfaces.
+- Keep charts hand-rolled (inline SVG / CSS bars) in the same instrument-panel style; no charting library.
+- Use square markers for status and bullets — no rounded pills, no border radius anywhere.
+- Keep the case study demo frames live: they render `<App embedded />` and the readiness playground calls the real `getReadiness()`.
 
 Do not:
 
 - Add backend, auth, persistence, production integrations, real AI calls, or real customer data.
-- Add customer messaging, workflow write-back, autonomous approvals, or production claims.
-- Add decorative visual noise, neon dashboards, or marketing-only surfaces.
-- Reintroduce unmounted files, screenshots, or documentation.
+- Add decorative gradients, glows, drop shadows on cards, rounded corners, or icon-heavy navigation.
+- Reintroduce screenshots of the product into the case study; the embeds replace them.
+- Add a second accent color; status colors (ok/warn/bad) are functional, not decorative.
 
 ## Direction Summary
 
-Two surfaces, one DNA. The app is a dense slate-teal validation workspace. The case study is a warm "paper" editorial layout where current product screenshots are the hero and copy frames the AI PM story.
-
-The product value is explicit: find recurring complaints, verify the evidence, turn confirmed patterns into product decisions. The model is assistive, the evidence is human-reviewed, readiness logic is visible, and the PM remains accountable for the final decision.
+One typographic system, two temperatures. The app is a dense validation instrument: tables,
+hairlines, mono labels, big tabular numerals. The case study is the same system at editorial
+scale: oversized Inter Tight headlines, numbered sections opened by 2px rules, spec-sheet meta
+tables, and the live product embedded in framed windows. The single ultramarine accent carries
+selection, key metrics, links, and primary emphasis; everything else is ink on paper.
 
 ## Color Tokens
 
 ```css
---ink:           #1b2529;
---ink-soft:      #51616a;
---ink-mute:      #82909a;
+--bg:          #fbfbfa;   /* page ground */
+--surface:     #ffffff;   /* panels, tables, cards */
+--wash:        #f4f4f1;   /* soft panel wash */
 
---accent:        #3f6b75;
---accent-strong: #2c545d;
---accent-soft:   #e7f0f1;
---cta:           #20272a;
+--ink:         #121216;   /* primary text, strong rules, black bands */
+--ink-2:       #52525c;   /* secondary text */
+--ink-3:       #8a8a93;   /* muted text, mono labels */
 
---sage:          #6f8f6a;
---data-grad:     linear-gradient(180deg, #3c6f74, #96b284);
+--line:        #e5e5e1;   /* hairlines */
+--rule:        #121216;   /* 2px Swiss section rules */
 
---paper:         #f6f6f1;
---app-bg:        #f3f6f8;
---surface:       #ffffff;
---border:        #e3e3dc;
---border-cool:   #dce3e7;
+--accent:      #2236e8;   /* single ultramarine accent */
+--accent-deep: #1626b4;   /* accent text on white */
+--accent-wash: #edeffd;
 
---green: #2f7a62;
---amber: #9a652f;
---red: #aa5156;
---blue: #416f98;
+--ok:   #0e7a4e;  --ok-wash:   #e9f4ee;
+--warn: #a2600c;  --warn-wash: #f9f1e3;
+--bad:  #c03540;  --bad-wash:  #fbedee;
 ```
 
 Rules:
 
-- One slate-teal accent across app and case study.
-- `--cta` is reserved for case-study primary actions.
-- `--data-grad` is a subtle connective motif, not a glow.
+- One ultramarine accent across app and case study; `--accent-deep` for accent-colored text.
+- Status colors appear only as small squares, chips, and rule checks.
+- Trend semantics: rising complaints = `--bad`, falling = `--ok`.
 
 ## Typography
 
-- Display: Fraunces for case-study hero and section headings.
-- UI/body: DM Sans everywhere else.
-- App text should stay compact but readable; small labels must remain at or above 11px.
+- Display: Inter Tight (500–700) for headlines, big numerals, and pull quotes.
+- UI/body: Inter (400–700).
+- Data/labels: IBM Plex Mono (400–600) for kickers, table headers, IDs, chips, axis labels.
+- Fonts load from Google Fonts in both HTML heads; no CSS `@import`.
 
-Case study scale:
+| Role | Family | Size | Notes |
+|---|---|---|---|
+| Case hero h1 | Inter Tight 600 | `clamp(40px, 6.8vw, 84px)` | lh 1.0, tracking -0.035em |
+| Case section h2 | Inter Tight 600 | `clamp(28px, 3.8vw, 48px)` | tracking -0.03em |
+| Boundary pull quote | Inter Tight 500 | `clamp(24px, 3.6vw, 42px)` | the MODEL_BOUNDARY statement |
+| App screen h1 | Inter Tight 600 | `clamp(28px, 3.4vw, 40px)` | under a 2px rule |
+| Stat value | Inter Tight 600 | 30px | tabular numerals |
+| Body | Inter 400 | 13–16px | app dense, case editorial |
+| Kicker / labels | IBM Plex Mono 500 | 10.5–11px | uppercase, tracking 0.07–0.08em |
 
-| Role | Family | Size | LH | Notes |
-|---|---|---|---|---|
-| Hero h1 | Fraunces 500 | `clamp(44px, 6vw, 74px)` | 1.02 | tracking -0.015em |
-| Section h2 | Fraunces 500 | `clamp(30px, 4vw, 48px)` | 1.08 | |
-| Section number | DM Sans 700 | 13px | — | accent, tabular |
-| Kicker | DM Sans 700 | 12px | — | uppercase, tracking 0.12em |
-| Lead | DM Sans 400 | `clamp(18px,1.7vw,22px)` | 1.55 | `--ink-soft` |
-| Body | DM Sans 400 | 16-17px | 1.7 | `--ink-soft` |
-| Caption | DM Sans 500 | 13px | 1.45 | `--ink-mute` + accent chip |
+## Recurring Motifs
+
+- 2px `--rule` lines open every major section; 1px `--line` hairlines divide everything else.
+- Mono index numbers (`01`–`06`) in accent before kickers, in nav, and on case sections.
+- Square markers everywhere: chips, bullets, legends, rule checks, evidence toggles.
+- Confidence meters carry an accent tick at the 70% readiness threshold.
+- The final case-study CTA is an ink-black band with an accent button.
+
+## App Shell
+
+- Top bar (58px): typographic wordmark (accent square + "Opsqora"), horizontal nav with mono
+  indices and an underline active state, case-study link, mock reviewer block.
+- The shell fills the viewport; `.shell-main` is the internal scroll container.
+- `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and
+  `initialPage` (which screen opens first).
 
 ## Active App Screens
 
-1. Pattern Feed: recurring patterns, summary metrics, search, featured validated pattern.
-2. Pattern Review: evidence snippets, four evidence decisions, pattern verdict, readiness logic, brief preview.
-3. Product Brief: generated backlog candidate, readiness snapshot, mocked outcome tracking.
-4. AI Eval: quality metrics, cost metrics, production thresholds/actions, charts.
-5. Design Notes: positioning, product boundaries, differentiation, review cadence.
+1. Pattern Feed: stat band, positioning line + underline search, patterns as a full table
+   (ID, pattern, area, mentions, trend, confidence meter, status), featured pattern band.
+2. Pattern Review: pattern switcher tabs, summary with figures strip and model boundary,
+   evidence cards with segmented decisions, sticky rail (readiness logic, verdict radio list,
+   brief preview).
+3. Product Brief: the brief as a printed document (ink border, mono header row, dt/dd
+   sections), rail with readiness snapshot, mocked outcome bars, decision posture.
+4. AI Eval: disclaimer note, headline stat band, quality/cost definition tables, IF/THEN
+   production rules, hand-rolled SVG trend chart + cost bars.
+5. Design Notes: display-size positioning statement, is/is-not lists, HITL boundary steps,
+   moat and cadence columns.
 
 ## Case Study Structure
 
-1. Hero: current value proposition, CTAs, Pattern Feed screenshot.
-2. Problem: why recurring feedback patterns need structured validation.
-3. Workflow: suggest, validate, compute, decide.
-4. AI Eval: trust and cost as product requirements.
-5. Results: current outcomes, stack chips, CTA.
+1. Sticky top bar: wordmark, anchor nav, "Open live demo".
+2. Hero: mono kicker, display headline, lede, CTAs, spec-sheet meta table (role/type/stack/data/year).
+3. Live product demo: `<App embedded />` in a framed window ("Live · synthetic data").
+4. 01 Problem: prose + scope figures strip.
+5. 02 Validation loop: four numbered steps + interactive readiness playground (real
+   `getReadiness()` on real PAT-001 data).
+6. 03 Human-in-the-loop boundary: MODEL_BOUNDARY as a display pull quote.
+7. 04 AI eval: prose + `<App embedded initialPage="eval" />`.
+8. 05 Scope and honesty: real vs deliberately mocked columns + stack chips.
+9. 06 Results: spec table of estimated metrics + core lesson.
+10. Black CTA band + footer.
 
-## Screenshot Inventory
+## Assets
 
-Current screenshots live in `public/shots/`:
-
-- `patterns@2x`
-- `pattern-review@2x`
-- `product-brief@2x`
-- `ai-eval@2x`
-
-Each screenshot has PNG and WebP variants exported at 2880x1800.
+- `public/favicon.svg`: accent square with a white circle "O". The only brand asset;
+  the wordmark is set in type, not an image.

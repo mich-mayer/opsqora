@@ -1,255 +1,347 @@
-import React from 'react'
+import { ArrowRight, ArrowUpRight, GitBranch } from 'lucide-react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom/client'
+import App from './App'
+import { Chip, Kicker, RuleCheck, Wordmark } from './components/primitives'
 import {
-  ArrowRight,
-  GitBranch,
-} from 'lucide-react'
+  MODEL_BOUNDARY,
+  READINESS_RULE,
+  feedbackPatterns,
+  getInitialEvidenceDecisions,
+  getReadiness,
+  patternVerdicts,
+} from './mock'
+import type { EvidenceDecision, PatternVerdict } from './types'
 import './styles.css'
 
-const baseUrl = '/opsqora/'
+const BASE = import.meta.env.BASE_URL
+const REPO_URL = 'https://github.com/mich-mayer/opsqora'
 
-const metrics = [
-  '4 mocked feedback patterns',
-  '1 flagship validation path',
-  '5 evidence verdicts',
-  '11 quality + cost metrics',
+const projectMeta = [
+  ['Role', 'AI PM framing + frontend'],
+  ['Type', 'Phase 1 frontend prototype'],
+  ['Stack', 'React · TypeScript · Vite'],
+  ['Data', 'Synthetic, deterministic'],
+  ['Year', '2026'],
 ]
 
-const processSteps = [
-  ['Suggest', 'Mock AI groups recurring feedback patterns from synthetic support exports.'],
-  ['Validate', 'A human reviewer marks evidence as Belongs, Does not belong, Different problem, or Unsure.'],
-  ['Compute', 'Transparent rules decide readiness; the model never self-approves.'],
-  ['Decide', 'A PM turns a ready pattern into a product brief and tracks mocked outcomes.'],
+const loopSteps = [
+  ['Suggest', 'Mock AI groups recurring feedback patterns from synthetic support exports and attaches representative evidence.'],
+  ['Validate', 'A human reviewer marks each snippet as Belongs, Does not belong, Different problem, or Unsure — then sets the pattern verdict.'],
+  ['Compute', 'Transparent rules decide readiness: enough confirmed evidence, a Valid verdict, and sufficient confidence. The model never self-approves.'],
+  ['Decide', 'A PM turns a ready pattern into a product brief and tracks mocked outcomes against the original mention volume.'],
 ]
 
-const stack = ['React', 'TypeScript', 'Vite', 'Recharts', 'Lucide', 'GitHub Pages']
+const realList = [
+  'The full validation workflow — every screen is interactive',
+  'Readiness logic computed live from evidence states and verdicts',
+  'Deterministic synthetic dataset, reproducible on every visit',
+  'Hand-rolled SVG charts and a single design system across both pages',
+]
 
-const shots = {
-  patterns: {
-    url: 'opsqora.app/patterns',
-    label: 'Pattern feed',
-    file: 'patterns@2x',
-    caption: 'Recurring feedback patterns are the unit of work.',
-  },
-  review: {
-    url: 'opsqora.app/review',
-    label: 'Pattern review',
-    file: 'pattern-review@2x',
-    caption: 'Representative support quotes become evidence, and every snippet gets a human validation state.',
-    callouts: [
-      { label: 'Evidence states', x: '49%', y: '59%', side: 'left' },
-      { label: 'Readiness logic', x: '82%', y: '34%', side: 'right' },
-      { label: 'Human verdict', x: '83%', y: '61%', side: 'right' },
-    ] as const,
-  },
-  brief: {
-    url: 'opsqora.app/brief',
-    label: 'Product brief',
-    file: 'product-brief@2x',
-    caption: 'A ready pattern becomes a mocked backlog candidate with evidence, owner and next step.',
-  },
-  eval: {
-    url: 'opsqora.app/eval',
-    label: 'AI eval',
-    file: 'ai-eval@2x',
-    caption: 'Quality, disagreement and cost are framed as product gates, not vanity metrics.',
-    callouts: [
-      { label: 'Trust metrics', x: '31%', y: '42%', side: 'left' },
-      { label: 'Cost per validated pattern', x: '70%', y: '42%', side: 'right' },
-      { label: 'Threshold + action', x: '56%', y: '69%', side: 'right' },
-    ] as const,
-  },
+const mockedList = [
+  'The AI layer — pattern grouping and summaries are precomputed',
+  'Eval metrics, costs, and outcome tracking — labeled illustrative',
+  'Integrations — Zendesk, Intercom, Jira names are fictional exports',
+  'No backend, auth, persistence, or real customer data anywhere',
+]
+
+const results = [
+  ['Pattern precision', '76%', 'Target ≥ 70% — share of suggested patterns describing one real recurring problem'],
+  ['Pattern recall', '64%', 'Share of reviewer-confirmed recurring problems the AI suggested as patterns'],
+  ['Pattern F1', '69%', 'Combined precision + recall signal for suggested recurring problems'],
+  ['Evidence precision', '81%', 'Target ≥ 80% — share of attached snippets reviewers marked as Belongs'],
+  ['Cost per validated pattern', '$8.90', 'The key value-linked cost metric, paired with a $12 action threshold'],
+  ['Review time per pattern', '6–9 min', 'Estimated human effort to validate evidence and set a verdict'],
+  ['Flagship mocked outcome', '42 → 18', 'Mentions after a product action shipped in the mocked timeline'],
+]
+
+const stack = ['React 18', 'TypeScript', 'Vite', 'Lucide', 'GitHub Pages']
+
+function DemoFrame({
+  url,
+  note,
+  height,
+  children,
+}: {
+  url: string
+  note?: string
+  height: number
+  children: React.ReactNode
+}) {
+  return <figure className="demo-frame" style={{ '--frame-h': `${height}px` } as React.CSSProperties}>
+    <div className="demo-frame-chrome">
+      <span className="demo-frame-dots" aria-hidden="true"><i /><i /><i /></span>
+      <em>{url}</em>
+      <span className="demo-frame-live"><i aria-hidden="true" />Live · synthetic data</span>
+    </div>
+    <div className="demo-frame-body">{children}</div>
+    {note && <figcaption>{note}</figcaption>}
+  </figure>
 }
 
-type Callout = {
-  label: string
-  x: string
-  y: string
-  side: 'left' | 'right'
-}
-
-function Shot({ url, label, file, caption, callouts = [] }: { url: string; label: string; file: string; caption: string; callouts?: readonly Callout[] }) {
-  return (
-    <figure className="case-shot">
-      <div className="case-shot-chrome" aria-hidden="true">
-        <span />
-        <span />
-        <span />
-        <em>{url}</em>
-      </div>
-      <div className="case-shot-media">
-        <picture>
-          <source srcSet={`${baseUrl}shots/${file}.webp`} type="image/webp" />
-          <img src={`${baseUrl}shots/${file}.png`} alt={`${label} screen from the working Opsqora prototype`} loading="lazy" />
-        </picture>
-        {callouts.map(callout => (
-          <span
-            className={`case-callout case-callout-${callout.side}`}
-            key={callout.label}
-            style={{ left: callout.x, top: callout.y }}
-          >
-            {callout.label}
-          </span>
-        ))}
-      </div>
-      <figcaption>
-        <strong>{label}</strong>
-        <span>{caption}</span>
-      </figcaption>
-    </figure>
-  )
-}
-
-function SectionHeader({ number, eyebrow, title }: { number: string; eyebrow: string; title: string }) {
-  return (
-    <header className="case-section-header">
-      <span>{number}</span>
-      <div>
-        <p>{eyebrow}</p>
-        <h2>{title}</h2>
-      </div>
+function CaseSection({
+  id,
+  index,
+  kicker,
+  title,
+  children,
+}: {
+  id: string
+  index: string
+  kicker: string
+  title: string
+  children: React.ReactNode
+}) {
+  return <section className="case-section" id={id}>
+    <header className="case-section-head">
+      <Kicker index={index}>{kicker}</Kicker>
+      <h2>{title}</h2>
     </header>
-  )
+    {children}
+  </section>
 }
 
-function StatLine({ compact = false }: { compact?: boolean }) {
-  return (
-    <div className={compact ? 'case-stat-line compact' : 'case-stat-line'} aria-label="Project metrics">
-      {metrics.map(metric => <span key={metric}>{metric}</span>)}
-    </div>
+function ReadinessPlayground() {
+  const pattern = feedbackPatterns[0]
+  const [decisions, setDecisions] = useState<Record<string, EvidenceDecision>>(
+    () => getInitialEvidenceDecisions()[pattern.id],
   )
-}
+  const [verdict, setVerdict] = useState<PatternVerdict>(pattern.default_verdict)
+  const readiness = getReadiness(pattern, decisions, verdict)
 
-function StackChips() {
-  return (
-    <div className="case-stack-chips" aria-label="Technology stack">
-      {stack.map(item => <span key={item}>{item}</span>)}
+  const toggleEvidence = (evidenceId: string) => {
+    setDecisions(current => ({
+      ...current,
+      [evidenceId]: current[evidenceId] === 'Belongs' ? 'Does not belong' : 'Belongs',
+    }))
+  }
+
+  return <div className="playground" aria-label="Interactive readiness rule">
+    <div className="playground-inputs">
+      <p className="playground-label">Evidence decisions — click to flip</p>
+      <div className="playground-evidence">
+        {pattern.evidence.map(evidence => <button
+          key={evidence.id}
+          className={decisions[evidence.id] === 'Belongs' ? 'is-belongs' : ''}
+          onClick={() => toggleEvidence(evidence.id)}
+          aria-pressed={decisions[evidence.id] === 'Belongs'}
+        >
+          <i aria-hidden="true" />
+          {evidence.id}
+          <span>{decisions[evidence.id] === 'Belongs' ? 'Belongs' : 'Out'}</span>
+        </button>)}
+      </div>
+      <p className="playground-label">Human verdict</p>
+      <div className="playground-verdicts" role="radiogroup" aria-label="Pattern verdict">
+        {patternVerdicts.map(option => <button
+          key={option}
+          role="radio"
+          aria-checked={verdict === option}
+          className={verdict === option ? 'is-active' : ''}
+          onClick={() => setVerdict(option)}
+        >
+          {option}
+        </button>)}
+      </div>
     </div>
-  )
+    <div className="playground-output">
+      <p className="playground-label">Readiness rule — computed live</p>
+      <RuleCheck
+        ok={readiness.evidenceReady}
+        label={`Evidence ≥ ${READINESS_RULE.belongsMinimum} belongs`}
+        detail={`${readiness.belongsCount}/${readiness.totalEvidence} snippets confirmed`}
+      />
+      <RuleCheck ok={readiness.verdictReady} label="Verdict is Valid" detail={`Current verdict: ${verdict}`} />
+      <RuleCheck
+        ok={readiness.confidenceReady}
+        label={`Confidence ≥ ${Math.round(READINESS_RULE.confidenceMinimum * 100)}%`}
+        detail={`${Math.round(pattern.confidence * 100)}% mock confidence — fixed for this pattern`}
+      />
+      <div className="playground-result">
+        <Chip tone={readiness.ready ? 'ok' : 'bad'} square>
+          {readiness.ready ? 'Ready — brief can be generated' : 'Blocked — brief stays locked'}
+        </Chip>
+      </div>
+      <p className="playground-foot">
+        This widget calls the same <code>getReadiness()</code> function as the product above.
+        The AI never gets to skip this gate.
+      </p>
+    </div>
+  </div>
 }
 
 function CaseStudy() {
-  return (
-    <main className="case-study-page">
-      <header className="case-nav">
-        <a className="case-logo" href={`${baseUrl}`} aria-label="Opsqora home">
-          <img src={`${baseUrl}logo_text_transparent.png`} alt="Opsqora" />
-        </a>
-        <nav aria-label="Case study sections">
-          <a href={`${baseUrl}`}>Live demo ↗</a>
-          <a href="#problem">Problem</a>
-          <a href="#workflow">Workflow</a>
-          <a href="#eval">Eval</a>
-          <a href="#results">Results</a>
-        </nav>
-      </header>
+  return <div className="case">
+    <header className="case-top">
+      <Wordmark href={`${BASE}case-study.html`} sub="Case study" />
+      <nav aria-label="Case study sections">
+        <a href="#product">Product</a>
+        <a href="#problem">Problem</a>
+        <a href="#loop">Loop</a>
+        <a href="#eval">Eval</a>
+        <a href="#results">Results</a>
+      </nav>
+      <a className="btn btn--primary" href={BASE}>Open live demo <ArrowUpRight size={14} /></a>
+    </header>
 
-      <div className="case-meta" aria-label="Case study metadata">
-        <span><strong>Role</strong> AI PM framing + Frontend</span>
-        <span><strong>Type</strong> Phase 1 mocked prototype</span>
-        <span><strong>Stack</strong> React · Vite</span>
-        <span><strong>Year</strong> 2026</span>
-      </div>
-
+    <main>
       <section className="case-hero">
-        <div className="case-hero-copy">
-          <span className="case-kicker">AI Product Management · Case Study</span>
-          <h1>Recurring support feedback, turned into product decisions you can defend.</h1>
-          <p>
-            Opsqora helps a small product team find recurring complaints, verify the supporting
-            evidence, and turn confirmed patterns into product briefs while keeping AI assistive,
-            mocked, and visibly bounded.
-          </p>
-          <div className="case-actions">
-            <a className="case-primary-action" href={`${baseUrl}`}>
-              Open live demo <ArrowRight size={17} />
-            </a>
-            <a className="case-secondary-action" href="https://github.com/mich-mayer/opsqora">
-              View repository <GitBranch size={17} />
-            </a>
-          </div>
+        <Kicker>AI product management — case study · 2026</Kicker>
+        <h1>Recurring support feedback, turned into product decisions you can defend.</h1>
+        <p className="case-lede">
+          Opsqora helps a small product team find recurring complaints, verify the supporting
+          evidence, and turn confirmed patterns into product briefs — while keeping AI assistive,
+          mocked, and visibly bounded.
+        </p>
+        <div className="case-actions">
+          <a className="btn btn--primary" href={BASE}>Open live demo <ArrowRight size={14} /></a>
+          <a className="btn btn--ghost" href={REPO_URL}>View repository <GitBranch size={14} /></a>
         </div>
-        <div className="case-hero-media">
-          <Shot {...shots.patterns} />
-          <StatLine />
-        </div>
+        <dl className="case-meta">
+          {projectMeta.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
+        </dl>
       </section>
 
-      <section className="case-section case-split" id="problem">
-        <div className="case-copy">
-          <SectionHeader number="01" eyebrow="The problem" title="Recurring complaints need proof before they become roadmap work." />
-          <p>
-            Product teams can see repeated complaints in exports, calls and notes, but the signal is
-            hard to trust until the evidence is grouped, reviewed and tied to a clear decision rule.
-          </p>
-          <p>
-            Opsqora narrows that job to one loop: suggest a recurring pattern, validate the
-            supporting snippets, compute readiness, and turn the confirmed pattern into a product
-            brief.
-          </p>
-        </div>
-        <Shot {...shots.patterns} />
+      <section className="case-demo" id="product" aria-label="Live product demo">
+        <DemoFrame
+          url="opsqora.app"
+          height={680}
+          note="This is the actual product embedded in the page, not a screenshot. Click through the feed, flip evidence decisions, generate the brief, and open the eval."
+        >
+          <App embedded />
+        </DemoFrame>
       </section>
 
-      <section className="case-section" id="workflow">
-        <SectionHeader number="02" eyebrow="How it works" title="One validation loop: suggest, validate, compute, decide." />
-        <div className="case-workflow-spine">
-          <div className="case-step-list">
-            {processSteps.map(([title, copy], index) => (
-              <article key={title}>
-                <span>{String(index + 1).padStart(2, '0')}</span>
-                <div>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-          <div className="case-shot-stack">
-            <Shot {...shots.review} />
-            <Shot {...shots.brief} />
-          </div>
-        </div>
-      </section>
-
-      <section className="case-section case-split reverse" id="eval">
-        <div className="case-copy">
-          <SectionHeader number="03" eyebrow="AI eval" title="Trust and cost are product requirements." />
+      <CaseSection id="problem" index="01" kicker="The problem" title="Recurring complaints need proof before they become roadmap work.">
+        <div className="case-prose">
           <p>
-            The eval dashboard answers two portfolio-grade questions: can we trust the model,
-            and what does one validated pattern cost?
+            Product teams can see repeated complaints in exports, calls, and notes, but the signal
+            is hard to trust until the evidence is grouped, reviewed, and tied to a clear decision
+            rule. The same issue arrives as “timeline import shifted blockers,” “dependency dates
+            moved after migration,” and “milestones changed after CSV import” — keyword rules miss
+            the overlap, and manual review does not scale.
           </p>
           <p>
-            The most important metrics include pattern precision, evidence precision, high-confidence
-            disagreement and cost per validated pattern, each paired with a production action.
+            Semantic clustering is a genuine AI task, but only an assistive one. Opsqora narrows
+            the job to a single loop: suggest a recurring pattern, validate the supporting
+            snippets, compute readiness, and turn the confirmed pattern into a product brief.
           </p>
         </div>
-        <Shot {...shots.eval} />
+        <ul className="case-figures" aria-label="Prototype scope figures">
+          <li><strong>4</strong><span>mocked feedback patterns</span></li>
+          <li><strong>1</strong><span>flagship validation path</span></li>
+          <li><strong>5</strong><span>pattern verdicts</span></li>
+          <li><strong>13</strong><span>quality + cost metrics</span></li>
+        </ul>
+      </CaseSection>
+
+      <CaseSection id="loop" index="02" kicker="How it works" title="One validation loop: suggest, validate, compute, decide.">
+        <ol className="case-steps">
+          {loopSteps.map(([title, copy], index) => <li key={title}>
+            <span>{String(index + 1).padStart(2, '0')}</span>
+            <h3>{title}</h3>
+            <p>{copy}</p>
+          </li>)}
+        </ol>
+        <div className="case-playground">
+          <p className="case-playground-intro">
+            The gate between “AI suggestion” and “PM decision” is a visible rule. Try it — this is
+            the real logic, not an illustration:
+          </p>
+          <ReadinessPlayground />
+        </div>
+      </CaseSection>
+
+      <section className="case-boundary" id="boundary">
+        <Kicker index="03">Human-in-the-loop boundary</Kicker>
+        <blockquote>{MODEL_BOUNDARY}</blockquote>
       </section>
 
-      <section className="case-section case-results" id="results">
-        <SectionHeader number="04" eyebrow="Results" title="A narrower demo with sharper AI PM judgment." />
-        <div className="case-results-grid">
+      <CaseSection id="eval" index="04" kicker="AI eval" title="Trust and cost are product requirements.">
+        <div className="case-prose">
+          <p>
+            The eval dashboard answers two product questions: can we trust the model, and what does
+            one validated pattern cost? Precision, recall, F1, evidence precision, and
+            high-confidence disagreement measure trust; cost per validated pattern ties spend to
+            value instead of raw model activity.
+          </p>
+          <p>
+            Every metric is paired with a production threshold and an action — pause suggestions,
+            block readiness, or move low-stakes work to a cheaper model tier. Dashboards without
+            actions are decoration.
+          </p>
+        </div>
+        <DemoFrame
+          url="opsqora.app — AI eval"
+          height={640}
+          note="The live eval screen: quality and cost tables with plain-language definitions, threshold/action rules, and hand-rolled SVG charts."
+        >
+          <App embedded initialPage="eval" />
+        </DemoFrame>
+      </CaseSection>
+
+      <CaseSection id="scope" index="05" kicker="Scope and honesty" title="What is real, and what is deliberately mocked.">
+        <div className="case-scope-columns">
           <div>
-            <p>
-              The finished prototype shows one fully worked happy path: AI suggests a pattern,
-              a human validates evidence, readiness rules pass, a product brief is generated,
-              and mocked outcome tracking makes the next PM question visible.
-            </p>
-            <StatLine compact />
-            <StackChips />
+            <h3>Real in this prototype</h3>
+            <ul className="case-scope-list case-scope-list--real">
+              {realList.map(item => <li key={item}>{item}</li>)}
+            </ul>
           </div>
-          <div className="case-final-cta">
-            <h3>Explore the validation loop.</h3>
-            <p>Everything is frontend-only, deterministic, synthetic and visibly labeled as mocked or illustrative.</p>
-            <a className="case-primary-action" href={`${baseUrl}`}>
-              Open live demo <ArrowRight size={17} />
-            </a>
+          <div>
+            <h3>Mocked on purpose</h3>
+            <ul className="case-scope-list case-scope-list--mocked">
+              {mockedList.map(item => <li key={item}>{item}</li>)}
+            </ul>
           </div>
+        </div>
+        <div className="case-stack" aria-label="Technology stack">
+          {stack.map(item => <span key={item}>{item}</span>)}
+        </div>
+      </CaseSection>
+
+      <CaseSection id="results" index="06" kicker="Results" title="A narrower demo with sharper AI PM judgment.">
+        <table className="case-results">
+          <caption>All values are estimated from the mocked prototype — not production outcomes.</caption>
+          <tbody>
+            {results.map(([label, value, detail]) => <tr key={label}>
+              <th scope="row">{label}</th>
+              <td className="case-results-value">{value}</td>
+              <td className="case-results-detail">{detail}</td>
+            </tr>)}
+          </tbody>
+        </table>
+        <div className="case-prose">
+          <p>
+            The core lesson: AI product value comes from the workflow around the model — evidence
+            states, human verdicts, readiness rules, eval thresholds, and cost per validated
+            pattern. Next steps would be validating review-cadence adoption, collecting real eval
+            data from privacy-safe feedback exports, and testing outcome tracking through
+            read-only integrations before any write-back workflow.
+          </p>
+        </div>
+      </CaseSection>
+
+      <section className="case-cta">
+        <h2>Explore the validation loop.</h2>
+        <p>Everything is frontend-only, deterministic, synthetic, and visibly labeled as mocked or illustrative.</p>
+        <div className="case-actions">
+          <a className="btn btn--accent" href={BASE}>Open live demo <ArrowRight size={14} /></a>
+          <a className="btn btn--inverse" href={REPO_URL}>View repository <GitBranch size={14} /></a>
         </div>
       </section>
     </main>
-  )
+
+    <footer className="case-foot">
+      <Wordmark href={BASE} />
+      <span>© 2026 — Phase 1 prototype · synthetic data · no real AI calls</span>
+      <nav aria-label="Footer links">
+        <a href={BASE}>Live demo</a>
+        <a href={REPO_URL}>Repository</a>
+      </nav>
+    </footer>
+  </div>
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
