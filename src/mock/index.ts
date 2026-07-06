@@ -1,5 +1,6 @@
 import type {
   CostTask,
+  EvidenceConfirmations,
   EvalMetric,
   EvidenceDecision,
   FeedbackPattern,
@@ -523,6 +524,16 @@ export function getInitialEvidenceDecisions() {
   }, {})
 }
 
+export function getInitialEvidenceConfirmations() {
+  return feedbackPatterns.reduce<Record<string, EvidenceConfirmations>>((acc, pattern) => {
+    acc[pattern.id] = pattern.evidence.reduce<EvidenceConfirmations>((evidenceAcc, evidence) => {
+      evidenceAcc[evidence.id] = pattern.id === 'PAT-001'
+      return evidenceAcc
+    }, {})
+    return acc
+  }, {})
+}
+
 export function getInitialPatternVerdicts() {
   return feedbackPatterns.reduce<Record<string, PatternVerdict>>((acc, pattern) => {
     acc[pattern.id] = pattern.default_verdict
@@ -534,8 +545,13 @@ export function getReadiness(
   pattern: FeedbackPattern,
   decisions: Record<string, EvidenceDecision>,
   verdict: PatternVerdict,
+  confirmations?: EvidenceConfirmations,
 ) {
-  const belongsCount = pattern.evidence.filter(evidence => decisions[evidence.id] === 'Belongs').length
+  const isConfirmed = (evidenceId: string) => confirmations?.[evidenceId] ?? true
+  const belongsCount = pattern.evidence.filter(
+    evidence => isConfirmed(evidence.id) && decisions[evidence.id] === 'Belongs',
+  ).length
+  const confirmedCount = pattern.evidence.filter(evidence => isConfirmed(evidence.id)).length
   const confidenceReady = pattern.confidence >= READINESS_RULE.confidenceMinimum
   const verdictReady = verdict === READINESS_RULE.verdict
   const evidenceReady = belongsCount >= READINESS_RULE.belongsMinimum
@@ -544,6 +560,7 @@ export function getReadiness(
   return {
     ready,
     belongsCount,
+    confirmedCount,
     evidenceReady,
     verdictReady,
     confidenceReady,

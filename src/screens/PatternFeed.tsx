@@ -1,17 +1,47 @@
 import {
+  ArrowDownRight,
   ArrowRight,
+  ArrowUpRight,
+  Minus,
   Search,
 } from 'lucide-react'
 import { Chip, EmptyState, ScreenHead } from '../components/primitives'
-import { getReadiness } from '../mock'
-import type { EvidenceDecision, FeedbackPattern, PatternVerdict } from '../types'
+import { READINESS_RULE, getReadiness } from '../mock'
+import type { EvidenceConfirmations, EvidenceDecision, FeedbackPattern, PatternTrend, PatternVerdict } from '../types'
 
 const percent = (value: number) => `${Math.round(value * 100)}%`
+
+const trendLabel: Record<PatternTrend, string> = {
+  up: 'Up',
+  flat: 'Flat',
+  down: 'Down',
+}
+
+function TrendIndicator({ trend }: { trend: PatternTrend }) {
+  const Icon = trend === 'up' ? ArrowUpRight : trend === 'down' ? ArrowDownRight : Minus
+  return <span className={`trend trend--${trend}`}>
+    <Icon size={13} aria-hidden="true" />
+    {trendLabel[trend]}
+  </span>
+}
+
+function ConfidenceMeter({ value }: { value: number }) {
+  const belowThreshold = value < READINESS_RULE.confidenceMinimum
+  return <span className={belowThreshold ? 'meter-cell meter-cell--warn' : 'meter-cell'}>
+    <span className="meter" aria-hidden="true">
+      <i style={{ width: percent(value) }} />
+      <span className="meter-tick" />
+    </span>
+    <span>{percent(value)}</span>
+    {belowThreshold && <em>Below rule</em>}
+  </span>
+}
 
 export function PatternFeed({
   patterns,
   selectedPatternId,
   decisions,
+  confirmations,
   verdicts,
   search,
   onSearch,
@@ -20,6 +50,7 @@ export function PatternFeed({
   patterns: FeedbackPattern[]
   selectedPatternId: string
   decisions: Record<string, Record<string, EvidenceDecision>>
+  confirmations: Record<string, EvidenceConfirmations>
   verdicts: Record<string, PatternVerdict>
   search: string
   onSearch: (value: string) => void
@@ -31,11 +62,14 @@ export function PatternFeed({
     return [pattern.short_name, pattern.summary, pattern.product_area, pattern.ai_summary]
       .some(value => value.toLowerCase().includes(query))
   })
-  const readyCount = patterns.filter(pattern => getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id]).ready).length
-  const reviewedEvidence = patterns.reduce(
-    (sum, pattern) => sum + pattern.evidence.filter(evidence => decisions[pattern.id][evidence.id] !== 'Unsure').length,
+  const readyCount = patterns.filter(
+    pattern => getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id], confirmations[pattern.id]).ready,
+  ).length
+  const confirmedEvidence = patterns.reduce(
+    (sum, pattern) => sum + pattern.evidence.filter(evidence => confirmations[pattern.id][evidence.id]).length,
     0,
   )
+  const totalEvidence = patterns.reduce((sum, pattern) => sum + pattern.evidence.length, 0)
 
   return <>
     <ScreenHead
@@ -46,7 +80,7 @@ export function PatternFeed({
     />
 
     <div className="feed-toolbar">
-      <p><strong>{patterns.length} patterns</strong> · {readyCount} ready · {reviewedEvidence} snippets reviewed</p>
+      <p><strong>{patterns.length} patterns</strong> · {readyCount} ready · {confirmedEvidence} confirmed · {totalEvidence - confirmedEvidence} AI-suggested</p>
       <label className="search-field">
         <Search size={14} />
         <input
@@ -65,29 +99,31 @@ export function PatternFeed({
           <tr>
             <th scope="col">Pattern</th>
             <th scope="col" className="col-area">Area</th>
-            <th scope="col" className="col-signal">Signal</th>
+            <th scope="col" className="col-mentions">Mentions</th>
+            <th scope="col" className="col-confidence">Confidence</th>
+            <th scope="col" className="col-trend">Trend</th>
             <th scope="col">Status</th>
             <th scope="col" aria-label="Open" />
           </tr>
         </thead>
         <tbody>
           {filteredPatterns.map(pattern => {
-            const readiness = getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id])
+            const readiness = getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id], confirmations[pattern.id])
             return <tr
               key={pattern.id}
               className={pattern.id === selectedPatternId ? 'is-selected' : ''}
-              tabIndex={0}
-              onClick={() => onOpenPattern(pattern.id)}
-              onKeyDown={event => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                  event.preventDefault()
-                  onOpenPattern(pattern.id)
-                }
-              }}
             >
-              <td className="cell-name"><strong>{pattern.short_name}</strong><span>{pattern.summary}</span></td>
+              <td className="cell-name">
+                <button className="pattern-open" onClick={() => onOpenPattern(pattern.id)}>
+                  <strong>{pattern.short_name}</strong>
+                  <span>{pattern.summary}</span>
+                  <small>{pattern.mention_count} mentions · {percent(pattern.confidence)} confidence · {pattern.product_area}</small>
+                </button>
+              </td>
               <td className="col-area">{pattern.product_area}</td>
-              <td className="col-signal cell-signal">{pattern.mention_count} mentions · {percent(pattern.confidence)}</td>
+              <td className="col-mentions cell-num">{pattern.mention_count}</td>
+              <td className="col-confidence"><ConfidenceMeter value={pattern.confidence} /></td>
+              <td className="col-trend"><TrendIndicator trend={pattern.trend} /></td>
               <td><Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip></td>
               <td className="cell-arrow"><ArrowRight size={15} aria-hidden="true" /></td>
             </tr>

@@ -49,6 +49,21 @@ function CostBars() {
   </div>
 }
 
+function metricStatus(metric: EvalMetric) {
+  const status = metric.status.toLowerCase()
+  if (status.includes('below target') || status.includes('needs prompt')) {
+    return { tone: 'bad' as const, label: 'Needs review' }
+  }
+  if (status.includes('watchlist') || status.includes('estimated')) {
+    return { tone: 'warn' as const, label: 'Watchlist' }
+  }
+  if (status.includes('above') || status.includes('healthy') || status.includes('key value')) {
+    return { tone: 'ok' as const, label: 'Healthy' }
+  }
+
+  return { tone: 'line' as const, label: 'Context' }
+}
+
 function MetricTable({ title, note, metrics }: { title: string; note: string; metrics: EvalMetric[] }) {
   return <section className="metric-block">
     <header className="block-head">
@@ -65,12 +80,18 @@ function MetricTable({ title, note, metrics }: { title: string; note: string; me
         </tr>
       </thead>
       <tbody>
-        {metrics.map(metric => <tr key={metric.label} className={metric.emphasis ? 'is-emphasis' : ''}>
-          <td className="cell-metric">{metric.label}</td>
-          <td className="col-value cell-value">{metric.value}</td>
-          <td className="cell-definition">{metric.definition}</td>
-          <td className="col-status cell-status">{metric.status}</td>
-        </tr>)}
+        {metrics.map(metric => {
+          const status = metricStatus(metric)
+          return <tr key={metric.label} className={metric.emphasis ? 'is-emphasis' : ''}>
+            <td className="cell-metric">{metric.label}</td>
+            <td className="col-value cell-value">{metric.value}</td>
+            <td className="cell-definition">{metric.definition}</td>
+            <td className="col-status cell-status">
+              <Chip tone={status.tone} square>{status.label}</Chip>
+              <span>{metric.status}</span>
+            </td>
+          </tr>
+        })}
       </tbody>
     </table>
   </section>

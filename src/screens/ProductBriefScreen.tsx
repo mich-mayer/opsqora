@@ -1,11 +1,12 @@
 import { ArrowRight } from 'lucide-react'
 import { Chip, ScreenHead } from '../components/primitives'
 import { READINESS_RULE, getReadiness } from '../mock'
-import type { EvidenceDecision, FeedbackPattern, PatternVerdict } from '../types'
+import type { EvidenceConfirmations, EvidenceDecision, FeedbackPattern, PatternVerdict } from '../types'
 
 export function ProductBriefScreen({
   pattern,
   decisions,
+  confirmations,
   verdict,
   generated,
   onGenerateBrief,
@@ -13,15 +14,16 @@ export function ProductBriefScreen({
 }: {
   pattern: FeedbackPattern
   decisions: Record<string, EvidenceDecision>
+  confirmations: EvidenceConfirmations
   verdict: PatternVerdict
   generated: boolean
   onGenerateBrief: () => void
   onReviewPattern: () => void
 }) {
-  const readiness = getReadiness(pattern, decisions, verdict)
+  const readiness = getReadiness(pattern, decisions, verdict, confirmations)
   const blockedReasons = [
     !readiness.evidenceReady
-      ? `${readiness.belongsCount}/${readiness.totalEvidence} snippets are marked Belongs; ${READINESS_RULE.belongsMinimum} are required`
+      ? `${readiness.belongsCount}/${readiness.totalEvidence} confirmed snippets are marked Belongs; ${READINESS_RULE.belongsMinimum} are required`
       : null,
     !readiness.verdictReady ? `the human verdict is ${verdict}, not Valid` : null,
     !readiness.confidenceReady
@@ -56,7 +58,7 @@ export function ProductBriefScreen({
           </dl>
         </article>
         : <div className="brief-blocked">
-          <span className="mono-id">Blocked</span>
+          <span className="mono-id mono-id--warn">Needs validation</span>
           <h2>Brief generation waits for the readiness rule.</h2>
           <p>
             Opsqora does not let the mock AI self-approve. This pattern stays blocked because
@@ -79,7 +81,7 @@ export function ProductBriefScreen({
             <div><dt>Verdict</dt><dd>{verdict}</dd></div>
             <div><dt>Confidence</dt><dd>{Math.round(pattern.confidence * 100)}%</dd></div>
           </dl>
-          <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Not ready'}</Chip>
+          <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip>
           <button className="btn btn--ghost btn--block" onClick={onReviewPattern}>Back to review <ArrowRight size={14} /></button>
         </section>
       </aside>

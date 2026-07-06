@@ -13,7 +13,7 @@
   /* ink */
   --ink: #121216;
   --ink-2: #52525c;
-  --ink-3: #8a8a93;
+  --ink-3: #6e6e78;
 
   /* rules */
   --line: #e5e5e1;
@@ -27,7 +27,7 @@
   /* status */
   --ok: #0e7a4e;
   --ok-wash: #e9f4ee;
-  --warn: #a2600c;
+  --warn: #8a520a;
   --warn-wash: #f9f1e3;
   --bad: #c03540;
   --bad-wash: #fbedee;
@@ -111,6 +111,23 @@ table {
 :focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: 12px;
+  z-index: 200;
+  transform: translateY(-140%);
+  background: var(--ink);
+  color: #fff;
+  font: 600 13px/1 var(--font-ui);
+  padding: 10px 14px;
+  transition: transform 0.15s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 /* ---------- shared primitives ---------- */
@@ -429,6 +446,11 @@ table {
   padding: 4px 8px;
 }
 
+.mono-id--warn {
+  color: var(--warn);
+  background: var(--warn-wash);
+}
+
 .boundary-note {
   background: var(--wash);
   padding: 14px 16px;
@@ -606,6 +628,12 @@ table {
   max-width: calc(100% - 40px);
 }
 
+.toast--warning {
+  background: var(--warn-wash);
+  color: var(--warn);
+  border: 1px solid var(--warn);
+}
+
 @keyframes toast-rise {
   from {
     opacity: 0;
@@ -716,7 +744,6 @@ table {
 
 .feed-table tbody tr {
   border-bottom: 1px solid var(--line);
-  cursor: pointer;
 }
 
 .feed-table tbody tr:last-child {
@@ -753,12 +780,30 @@ table {
   letter-spacing: -0.01em;
 }
 
+.pattern-open {
+  display: block;
+  width: 100%;
+  text-align: left;
+}
+
+.pattern-open:hover strong {
+  color: var(--accent-deep);
+}
+
 .cell-name span {
   display: block;
   font-size: 12.5px;
   color: var(--ink-3);
   margin-top: 3px;
   max-width: 460px;
+}
+
+.cell-name small {
+  display: none;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--ink-2);
+  margin-top: 5px;
 }
 
 .col-area {
@@ -770,6 +815,10 @@ table {
 .cell-num {
   font: 600 15px/1 var(--font-display);
   font-variant-numeric: tabular-nums;
+}
+
+.col-mentions {
+  text-align: right;
 }
 
 .cell-signal {
@@ -802,6 +851,15 @@ table {
   font: 500 11.5px/1 var(--font-mono);
   color: var(--ink-2);
   white-space: nowrap;
+}
+
+.meter-cell em {
+  font-style: normal;
+  color: var(--warn);
+}
+
+.meter-cell--warn .meter i {
+  background: var(--warn);
 }
 
 .meter {
@@ -924,12 +982,12 @@ table {
    ============================================================ */
 
 .review-switch {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border: 1px solid var(--line);
   background: var(--surface);
   margin-bottom: 32px;
-  width: fit-content;
+  width: 100%;
 }
 
 .review-switch button {
@@ -939,6 +997,7 @@ table {
   letter-spacing: 0.03em;
   color: var(--ink-2);
   text-align: left;
+  min-width: 0;
 }
 
 .review-switch button:last-child {
@@ -981,6 +1040,10 @@ table {
   min-width: 0;
 }
 
+.mobile-readiness-bar {
+  display: none;
+}
+
 .review-summary {
   border-top: none;
   padding-top: 0;
@@ -1007,9 +1070,41 @@ table {
   max-width: 720px;
 }
 
+.why-suggested {
+  margin-top: 18px;
+  max-width: 720px;
+}
+
+.why-suggested h3 {
+  font: 600 10.5px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-deep);
+  margin-bottom: 8px;
+}
+
+.why-suggested li {
+  position: relative;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  padding: 7px 0 7px 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.why-suggested li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 13px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+}
+
 .review-figures {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   margin: 16px 0 0;
@@ -1055,6 +1150,13 @@ table {
   align-items: flex-start;
   justify-content: space-between;
   gap: 16px;
+}
+
+.evidence-status-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px;
 }
 
 .evidence-source {
@@ -1157,7 +1259,7 @@ table {
   margin-bottom: 14px;
 }
 
-.verdict-list button {
+.verdict-option {
   display: flex;
   align-items: center;
   gap: 11px;
@@ -1166,29 +1268,41 @@ table {
   color: var(--ink-2);
   text-align: left;
   border-bottom: 1px solid var(--line);
+  cursor: pointer;
 }
 
-.verdict-list button:last-child {
+.verdict-option:last-child {
   border-bottom: none;
 }
 
-.verdict-list button:hover {
+.verdict-option:hover {
   background: var(--wash);
 }
 
-.verdict-list button i {
+.verdict-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.verdict-option:has(input:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.verdict-option i {
   width: 12px;
   height: 12px;
   flex: none;
   border: 1px solid var(--ink-3);
 }
 
-.verdict-list button.is-active {
+.verdict-option.is-active {
   color: var(--ink);
   font-weight: 600;
 }
 
-.verdict-list button.is-active i {
+.verdict-option.is-active i {
   background: var(--accent);
   border-color: var(--accent);
 }
@@ -1448,8 +1562,16 @@ table {
 
 .cell-status {
   font: 500 11px/1.5 var(--font-mono);
-  color: var(--ink-3);
+  color: var(--ink-2);
   max-width: 200px;
+}
+
+.cell-status .chip {
+  margin-bottom: 7px;
+}
+
+.cell-status span {
+  display: block;
 }
 
 .eval-rules {
@@ -2309,11 +2431,6 @@ table {
     border-top: 1px solid var(--line);
   }
 
-  .col-trend,
-  .col-conf {
-    display: none;
-  }
-
   .feed-featured {
     grid-template-columns: 1fr;
   }
@@ -2330,6 +2447,42 @@ table {
   .review-rail,
   .brief-rail {
     position: static;
+  }
+
+  .mobile-readiness-bar {
+    position: sticky;
+    top: 0;
+    z-index: 35;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    background: color-mix(in srgb, var(--surface) 96%, transparent);
+    backdrop-filter: blur(8px);
+    padding: 10px 12px;
+    margin: -12px 0 18px;
+  }
+
+  .mobile-readiness-bar div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .mobile-readiness-bar span:not(.chip) {
+    overflow: hidden;
+    color: var(--ink-2);
+    font: 500 12px/1.4 var(--font-mono);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobile-readiness-bar .btn {
+    padding: 9px 11px;
+    font-size: 12px;
   }
 
   .review-figures {
@@ -2372,8 +2525,30 @@ table {
     gap: 10px;
   }
 
+  .case-top {
+    flex-wrap: wrap;
+    height: auto;
+    min-height: 64px;
+    padding: 10px 0;
+    gap: 10px 14px;
+  }
+
   .case-top nav {
+    order: 3;
+    flex: 1 0 100%;
+    display: flex;
+    gap: 18px;
+    overflow-x: auto;
+    padding: 2px 0 6px;
+    scrollbar-width: none;
+  }
+
+  .case-top nav::-webkit-scrollbar {
     display: none;
+  }
+
+  .case-top nav a {
+    flex: none;
   }
 
   .case-hero {
@@ -2465,7 +2640,10 @@ table {
     width: 100%;
   }
 
-  .col-area {
+  .col-area,
+  .col-mentions,
+  .col-confidence,
+  .col-trend {
     display: none;
   }
 
@@ -2478,10 +2656,14 @@ table {
     padding: 12px 10px;
   }
 
-  .feed-table thead th:last-child,
-  .feed-table .col-signal,
-  .feed-table .cell-arrow {
+  .feed-table .col-mentions,
+  .feed-table .col-confidence,
+  .feed-table .col-trend {
     display: none;
+  }
+
+  .cell-name small {
+    display: block;
   }
 
   .cell-name strong {
@@ -2497,19 +2679,57 @@ table {
   }
 
   .review-switch {
-    width: 100%;
-    flex-wrap: nowrap;
+    grid-template-columns: none;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(180px, 1fr);
     overflow-x: auto;
   }
 
   .review-switch button {
-    flex: 1;
     padding: 9px 10px;
-    white-space: nowrap;
   }
 
   .review-switch button span {
-    display: none;
+    display: block;
+  }
+
+  .segmented {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .segmented button {
+    min-width: 0;
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+    white-space: normal;
+  }
+
+  .segmented button:nth-child(odd) {
+    border-right: 1px solid var(--line);
+  }
+
+  .segmented button:nth-last-child(-n + 2) {
+    border-bottom: none;
+  }
+
+  .mobile-readiness-bar {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+
+  .mobile-readiness-bar div {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .mobile-readiness-bar span:not(.chip) {
+    white-space: normal;
+  }
+
+  .mobile-readiness-bar .btn {
+    width: 100%;
   }
 
   .case-meta {

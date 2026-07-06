@@ -1,8 +1,9 @@
-import { ArrowUpRight, CheckCircle2 } from 'lucide-react'
-import { useMemo, useRef, useState } from 'react'
+import { AlertTriangle, ArrowUpRight, CheckCircle2 } from 'lucide-react'
+import { useId, useMemo, useRef, useState } from 'react'
 import { Wordmark } from './components/primitives'
 import {
   feedbackPatterns,
+  getInitialEvidenceConfirmations,
   getInitialEvidenceDecisions,
   getInitialPatternVerdicts,
   getReadiness,
@@ -11,7 +12,7 @@ import { EvalDashboard } from './screens/EvalDashboard'
 import { PatternFeed } from './screens/PatternFeed'
 import { PatternReview } from './screens/PatternReview'
 import { ProductBriefScreen } from './screens/ProductBriefScreen'
-import type { ConceptBPage, EvidenceDecision, PatternVerdict } from './types'
+import type { ConceptBPage, EvidenceConfirmations, EvidenceDecision, PatternVerdict } from './types'
 
 const BASE = import.meta.env.BASE_URL
 
@@ -20,6 +21,11 @@ const navItems: { id: ConceptBPage; label: string }[] = [
   { id: 'review-pattern', label: 'Review' },
   { id: 'brief', label: 'Brief' },
 ]
+
+type ToastState = {
+  message: string
+  tone: 'success' | 'warning'
+}
 
 export default function App({
   embedded = false,
@@ -32,21 +38,24 @@ export default function App({
   const [page, setPage] = useState<ConceptBPage>(initialPage)
   const [selectedPatternId, setSelectedPatternId] = useState('PAT-001')
   const [decisions, setDecisions] = useState<Record<string, Record<string, EvidenceDecision>>>(() => getInitialEvidenceDecisions())
+  const [confirmations, setConfirmations] = useState<Record<string, EvidenceConfirmations>>(() => getInitialEvidenceConfirmations())
   const [verdicts, setVerdicts] = useState<Record<string, PatternVerdict>>(() => getInitialPatternVerdicts())
   const [generatedBriefs, setGeneratedBriefs] = useState<Record<string, boolean>>({ 'PAT-001': true })
   const [search, setSearch] = useState('')
-  const [toast, setToast] = useState<string | null>(null)
+  const [toast, setToast] = useState<ToastState | null>(null)
   const mainRef = useRef<HTMLDivElement>(null)
+  const mainId = useId()
   const selectedPattern = patterns.find(pattern => pattern.id === selectedPatternId) ?? patterns[0]
   const selectedDecisions = decisions[selectedPattern.id]
+  const selectedConfirmations = confirmations[selectedPattern.id]
   const selectedVerdict = verdicts[selectedPattern.id]
   const visibleNavItems = page === 'eval'
     ? [...navItems, { id: 'eval' as const, label: 'Eval' }]
     : navItems
 
-  const showToast = (message: string) => {
-    setToast(message)
-    window.setTimeout(() => setToast(null), 2600)
+  const showToast = (message: string, tone: ToastState['tone'] = 'success') => {
+    setToast({ message, tone })
+    window.setTimeout(() => setToast(null), tone === 'warning' ? 4000 : 2600)
   }
 
   const navigate = (target: ConceptBPage) => {
@@ -72,6 +81,13 @@ export default function App({
         [evidenceId]: decision,
       },
     }))
+    setConfirmations(current => ({
+      ...current,
+      [selectedPattern.id]: {
+        ...current[selectedPattern.id],
+        [evidenceId]: true,
+      },
+    }))
   }
 
   const updateVerdict = (nextVerdict: PatternVerdict) => {
@@ -79,9 +95,14 @@ export default function App({
   }
 
   const generateBrief = () => {
-    const latestReadiness = getReadiness(selectedPattern, decisions[selectedPattern.id], verdicts[selectedPattern.id])
+    const latestReadiness = getReadiness(
+      selectedPattern,
+      decisions[selectedPattern.id],
+      verdicts[selectedPattern.id],
+      confirmations[selectedPattern.id],
+    )
     if (!latestReadiness.ready) {
-      showToast('Readiness rule is not met yet')
+      showToast('Readiness rule is not met yet', 'warning')
       return
     }
     setGeneratedBriefs(current => ({ ...current, [selectedPattern.id]: true }))
@@ -90,6 +111,7 @@ export default function App({
   }
 
   return <div className={embedded ? 'shell shell--embedded' : 'shell'}>
+    <a className="skip-link" href={`#${mainId}`}>Skip to content</a>
     <header className="topbar">
       <Wordmark href={embedded ? undefined : BASE} />
       <nav className="topnav" aria-label="Primary navigation">
@@ -108,11 +130,12 @@ export default function App({
     </header>
 
     <div className="shell-main" ref={mainRef}>
-      <main className="screen">
+      <main className="screen" id={mainId}>
         {page === 'patterns' && <PatternFeed
           patterns={patterns}
           selectedPatternId={selectedPattern.id}
           decisions={decisions}
+          confirmations={confirmations}
           verdicts={verdicts}
           search={search}
           onSearch={setSearch}
@@ -122,6 +145,7 @@ export default function App({
           patterns={patterns}
           pattern={selectedPattern}
           decisions={selectedDecisions}
+          confirmations={selectedConfirmations}
           verdict={selectedVerdict}
           generated={Boolean(generatedBriefs[selectedPattern.id])}
           onSelectPattern={setSelectedPatternId}
@@ -133,6 +157,7 @@ export default function App({
         {page === 'brief' && <ProductBriefScreen
           pattern={selectedPattern}
           decisions={selectedDecisions}
+          confirmations={selectedConfirmations}
           verdict={selectedVerdict}
           generated={Boolean(generatedBriefs[selectedPattern.id])}
           onGenerateBrief={generateBrief}
@@ -148,6 +173,9 @@ export default function App({
       </footer>
     </div>
 
-    {toast && <div className="toast" role="status" aria-live="polite"><CheckCircle2 size={16} />{toast}</div>}
+    {toast && <div className={`toast toast--${toast.tone}`} role={toast.tone === 'warning' ? 'alert' : 'status'} aria-live={toast.tone === 'warning' ? 'assertive' : 'polite'}>
+      {toast.tone === 'warning' ? <AlertTriangle size={16} /> : <CheckCircle2 size={16} />}
+      {toast.message}
+    </div>}
   </div>
 }

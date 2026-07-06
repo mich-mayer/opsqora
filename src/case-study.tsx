@@ -173,6 +173,7 @@ function ReadinessPlayground() {
 
 function CaseStudy() {
   return <div className="case">
+    <a className="skip-link" href="#case-main">Skip to content</a>
     <header className="case-top">
       <Wordmark href={`${BASE}case-study.html`} sub="Case study" />
       <nav aria-label="Case study sections">
@@ -185,7 +186,7 @@ function CaseStudy() {
       <a className="btn btn--primary" href={BASE}>Open live demo <ArrowUpRight size={14} /></a>
     </header>
 
-    <main>
+    <main id="case-main">
       <section className="case-hero">
         <Kicker>AI product management — case study · 2026</Kicker>
         <h1>Recurring support feedback, turned into product decisions you can defend.</h1>

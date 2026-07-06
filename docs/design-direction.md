@@ -45,7 +45,7 @@ selection, key metrics, links, and primary emphasis; everything else is ink on p
 
 --ink:         #121216;   /* primary text, strong rules, black bands */
 --ink-2:       #52525c;   /* secondary text */
---ink-3:       #8a8a93;   /* muted text, mono labels */
+--ink-3:       #6e6e78;   /* muted text, mono labels; AA contrast on white */
 
 --line:        #e5e5e1;   /* hairlines */
 --rule:        #121216;   /* 2px Swiss section rules */
@@ -55,7 +55,7 @@ selection, key metrics, links, and primary emphasis; everything else is ink on p
 --accent-wash: #edeffd;
 
 --ok:   #0e7a4e;  --ok-wash:   #e9f4ee;
---warn: #a2600c;  --warn-wash: #f9f1e3;
+--warn: #8a520a;  --warn-wash: #f9f1e3;
 --bad:  #c03540;  --bad-wash:  #fbedee;
 ```
 
@@ -95,6 +95,7 @@ Rules:
 - Top bar (56px): typographic wordmark (accent square with white "O" + "Opsqora"), three-item
   workflow nav, and a synthetic-data note.
 - The shell fills the viewport; `.shell-main` is the internal scroll container.
+- Keyboard users get a focus-visible skip link before the app shell and case study shell.
 - `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and
   `initialPage` (which screen opens first).
 
@@ -102,7 +103,8 @@ Rules:
 
 1. Patterns: concise searchable pattern list with area, signal strength, and readiness state.
 2. Review: pattern switcher, compact summary, evidence cards with segmented decisions, and
-   a sticky rail for readiness, verdict, and brief action.
+   a sticky rail for readiness, verdict, and brief action. On mobile, a compact sticky readiness
+   summary keeps the gate and brief action visible while evidence cards scroll.
 3. Brief: concise PM-owned document plus a small readiness status rail.
 4. AI Eval: secondary case-study/demo surface, not part of the primary workflow.
 

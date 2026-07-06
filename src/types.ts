@@ -1,6 +1,7 @@
 export type ConceptBPage = 'patterns' | 'review-pattern' | 'brief' | 'eval'
 export type PatternTrend = 'up' | 'down' | 'flat'
 export type EvidenceDecision = 'Belongs' | 'Does not belong' | 'Different problem' | 'Unsure'
+export type EvidenceConfirmations = Record<string, boolean>
 export type PatternVerdict = 'Valid' | 'Too broad' | 'Mixed issues' | 'Not actionable' | 'Not a product issue'
 export type FeedbackSource = 'Zendesk' | 'Intercom' | 'Jira Service Management' | 'Email'
 
