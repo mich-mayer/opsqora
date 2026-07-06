@@ -82,7 +82,7 @@ export function ProductBriefScreen({
             <div><dt>Confidence</dt><dd>{Math.round(pattern.confidence * 100)}%</dd></div>
           </dl>
           <Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip>
-          <button className="btn btn--ghost btn--block" onClick={onReviewPattern}>Back to review <ArrowRight size={14} /></button>
+          {generated && readiness.ready && <button className="btn btn--ghost btn--block" onClick={onReviewPattern}>Back to review <ArrowRight size={14} /></button>}
         </section>
       </aside>
     </div>
