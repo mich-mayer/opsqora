@@ -148,6 +148,7 @@ table {
   position: absolute;
   inset: 3px;
   border: 2px solid var(--surface);
+  border-radius: 50%;
 }
 
 .brand strong {
