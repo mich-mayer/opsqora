@@ -275,7 +275,7 @@ function CaseStudy() {
         </div>
         <DemoFrame
           url="opsqora.app — AI eval"
-          height={640}
+          height={800}
           note="The live eval screen: quality and cost tables with plain-language definitions, threshold/action rules, and hand-rolled SVG charts."
         >
           <App embedded initialPage="eval" />

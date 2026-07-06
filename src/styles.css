@@ -2013,7 +2013,7 @@ table {
 }
 
 .demo-frame-body {
-  height: min(var(--frame-h), 84vh);
+  height: var(--frame-h);
   overflow: hidden;
   position: relative;
 }
