@@ -54,7 +54,7 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 - `docs/product-scope.md`: Phase 1 scope, screens, data model, and non-goals
 - `docs/product-decisions.md`: positioning, human-in-the-loop boundaries, metric honesty, and product bets
 - `docs/architecture.md`: source layout, build entries, assets, and deployment
-- `docs/agent-workflow.md`: collaboration rules for humans and AI agents
+- `docs/agent-workflow.md`: the single rulebook for humans and AI agents — guardrails, Phase 1 boundaries, build/verify, working style, and collaboration rules
 - `src/README.md`: source-file map for implementation work
 
 ## Key screens

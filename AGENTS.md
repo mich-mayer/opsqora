@@ -12,29 +12,9 @@ Before changing code or docs, read:
 - `docs/product-scope.md`
 - `docs/product-decisions.md`
 - `docs/architecture.md`
-- `docs/agent-workflow.md`
+- `docs/agent-workflow.md` — the single rulebook: guardrails, Phase 1 boundaries, build/verify, working style, and collaboration rules
 - `docs/design-direction.md` — visual direction and design spec (color tokens, typography, case study structure, screenshot strategy, implementation tasks)
 
-## Build And Verification
+## Rules
 
-- Install dependencies with `npm install` or `npm ci`.
-- Run the development server with `npm run dev`.
-- Verify the project with `npm run verify`.
-- The production build must keep both Vite HTML entries:
-  - `index.html`
-  - `case-study.html`
-
-## Boundaries
-
-- This is a Phase 1 frontend-only prototype for validating recurring support feedback patterns.
-- All patterns, evidence snippets, charts, quality metrics, costs, outcomes, and AI outputs are synthetic mock data.
-- Do not introduce production integrations, external model calls, auth, databases, or real customer data without an explicit request.
-- Do not edit `dist/`, `node_modules/`, or `tmp/`; they are generated or local-only.
-
-## Collaboration Rules
-
-- Treat GitHub as the source of truth and the local repository as the working copy.
-- Check `git status --short` before significant edits.
-- Keep changes scoped to the user's request.
-- Do not revert or overwrite changes you did not make.
-- Update the relevant file in `docs/` when behavior, scope, architecture, or agent expectations change.
+All working rules — project guardrails, Phase 1 boundaries, build and verification steps, working style, conflict avoidance, and the done definition — live in `docs/agent-workflow.md`. Read it before changing code or docs; it is the single source of truth and is not duplicated here.

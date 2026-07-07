@@ -2,7 +2,7 @@
 
 **Status:** Normative. Single source of truth for UI, layout, components, copy, terminology, and case-study content.
 **Date:** 2026-07-06.
-**Basis:** rendered UI inspection (desktop 1280×800 and narrow widths), source code (`src/`), `docs/design-direction.md`, and three completed audits (`UX_UI_AUDIT.md`, `LAYOUT_COMPOSITION_AUDIT.md`, `CONTENT_COPY_AUDIT.md`) whose P0/P1 recommendations are already implemented in the current codebase.
+**Basis:** rendered UI inspection (desktop 1280×800 and narrow widths), source code (`src/`), and `docs/design-direction.md`. Consolidates the P0/P1 recommendations from the earlier UX/UI, layout, and content audits, all of which are already implemented in the current codebase.
 
 **Rule keywords.** MUST = mandatory project rule. SHOULD = default; deviate only for a stated reason. MAY = permitted option. MUST NOT = prohibited. Rules without a keyword are descriptive context.
 
@@ -802,4 +802,4 @@ Questions needing a human decision before rules can be written (distinct from §
 
 ---
 
-*This document defines standards; it changes no code. Sources: rendered UI + `src/` (current state), `docs/design-direction.md` (visual direction), `UX_UI_AUDIT.md` OPS-001…030, `LAYOUT_COMPOSITION_AUDIT.md` LC-01…11, `CONTENT_COPY_AUDIT.md` PC-01…12 / CS-01…15 (rationale), WCAG 2.2 AA (hard constraint), Atlassian / Carbon / GDS / Microsoft / AI PM portfolio rubric (references only).*
+*This document defines standards; it changes no code. Sources: rendered UI + `src/` (current state), `docs/design-direction.md` (visual direction), the consolidated rationale from the earlier UX/UI, layout, and content audits, WCAG 2.2 AA (hard constraint), Atlassian / Carbon / GDS / Microsoft / AI PM portfolio rubric (references only).*

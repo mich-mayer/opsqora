@@ -11,21 +11,9 @@ Read these files before making project changes:
 - `docs/product-scope.md` for current Phase 1 boundaries and non-goals.
 - `docs/product-decisions.md` for positioning, human-in-the-loop decisions, and metric honesty.
 - `docs/architecture.md` for the source layout and deployment model.
-- `docs/agent-workflow.md` for collaboration rules shared by Claude and Codex.
+- `docs/agent-workflow.md` — the single rulebook: guardrails, Phase 1 boundaries, build/verify, working style, and collaboration rules.
 - `docs/design-direction.md` for the visual direction, color tokens, typography, case study structure, and implementation tasks.
 
-## Project Guardrails
+## Rules
 
-- Opsqora is a polished frontend-only React/Vite prototype for validating recurring support feedback patterns.
-- Keep all data local, deterministic, and synthetic.
-- Preserve both entry pages: `/` via `index.html` and `/case-study.html` via `case-study.html`.
-- Do not add a backend, authentication, persistence, billing, real AI calls, or real customer data unless explicitly requested.
-- Do not edit generated or dependency folders such as `dist/`, `node_modules/`, or `tmp/`.
-- Before finishing code changes, run `npm run verify`.
-
-## Working Style
-
-- Make focused, reviewable changes.
-- Prefer existing UI, data, and naming patterns over introducing new abstractions.
-- Keep documentation in `docs/` as the shared source of truth instead of duplicating long context in this file.
-- If another agent or user has uncommitted changes, work with them and do not overwrite them.
+All working rules — project guardrails, Phase 1 boundaries, build and verification steps, working style, conflict avoidance, and the done definition — live in `docs/agent-workflow.md`. Read it before making changes; do not duplicate those rules here.
