@@ -1,5 +1,5 @@
 import { AlertTriangle, ArrowUpRight, CheckCircle2 } from 'lucide-react'
-import { useId, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { Wordmark } from './components/primitives'
 import {
   feedbackPatterns,
@@ -22,9 +22,49 @@ const navItems: { id: ConceptBPage; label: string }[] = [
   { id: 'brief', label: 'Brief' },
 ]
 
+type HashState = {
+  page: ConceptBPage
+  patternId: string
+}
+
 type ToastState = {
   message: string
   tone: 'success' | 'warning'
+}
+
+function shouldReduceMotion() {
+  return typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
+function parseHashState(patternIds: Set<string>): HashState | null {
+  if (typeof window === 'undefined') return null
+
+  const rawHash = window.location.hash.replace(/^#/, '')
+  if (!rawHash) return null
+
+  const [rawPage, rawPatternId] = rawHash.split('/')
+  const patternId = rawPatternId && patternIds.has(rawPatternId) ? rawPatternId : 'PAT-001'
+
+  if (rawPage === 'patterns') return { page: 'patterns', patternId }
+  if (rawPage === 'review' || rawPage === 'review-pattern') return { page: 'review-pattern', patternId }
+  if (rawPage === 'brief') return { page: 'brief', patternId }
+  if (rawPage === 'eval') return { page: 'eval', patternId }
+
+  return null
+}
+
+function hashForState(page: ConceptBPage, patternId: string) {
+  if (page === 'patterns') return '#patterns'
+  if (page === 'eval') return '#eval'
+  if (page === 'review-pattern') return `#review/${patternId}`
+  return `#brief/${patternId}`
+}
+
+function pushHashState(page: ConceptBPage, patternId: string) {
+  if (typeof window === 'undefined') return
+
+  const nextHash = hashForState(page, patternId)
+  if (window.location.hash !== nextHash) window.history.pushState(null, '', nextHash)
 }
 
 export default function App({
@@ -35,8 +75,10 @@ export default function App({
   initialPage?: ConceptBPage
 } = {}) {
   const patterns = useMemo(() => feedbackPatterns, [])
-  const [page, setPage] = useState<ConceptBPage>(initialPage)
-  const [selectedPatternId, setSelectedPatternId] = useState('PAT-001')
+  const patternIds = useMemo(() => new Set(patterns.map(pattern => pattern.id)), [patterns])
+  const [initialHashState] = useState<HashState | null>(() => !embedded ? parseHashState(patternIds) : null)
+  const [page, setPage] = useState<ConceptBPage>(initialHashState?.page ?? initialPage)
+  const [selectedPatternId, setSelectedPatternId] = useState(initialHashState?.patternId ?? 'PAT-001')
   const [decisions, setDecisions] = useState<Record<string, Record<string, EvidenceDecision>>>(() => getInitialEvidenceDecisions())
   const [confirmations, setConfirmations] = useState<Record<string, EvidenceConfirmations>>(() => getInitialEvidenceConfirmations())
   const [verdicts, setVerdicts] = useState<Record<string, PatternVerdict>>(() => getInitialPatternVerdicts())
@@ -59,24 +101,50 @@ export default function App({
     ? [...navItems, { id: 'eval' as const, label: 'Eval' }]
     : navItems
 
+  useEffect(() => {
+    if (embedded) return undefined
+
+    const applyHashState = () => {
+      const nextHashState = parseHashState(patternIds)
+      if (!nextHashState) return
+
+      setPage(nextHashState.page)
+      setSelectedPatternId(nextHashState.patternId)
+      mainRef.current?.scrollTo({ top: 0, behavior: 'auto' })
+    }
+
+    window.addEventListener('hashchange', applyHashState)
+    window.addEventListener('popstate', applyHashState)
+    return () => {
+      window.removeEventListener('hashchange', applyHashState)
+      window.removeEventListener('popstate', applyHashState)
+    }
+  }, [embedded, patternIds])
+
   const showToast = (message: string, tone: ToastState['tone'] = 'success') => {
     setToast({ message, tone })
     window.setTimeout(() => setToast(null), tone === 'warning' ? 4000 : 2600)
   }
 
-  const navigate = (target: ConceptBPage) => {
+  const navigate = (target: ConceptBPage, patternId = selectedPattern.id) => {
     setPage(target)
-    mainRef.current?.scrollTo({ top: 0, behavior: embedded ? 'auto' : 'smooth' })
+    if (!embedded) pushHashState(target, patternId)
+    mainRef.current?.scrollTo({ top: 0, behavior: embedded || shouldReduceMotion() ? 'auto' : 'smooth' })
   }
 
   const openPattern = (id: string) => {
     setSelectedPatternId(id)
-    navigate('review-pattern')
+    navigate('review-pattern', id)
   }
 
   const openBrief = (id = selectedPattern.id) => {
     setSelectedPatternId(id)
-    navigate('brief')
+    navigate('brief', id)
+  }
+
+  const selectPatternForReview = (id: string) => {
+    setSelectedPatternId(id)
+    if (!embedded && page === 'review-pattern') pushHashState('review-pattern', id)
   }
 
   const updateEvidenceDecision = (evidenceId: string, decision: EvidenceDecision) => {
@@ -155,7 +223,7 @@ export default function App({
           confirmations={selectedConfirmations}
           verdict={selectedVerdict}
           generated={Boolean(generatedBriefs[selectedPattern.id])}
-          onSelectPattern={setSelectedPatternId}
+          onSelectPattern={selectPatternForReview}
           onDecisionChange={updateEvidenceDecision}
           onVerdictChange={updateVerdict}
           onGenerateBrief={generateBrief}

@@ -7,6 +7,7 @@ This file is the shared entry point for Codex and other coding agents.
 Before changing code or docs, read:
 
 - `README.md`
+- `DESIGN_CONTENT_SYSTEM.md` — normative design, content, component, terminology, accessibility, and case-study system
 - `docs/project-brief.md`
 - `docs/product-scope.md`
 - `docs/product-decisions.md`

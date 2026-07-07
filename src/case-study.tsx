@@ -178,6 +178,7 @@ function CaseStudy() {
       <nav aria-label="Case study sections">
         <a href="#product">Product</a>
         <a href="#problem">Problem</a>
+        <a href="#why-ai">Why AI</a>
         <a href="#loop">How it works</a>
         <a href="#eval">Eval</a>
         <a href="#results">Results</a>
@@ -217,15 +218,10 @@ function CaseStudy() {
         <div className="case-prose">
           <p>
             Product teams can see repeated complaints in exports, calls, and notes, but the signal
-            is hard to trust until the evidence is grouped, reviewed, and tied to a clear decision
-            rule. The same issue arrives as “timeline import shifted blockers,” “dependency dates
-            moved after migration,” and “milestones changed after CSV import” — keyword rules miss
-            the overlap, and manual review does not scale.
-          </p>
-          <p>
-            Semantic clustering is a genuine AI task, but only an assistive one. Opsqora narrows
-            the job to a single loop: suggest a recurring pattern, validate the supporting
-            snippets, compute readiness, and turn the confirmed pattern into a product brief.
+            is hard to trust until it is grouped, reviewed, and tied to a clear decision rule.
+            Until then a genuine recurring problem and a handful of loud one-offs look the same —
+            and roadmap attention follows whoever complained most recently, not what actually
+            recurs.
           </p>
           <p>
             My role: I framed the problem, scoped the validation workflow, designed the
@@ -242,7 +238,29 @@ function CaseStudy() {
         </ul>
       </CaseSection>
 
-      <CaseSection id="loop" index="02" kicker="How it works" title="One validation loop: suggest, validate, compute, decide.">
+      <CaseSection id="why-ai" index="02" kicker="Why AI" title="Grouping the same complaint across many phrasings is a genuine AI task — and it stays assistive.">
+        <div className="case-prose">
+          <p>
+            The same issue arrives as “timeline import shifted blockers,” “dependency dates moved
+            after migration,” and “milestones changed after CSV import.” Keyword and rule-based
+            grouping miss that overlap, new phrasings appear that no rule anticipated, and manual
+            review does not scale. Clustering fuzzy, ever-shifting language into one recurring
+            problem — semantic clustering — is where AI genuinely earns its place, not a keyword
+            list dressed up.
+          </p>
+          <p>
+            But it stays assistive: the model suggests patterns, summarizes evidence, and estimates
+            confidence — the human validates the evidence and owns the decision. In production the
+            model split would be deliberate: a top-tier (“frontier”) model for the hard semantic
+            work — clustering, evidence selection, problem synthesis — and a cheaper model for
+            low-stakes formatting, labels, and brief cleanup. Phase 1 runs on synthetic,
+            deterministic data; production would train and evaluate on privacy-safe support exports
+            with reviewer-labeled ground truth.
+          </p>
+        </div>
+      </CaseSection>
+
+      <CaseSection id="loop" index="03" kicker="How it works" title="One validation loop: suggest, validate, compute, decide.">
         <ol className="case-steps">
           {loopSteps.map(([title, copy], index) => <li key={title}>
             <span>{String(index + 1).padStart(2, '0')}</span>
@@ -260,11 +278,11 @@ function CaseStudy() {
       </CaseSection>
 
       <section className="case-boundary" id="boundary">
-        <Kicker index="03">Human-in-the-loop boundary</Kicker>
+        <Kicker index="04">Human-in-the-loop boundary</Kicker>
         <blockquote>{MODEL_BOUNDARY}</blockquote>
       </section>
 
-      <CaseSection id="eval" index="04" kicker="AI eval" title="Trust and cost are product requirements.">
+      <CaseSection id="eval" index="05" kicker="AI eval" title="Trust and cost are product requirements.">
         <div className="case-prose">
           <p>
             The eval dashboard answers two product questions: can we trust the model, and what does
@@ -288,7 +306,7 @@ function CaseStudy() {
         </DemoFrame>
       </CaseSection>
 
-      <CaseSection id="scope" index="05" kicker="Scope and honesty" title="What is real, and what is deliberately mocked.">
+      <CaseSection id="scope" index="06" kicker="Scope and honesty" title="What is real, and what is deliberately mocked.">
         <div className="case-scope-columns">
           <div>
             <h3>Real in this prototype</h3>
@@ -308,7 +326,7 @@ function CaseStudy() {
         </div>
       </CaseSection>
 
-      <CaseSection id="results" index="06" kicker="Results (mocked)" title="Estimated results from a mocked prototype — and what would come next.">
+      <CaseSection id="results" index="07" kicker="Results (mocked)" title="Estimated results from a mocked prototype — and what would come next.">
         <table className="case-results">
           <caption>All values are estimated from the mocked prototype — not production outcomes.</caption>
           <tbody>

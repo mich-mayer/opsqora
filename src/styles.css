@@ -186,7 +186,7 @@ table {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font: 500 10.5px/1.3 var(--font-mono);
+  font: 500 11.5px/1.3 var(--font-mono);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   padding: 5px 9px;
@@ -334,7 +334,7 @@ table {
 
 .stat-label {
   display: block;
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -461,7 +461,7 @@ table {
 
 .boundary-note span {
   display: block;
-  font: 600 10.5px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-deep);
@@ -544,7 +544,7 @@ table {
 }
 
 .topbar-note {
-  font: 500 10.5px/1 var(--font-mono);
+  font: 500 11.5px/1 var(--font-mono);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -744,7 +744,7 @@ table {
 }
 
 .feed-table thead th {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -983,7 +983,7 @@ table {
 }
 
 .feed-featured-facts dt {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1141,7 +1141,7 @@ table {
 .why-suggested summary {
   cursor: pointer;
   width: max-content;
-  font: 600 10.5px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-deep);
@@ -1245,7 +1245,7 @@ table {
 }
 
 .evidence-reason span {
-  font: 600 10px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-deep);
@@ -1403,7 +1403,7 @@ table {
 }
 
 .brief-doc-head span {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1440,7 +1440,7 @@ table {
 }
 
 .brief-doc-sections dt {
-  font: 500 10.5px/1.6 var(--font-mono);
+  font: 500 11.5px/1.6 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1459,7 +1459,7 @@ table {
 }
 
 .brief-doc-foot span {
-  font: 600 10.5px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--accent-deep);
@@ -1522,7 +1522,7 @@ table {
 }
 
 .brief-readiness dt {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1584,7 +1584,7 @@ table {
 }
 
 .metric-table thead th {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1715,7 +1715,7 @@ table {
 
 .trendchart .axis {
   fill: var(--ink-3);
-  font: 500 10px var(--font-mono);
+  font: 500 11.5px var(--font-mono);
 }
 
 .trendchart .series {
@@ -1752,7 +1752,7 @@ table {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font: 500 10.5px/1 var(--font-mono);
+  font: 500 11.5px/1 var(--font-mono);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1811,10 +1811,6 @@ table {
   display: block;
   height: 100%;
   background: var(--ink);
-}
-
-.costbar:first-child .costbar-track i {
-  background: var(--accent);
 }
 
 .costbar-value {
@@ -1929,7 +1925,7 @@ table {
 }
 
 .case-meta dt {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -1987,7 +1983,7 @@ table {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font: 600 10px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ok);
@@ -2147,7 +2143,7 @@ table {
 }
 
 .playground-label {
-  font: 500 10.5px/1.4 var(--font-mono);
+  font: 500 11.5px/1.4 var(--font-mono);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--ink-3);
@@ -2845,5 +2841,29 @@ table {
 
   .costbar-value {
     text-align: left;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .toast,
+  .demo-frame-live i {
+    animation: none;
+  }
+
+  .demo-frame-live i {
+    opacity: 1;
   }
 }

@@ -49,6 +49,7 @@ Durable project context lives in the repository so humans, Claude, and Codex use
 
 - `CLAUDE.md`: entry context for Claude and Claude Code
 - `AGENTS.md`: entry context for Codex and other coding agents
+- `DESIGN_CONTENT_SYSTEM.md`: normative UI, component, content, terminology, accessibility, and case-study system
 - `docs/project-brief.md`: product intent, audience, and positioning
 - `docs/product-scope.md`: Phase 1 scope, screens, data model, and non-goals
 - `docs/product-decisions.md`: positioning, human-in-the-loop boundaries, metric honesty, and product bets

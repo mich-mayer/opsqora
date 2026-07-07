@@ -30,7 +30,7 @@ Do not move or rename these entry files without updating Vite config, internal l
 Current source files and folders:
 
 - `src/main.tsx`: React bootstrap for the main prototype.
-- `src/App.tsx`: app shell, minimal product navigation, pattern selection, evidence validation state, brief-generation state, and screen wiring. Accepts `embedded` and `initialPage` props so the case study can render the live product and secondary eval demo inside frames.
+- `src/App.tsx`: app shell, minimal product navigation, hash-based page/pattern state for the main app, evidence validation state, brief-generation state, and screen wiring. Accepts `embedded` and `initialPage` props so the case study can render the live product and secondary eval demo inside frames without writing frame navigation into the parent URL.
 - `src/screens/PatternFeed.tsx`: concise pattern table and search.
 - `src/screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief action.
 - `src/screens/ProductBriefScreen.tsx`: generated brief document and readiness snapshot.

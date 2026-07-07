@@ -9,6 +9,7 @@ GitHub is the source of truth. The local folder is a working copy.
 Project context should live in repository files:
 
 - `README.md` for human onboarding;
+- `DESIGN_CONTENT_SYSTEM.md` for UI, component, copy, terminology, accessibility, and case-study rules;
 - `docs/` for durable project knowledge;
 - `CLAUDE.md` for Claude entry context;
 - `AGENTS.md` for Codex and other coding agents.
@@ -30,8 +31,9 @@ For Codex:
 
 1. Work inside the same local repository folder.
 2. Start from `AGENTS.md`.
-3. Inspect source files before edits.
-4. Verify changes with `npm run verify`.
+3. Read `DESIGN_CONTENT_SYSTEM.md` before UI, copy, component, or case-study edits.
+4. Inspect source files before edits.
+5. Verify changes with `npm run verify`.
 
 ## Avoiding Agent Conflicts
 

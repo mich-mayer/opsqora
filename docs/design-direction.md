@@ -80,7 +80,7 @@ Rules:
 | App screen h1 | Inter Tight 600 | `clamp(28px, 3.4vw, 40px)` | under a 2px rule |
 | Stat value | Inter Tight 600 | 30px | tabular numerals |
 | Body | Inter 400 | 13–16px | app dense, case editorial |
-| Kicker / labels | IBM Plex Mono 500 | 10.5–11px | uppercase, tracking 0.07–0.08em |
+| Kicker / labels | IBM Plex Mono 500 | 11–11.5px | uppercase, tracking 0.07–0.08em; load-bearing labels use 11.5px |
 
 ## Recurring Motifs
 
@@ -98,6 +98,9 @@ Rules:
 - Keyboard users get a focus-visible skip link before the app shell and case study shell.
 - `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and
   `initialPage` (which screen opens first).
+- The main app keeps page/pattern navigation in hash URLs such as `#review/PAT-002`;
+  embedded case-study frames keep their navigation local to the frame.
+- Smooth scrolling, toast motion, and the live-frame blinker respect `prefers-reduced-motion`.
 
 ## Active App Screens
 
@@ -114,13 +117,14 @@ Rules:
 2. Hero: mono kicker, display headline, lede, CTAs, spec-sheet meta table (role/type/stack/data/year).
 3. Live product demo: `<App embedded />` in a framed window ("Live · synthetic data").
 4. 01 Problem: prose + scope figures strip.
-5. 02 Validation loop: four numbered steps + interactive readiness playground (real
+5. 02 Why AI: semantic clustering rationale, assistive model boundary, and production model-tier split.
+6. 03 Validation loop: four numbered steps + interactive readiness playground (real
    `getReadiness()` on real PAT-001 data).
-6. 03 Human-in-the-loop boundary: MODEL_BOUNDARY as a display pull quote.
-7. 04 AI eval: prose + `<App embedded initialPage="eval" />`.
-8. 05 Scope and honesty: real vs deliberately mocked columns + stack chips.
-9. 06 Results: spec table of estimated metrics + core lesson.
-10. Black CTA band + footer.
+7. 04 Human-in-the-loop boundary: MODEL_BOUNDARY as a display pull quote.
+8. 05 AI eval: prose + `<App embedded initialPage="eval" />`.
+9. 06 Scope and honesty: real vs deliberately mocked columns + stack chips.
+10. 07 Results: spec table of estimated metrics + core lesson.
+11. Black CTA band + footer.
 
 ## Assets
 
