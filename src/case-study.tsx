@@ -68,7 +68,8 @@ function DemoFrame({
   height: number
   children: React.ReactNode
 }) {
-  return <figure className="demo-frame" style={{ '--frame-h': `${height}px` } as React.CSSProperties}>
+  // rem so the demo frame scales with the fluid type root (1rem == 16px reference)
+  return <figure className="demo-frame" style={{ '--frame-h': `${height / 16}rem` } as React.CSSProperties}>
     <div className="demo-frame-chrome">
       <span className="demo-frame-dots" aria-hidden="true"><i /><i /><i /></span>
       <em>{url}</em>

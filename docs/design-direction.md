@@ -67,6 +67,8 @@ Rules:
 
 ## Typography
 
+**Fluid rem scale (Option D).** The whole system is authored in `rem` on one fluid root — `html { font-size: clamp(1rem, 0.925rem + 0.2vw, 1.125rem) }` — which scales 16px (viewport ≤600px) → 18px (≥1600px). Type, spacing, boxes, and the container grow together on large screens (the comfort of a 125% zoom, by default) and stay dense on small ones. The clamp is rem-relative, so browser zoom and OS/browser font-size preferences keep working; hairlines/borders under 4px, SVG axis text, and shadow/blur stay in px. Authoring convention: **1rem == 16px** — the px sizes in the table below are the reference render at the 16px root. Normative rules live in `DESIGN_CONTENT_SYSTEM.md` §5.2/§5.3.
+
 - Display: Inter Tight (500–700) for headlines, big numerals, and pull quotes.
 - UI/body: Inter (400–700).
 - Data/labels: IBM Plex Mono (400–600) for kickers, table headers, IDs, chips, axis labels.

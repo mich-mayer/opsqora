@@ -100,13 +100,13 @@ References inform rules; they are never templates. Deviation from a reference is
 | App layout | Atlassian Design System | — | Top bar + single scroll container + centered 1080px content (§6.1) |
 | Navigation | Atlassian | — | Three-item workflow nav; Eval appears in nav only while open (§6.2) |
 | Grid | IBM Carbon | — | One 1080px container; two-column main/rail grids (§5.4) |
-| Spacing | Carbon | — | Reuse existing values; scale tokenization UNRESOLVED (§5.3, §30) |
+| Spacing | Carbon | — | Fluid rem scale on one root clamp; relationship-based values (§5.3) |
 | Data tables | Carbon | Atlassian | Full container width, one data point per column, shared column rhythm (§10) |
 | Toolbars | Atlassian | — | Dataset-scope toolbar directly above its table (§6.4) |
 | Actions | Atlassian | Microsoft (labels) | One ink primary per region; ghost secondary (§9) |
 | Forms/controls | WCAG 2.2 AA | Carbon | Native inputs or full ARIA pattern; `aria-pressed` on segmented (§8, §15) |
 | Dashboards | Carbon | Atlassian | KPI band → table → its chart → next table → its chart → rules (§6.6) |
-| Typography | Project (`design-direction.md`) | Carbon (minimum sizes) | Inter/Inter Tight/IBM Plex Mono roles (§5.2) |
+| Typography | Project (`design-direction.md`) | Carbon (minimum sizes) | Inter/Inter Tight/IBM Plex Mono roles; fluid rem scale (§5.2) |
 | Accessibility | WCAG 2.2 AA (hard constraint) | — | §15 |
 | Product copy | GOV.UK/GDS principles | Microsoft Writing Style Guide | §§16–19 |
 | Case study copy | GOV.UK/GDS + PM portfolio evidence standards | Institute of AI PM (domain-specific only) | §§22–26 |
@@ -151,11 +151,19 @@ Rules:
 - A second accent color MUST NOT be added (Source: `design-direction.md`, project decision).
 - Chart series colors: `--accent` for the primary series, `--ink` for the secondary; the 70% threshold gridline uses the rule style. `.costbar:first-child` accent is DEPRECATED (§29).
 
-### 5.2 Typography — ADOPT roles; exact px scale UNRESOLVED (§30)
+### 5.2 Typography — ADOPT (fluid rem system; resolves OPS-022 type scale)
+
+**Scale engine (Option D, 2026-07-07).** Type, spacing, box sizes, and container widths are authored in `rem` on a single fluid root: `html { font-size: clamp(1rem, 0.925rem + 0.2vw, 1.125rem) }` in `src/styles.css`. The root scales 16px (viewport ≤600px) → 18px (≥1600px), so the whole system grows together on large displays and stays dense on small ones — the comfort of a 125% zoom, made the default without shrinking the working viewport. Authoring convention: **1rem == 16px**, so every px value listed in this doc renders identically at the 16px root (zero regression at the reference size). The clamp is rem-relative (not raw `vw`), so browser zoom and OS/browser font-size preferences keep working (WCAG 1.4.4 / 1.4.10). Hairlines, borders, ticks, and other strokes < 4px, plus SVG coordinate-space text (`.trendchart .axis`) and shadow/blur effects, stay in **px** for crispness.
+
+- New type/spacing MUST be authored in rem; px is reserved for the sub-4px strokes and effects above.
+- MUST NOT reintroduce fixed-px font sizes for document-flow text.
+- Change the *whole* scale from the root clamp; change *one* role at its own declaration.
+
+*Governance record (§34): Problem — fixed px didn't scale with viewport or user font settings; small mono labels strained readers and left wide screens as empty margin. Rationale — fluid rem on one root gives comfort at every width and honors user preferences, over global `zoom` (shrinks the viewport) or a flat +15% (breaks dense containers). Affected — `src/styles.css`, `src/case-study.tsx` (frame height → rem); both surfaces. Compatibility — pixel-identical at a 16px root; no screen violates the new rule. Migration — done in one pass (this change); px literals for document flow are now deprecated (§29).*
 
 Families (tokens in `:root`): `--font-display` Inter Tight (500–700) for headlines, big numerals, pull quotes; `--font-ui` Inter (400–700) for body and controls; `--font-mono` IBM Plex Mono (400–600) for kickers, table headers, IDs, chips, axis labels. Fonts load from Google Fonts in both HTML heads — no CSS `@import`. Fallback stacks as defined in `styles.css`.
 
-Normative roles (values reflect the current, audited implementation):
+Normative roles below list the **reference px at a 16px root**; each is authored in `styles.css` as its rem equivalent (px ÷ 16) and scales with the fluid root:
 
 | Role | Family/weight | Size | Notes |
 |---|---|---|---|
@@ -177,21 +185,21 @@ Rules:
 - New text styles SHOULD reuse an existing role above rather than introduce a new size. Half-pixel sizes (12.5, 13.5, 14.5) MUST NOT be added beyond those already present.
 - The 10.5px floor for load-bearing labels (table headers, statuses) is DEPRECATED direction: when reworking a component, raise its labels to ≥11.5px; 10.5px remains acceptable only for decorative kickers/chips (Source: UX audit OPS-021, Carbon 12px label minimum). Contrast at these sizes is already AA-fixed via `--ink-3`.
 
-### 5.3 Spacing — CURRENT ad hoc; principle ADOPTed, scale UNRESOLVED
+### 5.3 Spacing — ADOPT (fluid rem; relationship-based)
 
-There is no spacing token scale yet (UX audit OPS-022). Until one exists:
+Spacing is authored in `rem` and scales with the fluid type root (§5.2), so padding and gaps grow with the system on large displays and stay dense on small ones. There is no *named* step scale (e.g. `--space-3`); values are chosen by relationship, not from a token table.
 
 - **Main principle: spacing expresses relationship, not decoration.** Tighter = more related.
-- Observed working relationships to preserve: component-internal padding 10–16px; gaps between related elements 8–16px; block-to-block gaps 24–32px; screen sections 32–48px; case-study sections much larger (editorial scale).
-- New UI MUST reuse a spacing value already used for the same *relationship* nearby, not invent a new one-off value.
-- When OPS-022 is implemented, migrate to a 4/8-based scale (4/8/12/16/24/32/48) — visually near-neutral, maintainability change only. Do not do this migration as a side effect of an unrelated change.
+- Reference relationships (px at the 16px root; authored as rem ÷ 16): component-internal padding 10–16px; gaps between related elements 8–16px; block-to-block gaps 24–32px; screen sections 32–48px; case-study sections much larger (editorial scale).
+- New UI MUST reuse a spacing value already used for the same *relationship* nearby, not invent a new one-off value, and MUST author it in rem (px only for the <4px hairline offsets in §5.2).
+- A named 4/8 step scale (`--space-*`) is now an *optional* future tidy-up, not a blocker — fluid scaling and accessibility are already solved (OPS-022 resolved, §29/§30). Do not undertake it as a side effect of an unrelated change.
 
 ### 5.4 Grid and Width — ADOPT
 
-- **App container:** one centered column, `max-width: 1080px`. Confirmed adequate for the current data density (Layout audit "Do Not Move"); revisit only if the dataset grows more columns.
+- **App container:** one centered column, `max-width: 67.5rem` (= 1080px at the 16px root; grows to ~1215px at the 18px root on wide displays, so large screens are used rather than left as margin — the rem cap still bounds line length). Confirmed adequate for the current data density (Layout audit "Do Not Move"); revisit column count only if the dataset grows.
 - **Tables (Patterns, metric tables):** full container width. Tables MUST NOT be constrained narrower than the container.
 - **Two-column layouts:** Review `1fr / 300px` sticky rail; Brief `1fr / 280px` rail. Use main/rail only when the rail holds *status + decision + action* for the main content; a rail MUST NOT hold primary work content.
-- **Case study:** wider hero/demo zones (up to 1140px for frames), prose measures 560–860px. Long-form prose SHOULD stay ≤ ~720px measure.
+- **Case study:** wider hero/demo zones (up to 71.25rem ≈ 1140px at the 16px root for frames), prose measures ~560–860px. Long-form prose SHOULD stay ≤ ~720px measure. Demo-frame heights are set in rem in `case-study.tsx` (`height/16`) so frames scale with the root.
 - **When to use what:** full width — data tables, KPI bands, charts; constrained — prose, briefs (brief doc ~712px); two columns — work + sticky gate/status; stacked — everything ≤920px.
 - **Ticket-queue width rule (Patterns table):** full 1080px container; Pattern name column wide enough for two-line content (~365px); numeric columns right-aligned; the queue is never placed beside a sidebar or split with secondary panels.
 
@@ -398,7 +406,7 @@ The enforcement of `MODEL_BOUNDARY` in pixels:
 
 ## 14. Responsive System
 
-Breakpoints in use: **1120** (case-study adjustments), **1080** (container edge), **920** (rails stack; mobile readiness bar appears; case nav → scroll row), **760** (case-study density), **620** (feed table → meta-line rows; segmented → 2-col grid).
+Breakpoints are authored in `em` so reflow is zoom-aware (identical to px at the default font size, and unaffected by the fluid root, which media queries ignore): **1120px = 70em** (case-study adjustments), **1080px = 67.5em** (container edge), **920px = 57.5em** (rails stack; mobile readiness bar appears; case nav → scroll row), **760px = 47.5em** (case-study density), **620px = 38.75em** (feed table → meta-line rows; segmented → 2-col grid).
 
 - **Desktop (>920)** is the primary surface for both pages. Two-column grids, sticky rail.
 - **≤920:** single column; Review gains the sticky readiness bar (gate + CTA always visible); case-study anchor nav becomes a horizontally scrollable row.
@@ -685,7 +693,7 @@ Exist in the codebase today; MUST NOT be reused in new work; migrate when touchi
 | Decision chip duplicating the segmented control's state | Evidence card header (`PatternReview.tsx:142`) | Two indicators of one state 60px apart (OPS-019 remnant) | Keep the confirmation chip; drop the decision chip or fold decision into it | Low |
 | Unlabeled meta string in brief doc head + Owner duplicated in body | `ProductBriefScreen.tsx:45-49,57` | Unlabeled values; duplicate owner (OPS-020) | `dt/dd`-labeled meta; single owner mention | Low |
 | 10.5px mono as load-bearing label size | chips, table headers (`styles.css`) | Below the 11.5–12px readable floor for essential labels (OPS-021) | ≥11.5px for headers/statuses; 10.5px decorative only | Medium |
-| Ad-hoc font-size/spacing literals (incl. half-pixel sizes) | `styles.css` throughout | Consistency by discipline only (OPS-022) | Type + spacing tokens per §5.2/§5.3 | Medium |
+| Fixed-px font-size/spacing literals for document flow | (migrated 2026-07-07) | Didn't scale with viewport or respect user font settings (OPS-022) | Fluid rem system on one root clamp (§5.2/§5.3) | Done — don't reintroduce fixed px for flow text |
 | No URL state (screen/pattern only in React state) | `App.tsx` | Refresh resets; nothing is linkable (OPS-023) | Hash params (`#review/PAT-002`), no router library | Medium |
 | Animations not gated on `prefers-reduced-motion` | smooth scroll, toast, Live blinker | WCAG motion guidance (OPS-024) | Add the media query; disable smooth-scroll and blink | Medium |
 | Nested scroll inside demo frames | case-study frames | Scroll-trap trade-off (OPS-025) — mitigated by taller frames; accepted for live embeds | Keep frames tall enough to show content; add scrollability affordance if reworked | Low |
@@ -705,7 +713,7 @@ Insufficient evidence for a rule — do not invent one; use the temporary defaul
 
 | Decision | Why unresolved | Evidence needed | Temporary default |
 |---|---|---|---|
-| Final type/spacing token scale values | OPS-022 migration not designed; picking exact steps now would freeze guesses | A tokenization pass with before/after visual diff | Reuse nearest existing value (§5.2/§5.3); no new one-off values |
+| ~~Final type/spacing token scale values~~ | RESOLVED 2026-07-07 — adopted the fluid rem system (Option D): one root clamp drives the scale, everything authored in rem (1rem=16px), hairlines stay px, breakpoints in em (§5.2/§5.3/§14); verified before/after at 375–1600px | — | A *named* 4/8 step scale stays optional (§5.3), no longer blocking |
 | Readiness rule vs small evidence sets (PAT-002/003/004 can never reach 5 Belongs) | Product decision: parameterize the threshold, add mock evidence, or keep "insufficient evidence" as a designed state | Author's product intent for the demo narrative | Keep current honest copy ("…5 required, need more evidence"); don't silently change the rule or the data |
 | URL/hash routing shape | Whether Eval should be linkable affects nav rules (§6.2) | Decision on deep-linking needs for the demo | No routing (current); if added, hash-based, no library |
 | Eval "Watchlist"/status source of truth | Chip severity is derived from status-text substrings — fragile if mock data wording changes | Decision: move severity to an explicit field in `src/mock` | Keep wording of `status` strings stable when editing mock data |
@@ -795,7 +803,7 @@ Questions needing a human decision before rules can be written (distinct from §
 |---|---|---|
 | Should PAT-002/003/004 get enough mock evidence to make the readiness rule reachable, or is "insufficient evidence" part of the demo story? | Product | Author |
 | Should the Eval screen be deep-linkable (routing), given it's deliberately outside primary nav? | Product/design | Author |
-| Adopt the OPS-022 token scale migration as a dedicated pass (when)? | Implementation | Author |
+| ~~Adopt the OPS-022 token scale migration as a dedicated pass (when)?~~ RESOLVED 2026-07-07 — done as the fluid rem system (Option D); see §5.2/§30 | Implementation | Author |
 | Should metric severity move from status-text substring matching to an explicit data field? | Implementation | Author |
 | README "Honest positioning" feature bullet — keep or reword (borderline self-grading)? | Content | Author |
 | Any Phase 2 scope (backend, routing, persistence) — requires a documented new phase per `docs/product-scope.md` before any rule here extends to it. | Product | Author |
