@@ -2770,6 +2770,28 @@ table {
 }
 
 @media (max-width: 47.5em) {
+  /* On mobile, locking the shell to 100dvh and scrolling an inner region
+     fights the browser's dynamic toolbar: the toolbar never collapses (only
+     document scroll collapses it), so its height is subtracted from the shell
+     and the last screenful is cut off with no way to reach it. Let the shell
+     grow with its content and hand scrolling back to the document; keep the
+     top bar reachable by making it sticky. */
+  .shell {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .shell-main {
+    overflow-y: visible;
+    flex: 1 0 auto;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
   .topbar-note {
     display: none;
   }
