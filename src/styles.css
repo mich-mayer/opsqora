@@ -2718,6 +2718,20 @@ table {
     border-bottom: 1px solid var(--line);
   }
 
+  /* .playground-verdicts is inline-flex (shrink-to-fit), so once it wraps
+     to two rows at this width, the row width rarely divides evenly between
+     buttons — the leftover sliver renders as an empty bordered box that
+     reads as a missing/broken button. Letting each row's buttons grow to
+     fill it removes the dead space without changing the wider desktop
+     layout, where this row doesn't wrap. */
+  .playground-verdicts {
+    display: flex;
+  }
+
+  .playground-verdicts button {
+    flex: 1 1 auto;
+  }
+
   .case-figures {
     grid-template-columns: 1fr 1fr;
   }
@@ -2767,6 +2781,28 @@ table {
   .cell-name span,
   .col-area {
     display: none;
+  }
+
+  /* table-layout:fixed sizes columns from the header row; none of the
+     remaining headers declare a width, so the browser splits them equally.
+     That's narrower than the Status chip and the confidence rule annotation
+     can hold on one line, and both were spilling into the next column
+     (visually overlapping the arrow icon / trend cell). Give the arrow
+     column its real width and let the long content wrap in place instead
+     of chasing exact pixel widths across every viewport size. */
+  .feed-table .col-open,
+  .feed-table .cell-arrow {
+    width: 1.75rem;
+  }
+
+  .feed-table .chip {
+    white-space: normal;
+    text-align: center;
+  }
+
+  .meter-cell {
+    flex-wrap: wrap;
+    row-gap: 0.125rem;
   }
 }
 
@@ -2910,6 +2946,16 @@ table {
   .metric-table .cell-definition,
   .metric-table .col-status {
     width: auto;
+  }
+
+  /* .cell-metric is nowrap by default (desktop rule) so its longest label
+     ("Cost per feedback item processed") forced a ~236px column even with
+     table-layout:auto, pushing the table past the viewport and squeezing
+     the definition column into a near-vertical sliver. Wrapping the metric
+     name (same pattern as the Patterns table's cell-name) keeps the table
+     inside the viewport without hand-tuning column percentages. */
+  .metric-table .cell-metric {
+    white-space: normal;
   }
 
   .metric-table .cell-status,

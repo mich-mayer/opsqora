@@ -102,8 +102,8 @@ export function PatternFeed({
             <th scope="col" className="col-mentions">Mentions</th>
             <th scope="col" className="col-confidence">Confidence</th>
             <th scope="col" className="col-trend">Trend</th>
-            <th scope="col">Status</th>
-            <th scope="col" aria-label="Open" />
+            <th scope="col" className="col-status">Status</th>
+            <th scope="col" className="col-open" aria-label="Open" />
           </tr>
         </thead>
         <tbody>
@@ -124,7 +124,7 @@ export function PatternFeed({
               <td className="col-mentions cell-num">{pattern.mention_count}</td>
               <td className="col-confidence"><ConfidenceMeter value={pattern.confidence} /></td>
               <td className="col-trend"><TrendIndicator trend={pattern.trend} /></td>
-              <td><Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip></td>
+              <td className="cell-readiness"><Chip tone={readiness.ready ? 'ok' : 'warn'} square>{readiness.ready ? 'Ready' : 'Needs validation'}</Chip></td>
               <td className="cell-arrow"><ArrowRight size={15} aria-hidden="true" /></td>
             </tr>
           })}
