@@ -16,11 +16,15 @@ import './styles.css'
 
 const BASE = import.meta.env.BASE_URL
 const REPO_URL = 'https://github.com/mich-mayer/opsqora'
+const FLATFEED_CASE_URL = 'https://mich-mayer.github.io/flatfeed/case-study.html'
+// Real published URL (verified in README) shown in the demo-frame chrome —
+// never a domain the project does not own.
+const LIVE_URL_LABEL = 'mich-mayer.github.io/opsqora'
 
 const projectMeta = [
   ['Role', 'Product framing, AI boundary + eval design, frontend build'],
+  ['Domain', 'B2B SaaS support feedback'],
   ['Type', 'Phase 1 frontend prototype'],
-  ['Stack', 'React · TypeScript · Vite'],
   ['Data', 'Synthetic, deterministic'],
   ['Year', '2026'],
 ]
@@ -46,13 +50,22 @@ const mockedList = [
   'No backend, auth, persistence, or real customer data anywhere',
 ]
 
-const results = [
-  ['Pattern precision', '76%', 'Target ≥ 70% — share of suggested patterns describing one real recurring problem'],
-  ['Pattern recall', '64%', 'Share of reviewer-confirmed recurring problems the AI suggested as patterns'],
-  ['Pattern F1', '69%', 'Combined precision + recall signal for suggested recurring problems'],
-  ['Evidence precision', '81%', 'Target ≥ 80% — share of attached snippets reviewers marked as Belongs'],
-  ['Cost per validated pattern', '$8.90', 'The key value-linked cost metric, paired with a $12 action threshold'],
-  ['Example mocked outcome', '42 → 18', 'Mentions after a product action shipped in the mocked timeline'],
+const measuredResults = [
+  ['Interactive screens', '4', 'Patterns, Review, Brief, and AI Eval — the embeds on this page run the real build, not recordings'],
+  ['Validated demo paths', '1', 'PAT-001 walks from AI suggestion to product brief with every gate visible'],
+  ['Readiness rule', 'Live', 'The playground above calls the same getReadiness() function as the product'],
+]
+
+const gateResults = [
+  ['Pattern precision', '≥ 70%', 'Share of suggested patterns describing one real recurring problem, measured on reviewer-labeled exports'],
+  ['Evidence precision', '≥ 80%', 'Share of attached snippets reviewers mark as Belongs'],
+  ['Cost per validated pattern', '≤ $12', 'The value-linked cost metric; modeled ≈ $8.90 per pattern under Phase-1 assumptions'],
+]
+
+const learnedPoints = [
+  ['Suggest, don’t decide', 'The model proposes patterns; reviewers and PMs own every product-impacting call.'],
+  ['Gates before spend', 'Thresholds and actions were defined before any real inference cost exists.'],
+  ['Label every number', 'Measured, target, and mocked values are marked at the same depth as the number.'],
 ]
 
 const stack = ['React 18', 'TypeScript', 'Vite', 'Lucide', 'GitHub Pages']
@@ -177,12 +190,13 @@ function CaseStudy() {
     <header className="case-top">
       <Wordmark href={`${BASE}case-study.html`} sub="Case study" />
       <nav aria-label="Case study sections">
-        <a href="#product">Product</a>
         <a href="#problem">Problem</a>
         <a href="#why-ai">Why AI</a>
-        <a href="#loop">How it works</a>
-        <a href="#eval">Eval</a>
+        <a href="#role">Role</a>
+        <a href="#approach">Approach</a>
+        <a href="#built">Built</a>
         <a href="#results">Results</a>
+        <a href="#learned">Learned</a>
       </nav>
       <a className="btn btn--primary" href={BASE}>Open live demo <ArrowUpRight size={14} /></a>
     </header>
@@ -190,7 +204,7 @@ function CaseStudy() {
     <main id="case-main">
       <section className="case-hero">
         <Kicker>AI product management — case study · 2026</Kicker>
-        <h1>Recurring support feedback, turned into product decisions you can defend.</h1>
+        <h1>I built Opsqora to turn recurring support complaints into product decisions a PM can defend.</h1>
         <p className="case-lede">
           Opsqora helps a small product team find recurring complaints, verify the supporting
           evidence, and turn confirmed patterns into product briefs — with AI kept assistive: it
@@ -207,7 +221,7 @@ function CaseStudy() {
 
       <section className="case-demo" id="product" aria-label="Live product demo">
         <DemoFrame
-          url="opsqora.app"
+          url={LIVE_URL_LABEL}
           height={680}
           note="This is the actual product embedded in the page, not a screenshot. Click through the patterns, flip evidence decisions, and open the brief."
         >
@@ -224,12 +238,6 @@ function CaseStudy() {
             and roadmap attention follows whoever complained most recently, not what actually
             recurs.
           </p>
-          <p>
-            My role: I framed the problem, scoped the validation workflow, designed the
-            AI-assistive boundary and eval strategy, and built the Phase 1 frontend with AI coding
-            agents (Claude Code and Codex) under a documented collaboration workflow in the repo.
-            All product decisions, scope boundaries, and the readiness rule are mine.
-          </p>
         </div>
         <ul className="case-figures" aria-label="Prototype scope figures">
           <li><strong>4</strong><span>mocked feedback patterns</span></li>
@@ -239,7 +247,7 @@ function CaseStudy() {
         </ul>
       </CaseSection>
 
-      <CaseSection id="why-ai" index="02" kicker="Why AI" title="Grouping the same complaint across many phrasings is a genuine AI task — and it stays assistive.">
+      <CaseSection id="why-ai" index="02" kicker="Why AI?" title="Grouping the same complaint across many phrasings is a genuine AI task — and it stays assistive.">
         <div className="case-prose">
           <p>
             The same issue arrives as “timeline import shifted blockers,” “dependency dates moved
@@ -251,17 +259,47 @@ function CaseStudy() {
           </p>
           <p>
             But it stays assistive: the model suggests patterns, summarizes evidence, and estimates
-            confidence — the human validates the evidence and owns the decision. In production the
-            model split would be deliberate: a top-tier (“frontier”) model for the hard semantic
-            work — clustering, evidence selection, problem synthesis — and a cheaper model for
-            low-stakes formatting, labels, and brief cleanup. Phase 1 runs on synthetic,
-            deterministic data; production would train and evaluate on privacy-safe support exports
-            with reviewer-labeled ground truth.
+            confidence — the human validates the evidence and owns the decision. The AI never
+            decides what enters the backlog and never self-approves.
           </p>
         </div>
       </CaseSection>
 
-      <CaseSection id="loop" index="03" kicker="How it works" title="One validation loop: suggest, validate, compute, decide.">
+      <CaseSection id="role" index="03" kicker="My role" title="The decisions are mine; the implementation is agent-assisted and disclosed.">
+        <div className="case-prose">
+          <p>
+            I framed the problem, scoped the pattern-validation workflow, designed the AI-assistive
+            boundary, and shaped the eval strategy and cost model. Solo project: all product
+            decisions, scope boundaries, and the readiness rule are mine. Implementation was built
+            with AI coding agents (Claude Code and Codex) under a documented collaboration workflow
+            in the repo — disclosed here and visible in the commit history.
+          </p>
+        </div>
+      </CaseSection>
+
+      <CaseSection id="approach" index="04" kicker="The approach" title="Data, models, and evaluation were decided before a single real model call.">
+        <div className="case-prose">
+          <p>
+            Phase 1 runs on synthetic, deterministic data: the same patterns, evidence, and numbers
+            on every visit, so every decision in the demo is reproducible. In production, the input
+            would be privacy-safe support exports with reviewer-labeled ground truth.
+          </p>
+          <p>
+            The production model split is deliberate: a top-tier (“frontier”) model for the hard
+            semantic work — clustering, evidence selection, problem synthesis — and a cheaper model
+            for low-stakes formatting, labels, and brief cleanup. Nothing in the workflow depends
+            on which vendor supplies the model.
+          </p>
+          <p>
+            The eval strategy answers two product questions: can we trust the model, and what does
+            one validated pattern cost? Precision, recall, evidence precision, and high-confidence
+            disagreement (reviewers rejecting evidence the model was sure about) measure trust;
+            cost per validated pattern ties spend to value instead of raw model activity. Every
+            metric is paired with a launch threshold and an action — pause suggestions, block
+            readiness, or move low-stakes work to a cheaper model tier. Dashboards without actions
+            are decoration.
+          </p>
+        </div>
         <ol className="case-steps">
           {loopSteps.map(([title, copy], index) => <li key={title}>
             <span>{String(index + 1).padStart(2, '0')}</span>
@@ -278,36 +316,26 @@ function CaseStudy() {
         </div>
       </CaseSection>
 
-      <section className="case-boundary" id="boundary">
-        <Kicker index="04">Human-in-the-loop boundary</Kicker>
-        <blockquote>{MODEL_BOUNDARY}</blockquote>
-      </section>
-
-      <CaseSection id="eval" index="05" kicker="AI eval" title="Trust and cost are product requirements.">
+      <CaseSection id="built" index="05" kicker="What I built" title="A working validation loop with the eval instrument built in.">
         <div className="case-prose">
           <p>
-            The eval dashboard answers two product questions: can we trust the model, and what does
-            one validated pattern cost? Precision, recall, F1, evidence precision, and
-            high-confidence disagreement (reviewers rejecting evidence the model was sure about)
-            measure trust; cost per validated pattern ties spend to value instead of raw model
-            activity.
-          </p>
-          <p>
-            Every metric is paired with a launch threshold and an action — pause suggestions,
-            block readiness, or move low-stakes work to a cheaper model tier. Dashboards without
-            actions are decoration.
+            Four screens exist and are fully interactive: Patterns (AI-suggested recurring patterns
+            with mentions, trend, area, confidence, and readiness state), Review (evidence marked
+            Belongs, Does not belong, Different problem, or Unsure, plus the human verdict), Brief
+            (a PM-owned document generated from a validated pattern), and AI Eval (quality and cost
+            metrics with the production evaluation plan). The product embedded at the top of this
+            page is this same build, not a recording.
           </p>
         </div>
-        <DemoFrame
-          url="opsqora.app — AI eval"
-          height={800}
-          note="The live eval screen: quality and cost tables with plain-language definitions, threshold/action rules, and hand-rolled SVG charts."
-        >
-          <App embedded initialPage="eval" />
-        </DemoFrame>
-      </CaseSection>
-
-      <CaseSection id="scope" index="06" kicker="Scope and honesty" title="What is real, and what is deliberately mocked.">
+        <div id="eval">
+          <DemoFrame
+            url={`${LIVE_URL_LABEL} — AI eval`}
+            height={800}
+            note="The live eval screen: quality and cost tables with plain-language definitions, threshold/action rules, and hand-rolled SVG charts."
+          >
+            <App embedded initialPage="eval" />
+          </DemoFrame>
+        </div>
         <div className="case-scope-columns">
           <div>
             <h3>Real in this prototype</h3>
@@ -327,11 +355,28 @@ function CaseStudy() {
         </div>
       </CaseSection>
 
-      <CaseSection id="results" index="07" kicker="Results (mocked)" title="Estimated results from a mocked prototype — and what would come next.">
+      <section className="case-boundary" id="boundary">
+        <Kicker>Human-in-the-loop boundary</Kicker>
+        <blockquote>{MODEL_BOUNDARY}</blockquote>
+      </section>
+
+      <CaseSection id="results" index="06" kicker="Results" title="Measured where it exists, gated where it doesn’t — no real model calls yet.">
         <table className="case-results">
-          <caption>All values are estimated from the mocked prototype — not production outcomes.</caption>
+          <caption>
+            No real model has run yet, so model-quality rows are launch gates, not achievements.
+            Illustrative current values appear only inside the eval dashboard, labeled as mocked.
+          </caption>
           <tbody>
-            {results.map(([label, value, detail]) => <tr key={label}>
+            <tr className="case-results-group"><th colSpan={3} scope="colgroup">Measured in this prototype</th></tr>
+            {measuredResults.map(([label, value, detail]) => <tr key={label}>
+              <th scope="row">{label}</th>
+              <td className="case-results-value">{value}</td>
+              <td className="case-results-detail">{detail}</td>
+            </tr>)}
+          </tbody>
+          <tbody>
+            <tr className="case-results-group"><th colSpan={3} scope="colgroup">Launch gates — designed, not yet measured</th></tr>
+            {gateResults.map(([label, value, detail]) => <tr key={label}>
               <th scope="row">{label}</th>
               <td className="case-results-value">{value}</td>
               <td className="case-results-detail">{detail}</td>
@@ -340,12 +385,33 @@ function CaseStudy() {
         </table>
         <div className="case-prose">
           <p>
-            The core lesson: AI product value comes from the workflow around the model — evidence
-            states, human verdicts, readiness rules, eval thresholds, and cost per validated
-            pattern. Next steps: test whether teams actually adopt a regular pattern-review
-            ritual, collect real evaluation data from privacy-safe support exports, and track
-            outcomes through read-only integrations before letting the product write anything back.
+            The one mocked product outcome — mentions falling 42 → 18 after a shipped action —
+            stays inside the demo, labeled “Mocked outcome — no live integration.” What this page
+            publishes as results is only what exists today and the gates a real model must clear.
           </p>
+        </div>
+      </CaseSection>
+
+      <CaseSection id="learned" index="07" kicker="What I learned" title="The workflow around the model is the product.">
+        <div className="case-prose">
+          <p>
+            AI product value comes from the workflow around the model — evidence states, human
+            verdicts, readiness rules, eval thresholds, and cost per validated pattern. The model
+            can be swapped; the decision discipline is the part a team would actually adopt.
+          </p>
+          <p>
+            What I would do differently: put one real model call behind a flag earlier — a single
+            real eval run on a small model would turn the illustrative dashboard values into a
+            measured baseline. Next steps: test whether teams adopt a regular pattern-review
+            ritual, collect real evaluation data from privacy-safe support exports, and track
+            outcomes through read-only integrations before the product writes anything back.
+          </p>
+        </div>
+        <div className="case-points">
+          {learnedPoints.map(([title, copy]) => <div key={title}>
+            <strong>{title}</strong>
+            <span>{copy}</span>
+          </div>)}
         </div>
       </CaseSection>
 
@@ -356,6 +422,15 @@ function CaseStudy() {
           <a className="btn btn--accent" href={BASE}>Open live demo <ArrowRight size={14} /></a>
           <a className="btn btn--inverse" href={REPO_URL}>View repository <GitBranch size={14} /></a>
         </div>
+      </section>
+
+      <section className="case-sibling" aria-label="Second case study">
+        <Kicker>More from this portfolio</Kicker>
+        <p>
+          <strong>FlatFeed</strong> — the same design system, the opposite AI boundary:
+          deterministic rules own user-facing eligibility, and AI only reviews parser quality.{' '}
+          <a href={FLATFEED_CASE_URL}>Read the FlatFeed case study <ArrowUpRight size={14} /></a>
+        </p>
       </section>
     </main>
 

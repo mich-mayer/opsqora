@@ -2377,6 +2377,44 @@ table {
   vertical-align: middle;
 }
 
+/* group label rows split the results table into "measured" vs "launch gates" —
+   the evidence status must be readable at scan level, not only in the caption */
+.case-results .case-results-group th {
+  width: auto;
+  font: 500 0.71875rem/1.4 var(--font-mono);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--ink);
+  padding: 1.625rem 0 0.5rem;
+}
+
+.case-results tbody + tbody .case-results-group th {
+  padding-top: 2.25rem;
+}
+
+.case-points {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2.25rem;
+  margin-top: 2.75rem;
+}
+
+.case-points strong {
+  display: block;
+  font: 600 0.9375rem/1.3 var(--font-display);
+  letter-spacing: -0.01em;
+  border-top: 1px solid var(--rule);
+  padding-top: 0.75rem;
+}
+
+.case-points span {
+  display: block;
+  font-size: 0.84375rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  margin-top: 0.4375rem;
+}
+
 /* ---------- final CTA + footer ---------- */
 
 .case-cta {
@@ -2400,6 +2438,32 @@ table {
 
 .case-cta .case-actions {
   margin-top: 1.875rem;
+}
+
+.case-sibling {
+  padding: 2.5rem 0 1rem;
+}
+
+.case-sibling p {
+  margin-top: 0.875rem;
+  font-size: 0.96875rem;
+  line-height: 1.6;
+  color: var(--ink-2);
+  max-width: 44rem;
+}
+
+.case-sibling p strong {
+  color: var(--ink);
+}
+
+.case-sibling a {
+  font-weight: 600;
+  color: var(--accent-deep);
+  white-space: nowrap;
+}
+
+.case-sibling a svg {
+  vertical-align: -0.125em;
 }
 
 .case-foot {
@@ -2633,6 +2697,11 @@ table {
 
   .case-hero {
     padding: 2.5rem 0 2.5rem;
+  }
+
+  .case-points {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
   .case-scope-columns {

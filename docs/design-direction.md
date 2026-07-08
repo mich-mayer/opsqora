@@ -115,18 +115,31 @@ Rules:
 
 ## Case Study Structure
 
-1. Sticky top bar: wordmark, anchor nav, "Open live demo".
-2. Hero: mono kicker, display headline, lede, CTAs, spec-sheet meta table (role/type/stack/data/year).
-3. Live product demo: `<App embedded />` in a framed window ("Live · synthetic data").
-4. 01 Problem: prose + scope figures strip.
-5. 02 Why AI: semantic clustering rationale, assistive model boundary, and production model-tier split.
-6. 03 Validation loop: four numbered steps + interactive readiness playground (real
-   `getReadiness()` on real PAT-001 data).
-7. 04 Human-in-the-loop boundary: MODEL_BOUNDARY as a display pull quote.
-8. 05 AI eval: prose + `<App embedded initialPage="eval" />`.
-9. 06 Scope and honesty: real vs deliberately mocked columns + stack chips.
-10. 07 Results: spec table of estimated metrics + core lesson.
-11. Black CTA band + footer.
+The page follows the canonical 7-part AI PM case framework, shared with the sibling
+FlatFeed landing (same section names, same order, same 7-item nav):
+
+1. Sticky top bar: wordmark, 7-item anchor nav (Problem · Why AI · Role · Approach ·
+   Built · Results · Learned), "Open live demo".
+2. Hero: mono kicker, first-person display headline ("I built Opsqora to…"), lede ending
+   in phase honesty, CTAs, spec-sheet meta table (role/domain/type/data/year).
+3. Live product demo: `<App embedded />` in a framed window ("Live · synthetic data");
+   the chrome shows the real published URL, never an unowned domain.
+4. 01 The problem: prose + scope figures strip.
+5. 02 Why AI?: semantic clustering rationale + the assistive stance (suggests, never
+   decides, never self-approves).
+6. 03 My role: candidate judgment verbs + disclosed agent-assisted implementation.
+7. 04 The approach: data strategy → model strategy (production tier split) → eval
+   strategy (thresholds paired with actions) → four loop steps + interactive readiness
+   playground (real `getReadiness()` on real PAT-001 data).
+8. 05 What I built: four-screens prose + `<App embedded initialPage="eval" />` + real vs
+   deliberately mocked columns + stack chips.
+9. Unnumbered: Human-in-the-loop boundary — MODEL_BOUNDARY as a display pull quote,
+   deliberately outside the 7-part numbering.
+10. 06 Results: two-group spec table — "Measured in this prototype" (FACT rows) and
+    "Launch gates — designed, not yet measured" (TARGET rows); illustrative values live
+    only inside the eval dashboard embed.
+11. 07 What I learned: core lesson, what-I'd-do-differently, next steps + 3-up points.
+12. Black CTA band → sibling case-study cross-link (FlatFeed) → footer.
 
 ## Assets
 

@@ -246,7 +246,7 @@ The rail order mirrors the decision sequence: **Readiness (status) → Verdict (
 Order: compact head + mock chip → KPI stat band → one-line mock disclaimer → Quality table → Quality trend chart → Cost table → Cost-by-task chart → "Production evaluation plan" (threshold→action rules) → footnote. Each chart sits immediately after its own table; interpretation/rules come after all data. Meta-text about data provenance MUST NOT sit above primary content (KPI band).
 
 ### 6.7 Case-study shell — ADOPT
-Sticky top bar (wordmark + "Case study" sub, anchor nav, "Open live demo") → hero (kicker, display h1, lede, CTAs, spec-sheet meta `dl`) → live product frame → numbered sections 01–07 opened by 2px rules → black CTA band → footer. ≤920px the anchor nav becomes a horizontal scroll row (never `display:none` without replacement).
+Sticky top bar (wordmark + "Case study" sub, 7-item anchor nav mirroring the numbered sections: Problem · Why AI · Role · Approach · Built · Results · Learned, "Open live demo") → hero (kicker, first-person display h1, lede, CTAs, spec-sheet meta `dl` Role / Domain / Type / Data / Year) → live product frame (chrome shows the real published URL) → the canonical 7-part case framework opened by 2px rules: 01 The problem (+ scope figures) · 02 Why AI? · 03 My role · 04 The approach (+ loop steps + readiness playground) · 05 What I built (+ eval frame + scope columns + stack chips) → *unnumbered* human-in-the-loop boundary pull quote → 06 Results (+ two-group results table: measured vs launch gates) · 07 What I learned (+ 3-up points) → black CTA band → sibling case-study cross-link (FlatFeed) → footer. The 7-part structure mirrors `CASE_STUDY.md` section-for-section and the sibling FlatFeed landing — keep them in sync. ≤920px the anchor nav becomes a horizontal scroll row (never `display:none` without replacement).
 
 ### 6.8 Panels / dialogs
 No modals or dialogs exist and none are needed for current flows (UX audit). Feedback uses toasts (§8); blocking uses in-place blocked states. If a future flow truly needs a dialog, it must justify itself against the in-place-state pattern first (§30 governance).
@@ -560,22 +560,22 @@ Audience adaptation is allowed (explanation depth, gloss expansion, sentence len
 The page serves three reading depths; every depth must independently answer its questions.
 
 **10-second scan** (kicker + H1 + lede + hero meta + first frame) must answer: What is this? Who is it for? What problem? What did the candidate do? Why AI-PM-relevant?
-Mechanics: kicker names the genre ("AI product management — case study · 2026"); H1 states the outcome ("Recurring support feedback, turned into product decisions you can defend."); lede names user + workflow + AI stance + phase status; the Role meta line is decodable ("Product framing, AI boundary + eval design, frontend build"); the first frame proves the product exists.
+Mechanics: kicker names the genre ("AI product management — case study · 2026"); H1 is a first-person outcome statement ("I built Opsqora to turn recurring support complaints into product decisions a PM can defend."); lede names user + workflow + AI stance + phase status; the Role meta line is decodable ("Product framing, AI boundary + eval design, frontend build"); the first frame proves the product exists.
 
 **30-second scan** (+ section headings, kickers, scope figures, captions, results values) must answer: why AI, human role, evaluation approach, project status, results integrity.
-Mechanics: headings are GDS-style full statements ("Recurring complaints need proof before they become roadmap work."); the boundary is a blockquote, not a paragraph; the Results kicker itself carries "(mocked)".
+Mechanics: headings are GDS-style full statements ("Recurring complaints need proof before they become roadmap work."); the boundary is a blockquote, not a paragraph; the Results H2 ("Measured where it exists, gated where it doesn't — no real model calls yet.") and the table's group-label rows ("Measured in this prototype" / "Launch gates — designed, not yet measured") carry the evidence status at scan level.
 
 **Deep read** must answer: decisions, trade-offs, ownership split, limitations, next steps.
 
 Element rules:
-- **Hero:** kicker → display H1 (outcome, not product name) → lede (≤3 sentences, ends with phase honesty) → two CTAs (demo primary, repo ghost) → spec-sheet meta `dl` (Role / Type / Stack / Data / Year). Every meta value must be decodable without insider context.
+- **Hero:** kicker → first-person outcome H1 ("I built Opsqora to…") → lede (≤3 sentences, ends with phase honesty) → two CTAs (demo primary, repo ghost) → spec-sheet meta `dl` (Role / Domain / Type / Data / Year; stack chips live in What I built). Every meta value must be decodable without insider context.
 - **Section heads:** accent index + kicker (topic) + h2 (a statement the section proves). A heading MUST inform a scanner who reads nothing else.
 - **Summary blocks / scope figures:** each figure must be verifiable in the repo ("4 eval thresholds paired with actions" ↔ `evalRules.length === 4`) and meaningful (volume counts alone are weak — CS-13).
 - **Metrics:** never render a number without its evidence status at the same visual level (§23).
 - **Captions:** demo-frame captions state what's real and what to try ("…not a screenshot. Click through the patterns…").
 - **Architecture/AI explanations:** name the genuine AI task and its limit in one breath ("Semantic clustering is a genuine AI task, but only an assistive one.").
 - **Decision sections:** prefer "chose X over Y because Z" framing where the reasoning genuinely existed; do not retrofit reasoning.
-- **Evaluation section:** metrics + thresholds + actions together; "Dashboards without actions are decoration." stays verbatim.
+- **Evaluation content:** eval-strategy prose lives in The approach (04) and keeps metrics + thresholds + actions together; "Dashboards without actions are decoration." stays verbatim there. The live eval screen embed lives in What I built (05).
 - **Limitations:** stated plainly in Scope & honesty (real vs deliberately mocked columns) and in next steps; never hedged away.
 - **CTA band:** ink-black band, accent button, honest subline ("Everything is frontend-only, deterministic, synthetic, and visibly labeled…").
 
@@ -609,7 +609,7 @@ Hard constraints (non-negotiable):
 
 ## 24. Candidate Ownership Language
 
-- The canonical ownership statement lives in the Problem section ("My role: I framed the problem, scoped the validation workflow, designed the AI-assistive boundary and eval strategy, and built the Phase 1 frontend with AI coding agents (Claude Code and Codex) under a documented collaboration workflow in the repo. All product decisions, scope boundaries, and the readiness rule are mine.") and in compressed form in the hero meta. Keep both in sync in *meaning*.
+- The canonical ownership statement lives in the My role section (03) ("I framed the problem, scoped the pattern-validation workflow, designed the AI-assistive boundary, and shaped the eval strategy and cost model. Solo project: all product decisions, scope boundaries, and the readiness rule are mine. Implementation was built with AI coding agents (Claude Code and Codex) under a documented collaboration workflow in the repo — disclosed here and visible in the commit history.") and in compressed form in the hero meta. Keep both in sync in *meaning*.
 - Verb discipline: **decided/framed/scoped/designed** = candidate judgment; **built … with AI coding agents** = implementation with disclosed agent assistance; **the product/the rule does X** = system behavior; **mocked outcome** = illustrative product outcome. Do not swap categories.
 - Agent collaboration MUST stay disclosed (it is visible in the public repo anyway; disclosure converts ambiguity into an AI-native-workflow signal).
 - MUST NOT: claim sole implementation; attribute product decisions to agents; blur "designed" and "built"; add ownership claims not confirmed by the author.
@@ -792,6 +792,14 @@ Any change to this system (new rule, changed rule, new component class, new term
 5. **Migration consideration** — fix now, fix-when-touched (add to §29), or explicitly grandfather.
 
 Update this file and, for visual-direction changes, `docs/design-direction.md` in the same change. Do not change the system merely to match Atlassian, Carbon, GDS, or any external benchmark — external systems inform, project needs decide. Keep both entry pages and `npm run verify` green.
+
+### 2026-07-08 cross-portfolio 7-part unification
+
+- **Problem:** the Opsqora and FlatFeed case-study landings used different section sets and navs, so the two-project portfolio did not read as one deliberate framework; Opsqora's page also diverged from its own `CASE_STUDY.md` (no dedicated Role/Approach/Built/Learned sections), the Results table presented SIMULATED values ("76% precision, estimated, mocked") in a section recruiters read as achievements, and the demo-frame chrome showed an unowned domain ("opsqora.app").
+- **Rationale:** both landings now follow the canonical 7-part AI PM case framework (Problem · Why AI? · My role · The approach · What I built · Results · What I learned) with a 7-item nav mirroring the numbered sections; per §23's hard constraints (TARGET must not read as achieved; hiring signal never improved by invented evidence), the Results table now splits into FACT rows ("Measured in this prototype") and TARGET rows ("Launch gates — designed, not yet measured"), with illustrative values confined to the eval-dashboard embed. First-person H1 and the sibling cross-link were author-approved on 2026-07-08.
+- **Affected surfaces:** case study + docs: `src/case-study.tsx`, `src/styles.css` (`.case-results-group`, `.case-points`, `.case-sibling`), `CASE_STUDY.md`, `docs/design-direction.md`, this file (§§6.7, 22, 24).
+- **Compatibility impact:** §22's previous mechanics ("Results kicker carries '(mocked)'", meta Role/Type/Stack/Data/Year, outcome-only H1) are superseded; the boundary quote is now unnumbered (was 04); old anchors #loop/#scope are gone (#eval remains on the eval-frame wrapper; #product remains on the demo).
+- **Migration consideration:** fixed now across page, CASE_STUDY.md, and design docs in one change; the product app is untouched.
 
 ---
 
