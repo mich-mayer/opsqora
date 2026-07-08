@@ -167,7 +167,7 @@ Normative roles below list the **reference px at a 16px root**; each is authored
 
 | Role | Family/weight | Size | Notes |
 |---|---|---|---|
-| Case hero h1 | Inter Tight 600 | `clamp(40px, 6.8vw, 84px)` | lh 1.0, tracking −0.035em |
+| Case hero h1 | Inter Tight 600 | `clamp(36px, 4.6vw, 64px)` (ref px; cap floats to ~72px on wide) | lh 1.0, tracking −0.035em |
 | Case section h2 | Inter Tight 600 | `clamp(28px, 3.8vw, 48px)` | tracking −0.03em |
 | Boundary pull quote | Inter Tight 500 | `clamp(24px, 3.6vw, 42px)` | the `MODEL_BOUNDARY` statement |
 | App screen h1 | Inter Tight 600 | 24px | compact head: kicker + h1 on one line (post-LC-04) |

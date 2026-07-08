@@ -1889,11 +1889,11 @@ table {
 }
 
 .case-hero {
-  padding: 5.5rem 0 3rem;
+  padding: 3.5rem 0 3rem;
 }
 
 .case-hero h1 {
-  font: 600 clamp(2.5rem, 6.8vw, 5.25rem)/1 var(--font-display);
+  font: 600 clamp(2.25rem, 4.6vw, 4rem)/1 var(--font-display);
   letter-spacing: -0.035em;
   margin-top: 1.5rem;
   max-width: 66.25rem;
@@ -2624,7 +2624,7 @@ table {
   }
 
   .case-hero {
-    padding: 4rem 0 2.5rem;
+    padding: 2.5rem 0 2.5rem;
   }
 
   .case-scope-columns {
