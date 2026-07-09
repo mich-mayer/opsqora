@@ -1967,18 +1967,32 @@ table {
   gap: 1rem;
   padding: 0.6875rem 1rem;
   border-bottom: 1px solid var(--ink);
-  background: var(--surface);
+  background: var(--wash);
 }
 
+/* macOS-style traffic lights — the one rounded exception, sanctioned as
+   window chrome (see DESIGN_CONTENT_SYSTEM.md §5.5). */
 .demo-frame-dots {
   display: inline-flex;
-  gap: 0.3125rem;
+  gap: 0.5rem;
 }
 
 .demo-frame-dots i {
-  width: 0.4375rem;
-  height: 0.4375rem;
-  border: 1px solid var(--ink-3);
+  width: 0.6875rem;
+  height: 0.6875rem;
+  border-radius: 50%;
+}
+
+.demo-frame-dots i:nth-child(1) {
+  background: #ff5f57;
+}
+
+.demo-frame-dots i:nth-child(2) {
+  background: #febc2e;
+}
+
+.demo-frame-dots i:nth-child(3) {
+  background: #28c840;
 }
 
 .demo-frame-chrome em {

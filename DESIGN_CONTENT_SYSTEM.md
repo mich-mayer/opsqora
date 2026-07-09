@@ -206,7 +206,7 @@ Spacing is authored in `rem` and scales with the fluid type root (§5.2), so pad
 ### 5.5 Borders, Radius, Elevation — ADOPT
 
 - 1px `--line` hairlines divide; 2px `--rule` (ink) opens every major section. This pair is the entire structural vocabulary.
-- **No border radius anywhere.** Square corners on chips, buttons, cards, inputs, markers. Single sanctioned exception: the circular "O" inside `.brand-square` (favicon-matching wordmark).
+- **No border radius anywhere.** Square corners on chips, buttons, cards, inputs, markers. Sanctioned exceptions: the circular "O" inside `.brand-square` (favicon-matching wordmark), and the macOS-style traffic-light dots in `.demo-frame-dots` (window chrome — same hierarchy reason as the demo-frame shadow below).
 - **No card shadows, gradients, or glows.** Single sanctioned elevation: the case-study demo frame (`0 36px 72px -48px rgba(...)`) — it depicts a window, which is a hierarchy reason. Inset 3px accent bar marks the selected table row.
 - MUST NOT: nested cards (card inside card inside panel); decorative elevation; adding a border because grouping is unclear — fix grouping with spacing/rules instead.
 
