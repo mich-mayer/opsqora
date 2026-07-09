@@ -427,7 +427,7 @@ Project-specific application (not a WCAG rewrite):
 - **Color independence:** §11 fallback column is mandatory for any new state.
 - **Labels:** search input has `aria-label`; each segmented group names its evidence ("Evidence decision for EV-00x"); SVG charts have descriptive `aria-label`s; decorative icons `aria-hidden`.
 - **Target sizes:** controls ≥24×24 CSS px (WCAG 2.5.8); the stretched row hit-area pattern is the model.
-- **Motion:** `prefers-reduced-motion` is currently NOT respected (smooth scroll, toast animation, "Live" blinker) — known gap, migration item (§29, OPS-024). New animation MUST be gated on it.
+- **Motion:** `prefers-reduced-motion` IS respected (RESOLVED 2026-07-09, §29 OPS-024): smooth scroll, the toast animation, and the "Live" blinker all neutralize under `@media (prefers-reduced-motion: reduce)`; smooth scroll is additionally opt-in via `@media (prefers-reduced-motion: no-preference)` so a dropped media block fails toward less motion, not more. New animation MUST keep the same gating.
 - **Errors/blocks:** a blocked action states the specific failing facts in text (blocked reasons list, rail note).
 
 ---
@@ -695,7 +695,7 @@ Exist in the codebase today; MUST NOT be reused in new work; migrate when touchi
 | 10.5px mono as load-bearing label size | chips, table headers (`styles.css`) | Below the 11.5–12px readable floor for essential labels (OPS-021) | ≥11.5px for headers/statuses; 10.5px decorative only | Medium |
 | Fixed-px font-size/spacing literals for document flow | (migrated 2026-07-07) | Didn't scale with viewport or respect user font settings (OPS-022) | Fluid rem system on one root clamp (§5.2/§5.3) | Done — don't reintroduce fixed px for flow text |
 | No URL state (screen/pattern only in React state) | `App.tsx` | Refresh resets; nothing is linkable (OPS-023) | Hash params (`#review/PAT-002`), no router library | Medium |
-| Animations not gated on `prefers-reduced-motion` | smooth scroll, toast, Live blinker | WCAG motion guidance (OPS-024) | Add the media query; disable smooth-scroll and blink | Medium |
+| ~~Animations not gated on `prefers-reduced-motion`~~ | (resolved — see §15) | WCAG motion guidance (OPS-024) | `reduced-motion: reduce` neutralizes toast/blinker; smooth scroll additionally opt-in via `no-preference` (§34, 2026-07-09) | Done — don't reintroduce ungated motion |
 | Nested scroll inside demo frames | case-study frames | Scroll-trap trade-off (OPS-025) — mitigated by taller frames; accepted for live embeds | Keep frames tall enough to show content; add scrollability affordance if reworked | Low |
 | Search without clear button / live result count announcement | Feed toolbar (OPS-026) | Minor usability + AT gap | Clear "×" + visually-hidden `aria-live` count | Low |
 | First cost bar accent-colored by position | `.costbar:first-child` (`styles.css:1816`) | Color encodes list position, not meaning (OPS-027) | One ink color for all bars | Low |
@@ -792,6 +792,14 @@ Any change to this system (new rule, changed rule, new component class, new term
 5. **Migration consideration** — fix now, fix-when-touched (add to §29), or explicitly grandfather.
 
 Update this file and, for visual-direction changes, `docs/design-direction.md` in the same change. Do not change the system merely to match Atlassian, Carbon, GDS, or any external benchmark — external systems inform, project needs decide. Keep both entry pages and `npm run verify` green.
+
+### 2026-07-09 scroll-behavior gating (sync with FlatFeed)
+
+- **Problem:** the sibling FlatFeed landing gates `scroll-behavior: smooth` as an opt-in — it only exists inside `@media (prefers-reduced-motion: no-preference)`, so if that media block were ever dropped or misapplied, the safe fallback is no animation. Opsqora instead set `scroll-behavior: smooth` unconditionally on `html` and relied on the `reduced-motion: reduce` block to explicitly turn it back off — the same end behavior today, but a failure (a dropped block, a future refactor) fails toward *more* motion rather than less.
+- **Rationale:** for an accessibility-relevant property, default-deny is safer than default-allow (§4 conflict order favors correctness/defensibility over minor code-shape preference); adopting FlatFeed's existing, documented pattern keeps the two landings' reduced-motion handling identical rather than merely equivalent.
+- **Affected surfaces:** `src/styles.css` only — `scroll-behavior: smooth` moved out of the base `html` rule into a new `@media (prefers-reduced-motion: no-preference)` block; the now-redundant `html { scroll-behavior: auto; }` inside the `reduce` block was removed (the universal `*, *::before, *::after { scroll-behavior: auto !important }` reset already covers it).
+- **Compatibility impact:** none — end-user behavior is unchanged at both ends of the media query; this is a code-shape/robustness change only. In the same pass, corrected §15's stale OPS-024 claim ("`prefers-reduced-motion` is currently NOT respected") — that text predated the `reduced-motion: reduce` block already present in `styles.css`, which was already neutralizing the toast and Live-blinker animations; §15 and §29 (OPS-024) now both mark this resolved.
+- **Migration consideration:** fixed now, single file for the CSS change plus this documentation correction; no visual regression.
 
 ### 2026-07-08 cross-portfolio 7-part unification
 

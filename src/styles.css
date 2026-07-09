@@ -54,7 +54,6 @@ html {
      browser zoom and OS/browser font-size preferences keep working. 1rem == 16px. */
   font-size: clamp(1rem, 0.925rem + 0.2vw, 1.125rem);
   -webkit-text-size-adjust: 100%;
-  scroll-behavior: smooth;
   /* Offset anchor landings by the sticky .case-top height (4rem) + breathing room
      so nav links open at the true start of each section, not under the header. */
   scroll-padding-top: 5rem;
@@ -3028,11 +3027,13 @@ table {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: no-preference) {
   html {
-    scroll-behavior: auto;
+    scroll-behavior: smooth;
   }
+}
 
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
