@@ -44,9 +44,9 @@ export function ProductBriefScreen({
         ? <article className="brief-doc">
           <header className="brief-doc-head">
             <span>Product brief</span>
-            <span>{pattern.id}</span>
-            <span>{pattern.product_area}</span>
-            <span>{pattern.brief.decision_owner}</span>
+            <span><span className="visually-hidden">Pattern </span>{pattern.id}</span>
+            <span><span className="visually-hidden">Area </span>{pattern.product_area}</span>
+            <span><span className="visually-hidden">Owner </span>{pattern.brief.decision_owner}</span>
           </header>
           <h2>{pattern.short_name}</h2>
           <p className="brief-doc-problem">{pattern.brief.problem}</p>
@@ -54,7 +54,6 @@ export function ProductBriefScreen({
             <div><dt>Evidence summary</dt><dd>{pattern.brief.evidence_summary}</dd></div>
             <div><dt>Suggested next step</dt><dd>{pattern.brief.suggested_next_step}</dd></div>
             <div><dt>Risk to watch</dt><dd>{pattern.brief.risk_to_watch}</dd></div>
-            <div><dt>Owner</dt><dd>{pattern.brief.decision_owner}</dd></div>
           </dl>
         </article>
         : <div className="brief-blocked">

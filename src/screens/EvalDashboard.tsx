@@ -22,7 +22,7 @@ function TrendChart() {
     <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label="Mocked weekly eval trend: pattern precision rises from 69% to 76%, evidence precision from 74% to 81%.">
       {[60, 70, 80, 90].map(tick => <g key={tick}>
         <line x1={pad.left} y1={y(tick)} x2={width - pad.right} y2={y(tick)} className={tick === 70 ? 'grid grid--rule' : 'grid'} />
-        <text x={pad.left - 8} y={y(tick) + 3} className="axis" textAnchor="end">{tick}</text>
+        <text x={pad.left - 8} y={y(tick) + 3} className="axis" textAnchor="end">{tick}%</text>
       </g>)}
       {evalTrend.map((point, index) => <text key={point.week} x={x(index)} y={height - 8} className="axis" textAnchor="middle">{point.week}</text>)}
       <polyline points={line('evidence')} className="series series--evidence" />
@@ -111,7 +111,7 @@ export function EvalDashboard() {
       <Stat label="Pattern precision" value="76%" note="Target ≥ 70%" />
       <Stat label="Pattern F1" value="69%" note="Balance of precision + recall" />
       <Stat label="Evidence precision" value="81%" note="Target ≥ 80%" />
-      <Stat label="Cost per validated pattern" value="$8.90" note="Key value metric" />
+      <Stat label="Cost per validated pattern" value="$8.90" note="Target ≤ $12" />
     </div>
 
     <p className="eval-note">

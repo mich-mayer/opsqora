@@ -183,7 +183,7 @@ Normative roles below list the **reference px at a 16px root**; each is authored
 Rules:
 - Numeric table cells and stats MUST use `font-variant-numeric: tabular-nums`.
 - New text styles SHOULD reuse an existing role above rather than introduce a new size. Half-pixel sizes (12.5, 13.5, 14.5) MUST NOT be added beyond those already present.
-- The 10.5px floor for load-bearing labels (table headers, statuses) is DEPRECATED direction: when reworking a component, raise its labels to ≥11.5px; 10.5px remains acceptable only for decorative kickers/chips (Source: UX audit OPS-021, Carbon 12px label minimum). Contrast at these sizes is already AA-fixed via `--ink-3`.
+- **The ≥11.5px floor for load-bearing labels (table headers, statuses) is the rule (RESOLVED 2026-07-09, OPS-021, §29, Carbon 12px label minimum).** Smaller sizes (9.5–10.5px) remain acceptable only for decorative kickers/chips that carry no unique state. Contrast at these sizes is already AA-fixed via `--ink-3`.
 
 ### 5.3 Spacing — ADOPT (fluid rem; relationship-based)
 
@@ -279,7 +279,7 @@ Canonical components (all in `src/components/primitives.tsx` unless noted). Sear
 
 **Chip** — the universal status/label atom. Tones: `line` (neutral), `ink` (inverse), `accent` (AI-suggested state), `ok`, `warn`, `bad`. `square` adds the 7px status marker. Content: uppercase mono, ≤3 words. Use for statuses, areas, mock labels. MUST NOT: use tone for meanings other than §11's mapping; put sentences in chips.
 
-**Stat** — KPI tile: mono label, 30px tabular value, optional note. Notes SHOULD state the target ("Target ≥ 70%") — mixed-genre notes are DEPRECATED (§29, OPS-028).
+**Stat** — KPI tile: mono label, 30px tabular value, optional note. Notes state either the target ("Target ≥ 70%", "Target ≤ $12") or, when no threshold exists, a plain-language definition ("Balance of precision + recall") — a vague non-committal note is DEPRECATED (RESOLVED 2026-07-09, §29, OPS-028).
 
 **RuleCheck** — readiness check row: check/minus icon square + bold condition + factual detail ("6 confirmed · 5 required"). When a threshold is unreachable with current data, the detail MUST say so ("0/3 marked · 5 required, need more evidence") — a count must never read as satisfied next to a failing marker (OPS-008).
 
@@ -398,7 +398,7 @@ The enforcement of `MODEL_BOUNDARY` in pixels:
 - Titles are block heads naming the content ("Quality trend", "Cost by AI task") plus a one-line provenance note ("Mocked weekly eval snapshots.").
 - Legends: text + square swatch, mono style; thresholds drawn as a distinct rule line and named in the legend ("70% launch threshold").
 - Color: series = accent + ink (§5.1); color encodes series identity, never position in a list.
-- Axes MUST show units ("%" on the quality axis is currently missing — open item OPS-029, §29).
+- Axes MUST show units (the quality axis ticks carry "%" — RESOLVED 2026-07-09, OPS-029, §29).
 - Every SVG chart MUST have `role="img"` and an `aria-label` that states the actual data story.
 - KPI (Stat) rules: value + target note; emphasis only via the existing `is-emphasis`/emphasis row mechanics aligned with severity.
 
@@ -487,7 +487,7 @@ Voice is stable; tone flexes by context:
 | Table headers | One noun per data point | Uppercase mono | 1 word | Pattern · Area · Mentions · Confidence · Trend · Status | Composite headers ("Signal") |
 | Filter/search | "Search patterns" placeholder + aria-label | Sentence case | 2 words | — | "Type here…" |
 | Chart titles | Data noun + provenance note | Sentence case | 2–4 words | "Cost by AI task" / "Mocked daily spend split — $38 total." | Editorializing titles |
-| Metadata | Labeled pairs (`dt/dd`) | — | — | Brief rail readiness `dl` | Unlabeled value strings (open item OPS-020, §29) |
+| Metadata | Labeled pairs (`dt/dd`, or a visually-hidden label for compact inline meta) | — | — | Brief rail readiness `dl`; brief doc head (RESOLVED 2026-07-09, OPS-020, §29) | Unlabeled value strings |
 
 Capitalization: sentence case everywhere except uppercase-mono kickers/chips/table headers (a typographic treatment, not a capitalization rule) and proper nouns. Terminal periods on sentences, none on labels/chips.
 
@@ -690,17 +690,17 @@ Exist in the codebase today; MUST NOT be reused in new work; migrate when touchi
 
 | Pattern | Current location | Reason | Replacement | Priority |
 |---|---|---|---|---|
-| Decision chip duplicating the segmented control's state | Evidence card header (`PatternReview.tsx:142`) | Two indicators of one state 60px apart (OPS-019 remnant) | Keep the confirmation chip; drop the decision chip or fold decision into it | Low |
-| Unlabeled meta string in brief doc head + Owner duplicated in body | `ProductBriefScreen.tsx:45-49,57` | Unlabeled values; duplicate owner (OPS-020) | `dt/dd`-labeled meta; single owner mention | Low |
-| 10.5px mono as load-bearing label size | chips, table headers (`styles.css`) | Below the 11.5–12px readable floor for essential labels (OPS-021) | ≥11.5px for headers/statuses; 10.5px decorative only | Medium |
+| ~~Decision chip duplicating the segmented control's state~~ | (resolved — `PatternReview.tsx`) | Two indicators of one state 60px apart (OPS-019 remnant) | Confirmation chip kept; decision chip dropped (§34, 2026-07-09) — the segmented control below is the only decision indicator | Done — don't reintroduce the second chip |
+| ~~Unlabeled meta string in brief doc head + Owner duplicated in body~~ | (resolved — `ProductBriefScreen.tsx`) | Unlabeled values; duplicate owner (OPS-020) | Each head value has a `.visually-hidden` label (Pattern/Area/Owner); the `dl` below no longer repeats Owner (§34, 2026-07-09) | Done — don't reintroduce unlabeled/duplicate meta |
+| ~~10.5px mono as load-bearing label size~~ | (resolved — `styles.css`) | Below the 11.5–12px readable floor for essential labels (OPS-021) | The two load-bearing instances (`.review-switch-status`, `.playground-evidence button span`) raised to 11.5px (0.71875rem); decorative-only sizes below that floor are unaffected (§34, 2026-07-09) | Done — don't reintroduce <11.5px for statuses/headers |
 | Fixed-px font-size/spacing literals for document flow | (migrated 2026-07-07) | Didn't scale with viewport or respect user font settings (OPS-022) | Fluid rem system on one root clamp (§5.2/§5.3) | Done — don't reintroduce fixed px for flow text |
-| No URL state (screen/pattern only in React state) | `App.tsx` | Refresh resets; nothing is linkable (OPS-023) | Hash params (`#review/PAT-002`), no router library | Medium |
+| ~~No URL state (screen/pattern only in React state)~~ | (resolved — `App.tsx` hash routing) | Refresh resets; nothing is linkable (OPS-023) | Implemented as designed: hash params (`#review/PAT-002`), no router library; refresh/back/forward/invalid-hash behavior verified 2026-07-09 (§34) | Done — don't reintroduce unlinkable state |
 | ~~Animations not gated on `prefers-reduced-motion`~~ | (resolved — see §15) | WCAG motion guidance (OPS-024) | `reduced-motion: reduce` neutralizes toast/blinker; smooth scroll additionally opt-in via `no-preference` (§34, 2026-07-09) | Done — don't reintroduce ungated motion |
 | Nested scroll inside demo frames | case-study frames | Scroll-trap trade-off (OPS-025) — mitigated by taller frames; accepted for live embeds | Keep frames tall enough to show content; add scrollability affordance if reworked | Low |
-| Search without clear button / live result count announcement | Feed toolbar (OPS-026) | Minor usability + AT gap | Clear "×" + visually-hidden `aria-live` count | Low |
-| First cost bar accent-colored by position | `.costbar:first-child` (`styles.css:1816`) | Color encodes list position, not meaning (OPS-027) | One ink color for all bars | Low |
-| Mixed-genre Stat notes ("Key value metric" vs "Target ≥ 70%") | Eval stat band (OPS-028) | Target, definition, and label mixed in one slot | Uniform "Target ≥ X" + status square format | Low |
-| Chart axis without units | TrendChart ticks (OPS-029) | 60–90 without "%" | Add "%" to ticks or axis label | Low |
+| ~~Search without clear button / live result count announcement~~ | (resolved — `PatternFeed.tsx`) | Minor usability + AT gap (OPS-026) | Clear "×" button (shown only when search is non-empty) + `.visually-hidden` `role="status" aria-live="polite"` match-count region (§34, 2026-07-09) | Done — don't reintroduce a bare search input |
+| ~~First cost bar accent-colored by position~~ | (already resolved in code prior to this audit — `.costbar-track i` uses one `--ink` color; no `:first-child` override exists) | Color encodes list position, not meaning (OPS-027) | One ink color for all bars — confirmed current, no code change needed (§34, 2026-07-09) | Done — the doc reference was stale |
+| ~~Mixed-genre Stat notes ("Key value metric" vs "Target ≥ 70%")~~ | (resolved — `EvalDashboard.tsx`) | Target, definition, and label mixed in one slot (OPS-028) | "Cost per validated pattern" note changed to "Target ≤ $12", sourced from the existing `evalRules` production threshold (no invented number); "Balance of precision + recall" kept as the definition-genre exception for Pattern F1, which has no stated threshold (§34, 2026-07-09) | Done — two sanctioned genres only: Target ≥/≤ X, or a plain-language definition |
+| ~~Chart axis without units~~ | (resolved — `EvalDashboard.tsx` `TrendChart`) | 60–90 without "%" (OPS-029) | Ticks render `{tick}%` (§34, 2026-07-09) | Done — don't reintroduce unitless ticks |
 | Editorial screen-head at display scale on operational screens | (removed; pattern retired) | Viewport tax (LC-04) | Compact head §6.3 | Done — don't reintroduce |
 | Composite data columns ("42 mentions · 86%") | (removed) | One data point per column (OPS-012) | Separate columns | Done — don't reintroduce |
 | Status vocabulary drift (Blocked-in-accent, "Needs") | (removed) | One state, one term, one color (OPS-010, PC-03) | §11 | Done — don't reintroduce |
@@ -715,7 +715,7 @@ Insufficient evidence for a rule — do not invent one; use the temporary defaul
 |---|---|---|---|
 | ~~Final type/spacing token scale values~~ | RESOLVED 2026-07-07 — adopted the fluid rem system (Option D): one root clamp drives the scale, everything authored in rem (1rem=16px), hairlines stay px, breakpoints in em (§5.2/§5.3/§14); verified before/after at 375–1600px | — | A *named* 4/8 step scale stays optional (§5.3), no longer blocking |
 | Readiness rule vs small evidence sets (PAT-002/003/004 can never reach 5 Belongs) | Product decision: parameterize the threshold, add mock evidence, or keep "insufficient evidence" as a designed state | Author's product intent for the demo narrative | Keep current honest copy ("…5 required, need more evidence"); don't silently change the rule or the data |
-| URL/hash routing shape | Whether Eval should be linkable affects nav rules (§6.2) | Decision on deep-linking needs for the demo | No routing (current); if added, hash-based, no library |
+| ~~URL/hash routing shape~~ | RESOLVED — shipped in `App.tsx` (commit `0c72cb7`, 2026-07-07) exactly per the temporary default: hash-based (`#patterns`, `#review/PAT-002`, `#brief/PAT-002`, `#eval`), no router library; unknown pattern IDs fall back to PAT-001, unknown hashes fall back to the default screen; verified 2026-07-09 (§34) | — | Eval is deep-linkable via `#eval` while staying out of primary nav (§6.2 preserved — the nav item appears only while Eval is open) |
 | Eval "Watchlist"/status source of truth | Chip severity is derived from status-text substrings — fragile if mock data wording changes | Decision: move severity to an explicit field in `src/mock` | Keep wording of `status` strings stable when editing mock data |
 | Case-study section numbering vs content growth | RESOLVED 2026-07-07 — the concrete proposal arrived: "Why AI" (§02) surfaces the AI-fluency beat §22's 30-second scan requires but no heading delivered | — | Sections are now 01–07. Further additions still must clear the bar of being a distinct scan-level beat, not content that fits an existing section |
 | Mobile as a first-class surface | Currently a supported viewing mode only (§14) | Any real mobile-usage requirement | Don't design mobile-only features; keep the ≤920/≤620 behaviors working |
@@ -793,6 +793,22 @@ Any change to this system (new rule, changed rule, new component class, new term
 
 Update this file and, for visual-direction changes, `docs/design-direction.md` in the same change. Do not change the system merely to match Atlassian, Carbon, GDS, or any external benchmark — external systems inform, project needs decide. Keep both entry pages and `npm run verify` green.
 
+### 2026-07-09 §29 debt-cluster polish pass (OPS-019, OPS-020, OPS-021, OPS-026, OPS-028, OPS-029)
+
+- **Problem:** six low/medium-priority items sat in §29 as known but unfixed: a duplicate decision indicator in the evidence card header (OPS-019); unlabeled, partly-duplicated meta in the brief document head (OPS-020); a 10.5px floor below the readable minimum for two load-bearing status labels (OPS-021); a search input with no way to clear it and no announced result count for assistive tech (OPS-026); a Stat note ("Key value metric") that stated neither a target nor a definition, unlike its siblings (OPS-028); and unitless numeric ticks on the quality trend chart (OPS-029). Individually low-severity, together they were the most visible remaining "not quite finished" texture in the demo app a reviewer would actually click through.
+- **Rationale:** §4's conflict order favors comprehension and evidence clarity over leaving cosmetic debt undocumented-but-unfixed once a decision is available; none of these required a product/content decision from the author (unlike the still-open §30/§35 items), so they were closed in one focused pass rather than left to accumulate. For OPS-028 specifically, the replacement value ("Target ≤ $12") was sourced from the existing `evalRules` production threshold already in `src/mock/index.ts` rather than invented, keeping the no-fabricated-metrics discipline already in place for the eval numbers.
+- **Affected surfaces:** `src/screens/PatternReview.tsx` (removed the duplicate decision `Chip` and its now-unused `decisionTone` helper), `src/screens/ProductBriefScreen.tsx` (labeled head values via `.visually-hidden`, removed the duplicate Owner row from the `dl`), `src/screens/PatternFeed.tsx` (clear button + live match-count region), `src/screens/EvalDashboard.tsx` (Stat note, chart tick units), `src/styles.css` (`.review-switch-status`, `.playground-evidence button span` raised to 11.5px; new `.visually-hidden` utility; new `.search-clear` styles), this file (§§5.2, 14, 20, 28, 29).
+- **Compatibility impact:** none functionally — `tsc --noEmit` and `vite build` both pass; verified live in the dev server (evidence card shows one status chip with the segmented control as the sole decision indicator; brief head reads "Pattern PAT-001 / Area Planning / Owner Planning PM" to assistive tech with no duplicate Owner row below; search shows/hides a working clear button and the live region reports "N of M patterns match"; the Eval stat band and trend-chart axis render the updated copy/units without layout breakage). OPS-027 (first cost bar accent-colored by position) was investigated as part of this pass and found already resolved in code with no `:first-child` override present — the §29 row was stale documentation, not a live defect; corrected without a code change.
+- **Migration consideration:** fixed now, single pass; no bot, dashboard, README, or FlatFeed changes required (Opsqora-only).
+
+### 2026-07-09 OPS-023 verified resolved (documentation correction, no code change)
+
+- **Problem:** §29 (OPS-023 "No URL state"), §30 ("URL/hash routing shape... No routing (current)"), and §35 ("Should Eval be deep-linkable?") all described hash routing as missing/undecided — but `App.tsx` has carried a full hash-routing implementation since commit `0c72cb7` (2026-07-07): `parseHashState`/`pushHashState`, `hashchange`+`popstate` listeners, and the exact `#review/PAT-002` shape §29 prescribed as the replacement. The standard was three entries behind the code, misdirecting future work toward re-implementing something that ships.
+- **Rationale:** same failure class as the OPS-024 correction (see below) — documentation drift, where a fix landed without its governance updates. Correcting the record beats leaving a "Medium" debt item that would invite a duplicate implementation.
+- **Affected surfaces:** this file only (§§29, 30, 35). No code changed.
+- **Compatibility impact:** none — behavior was already shipped. Verified live 2026-07-09 in the dev server before marking resolved: deep link `#review/PAT-002` opens Review with that pattern; refresh preserves screen + pattern; browser back/forward fires `popstate` and the React state follows; an unknown pattern ID (`#review/PAT-999`) falls back to PAT-001; an unknown page hash falls back to the default screen on load and is ignored in-session (no crash); `#eval` deep-links to Eval while the nav item still appears only when Eval is open (§6.2 intact).
+- **Migration consideration:** none — record-keeping only. The §35 Eval question is recorded as resolved by the shipped implementation rather than by a separate author decision; if the author disagrees with `#eval` deep-linking, that is a new change, not a revert of this correction.
+
 ### 2026-07-09 scroll-behavior gating (sync with FlatFeed)
 
 - **Problem:** the sibling FlatFeed landing gates `scroll-behavior: smooth` as an opt-in — it only exists inside `@media (prefers-reduced-motion: no-preference)`, so if that media block were ever dropped or misapplied, the safe fallback is no animation. Opsqora instead set `scroll-behavior: smooth` unconditionally on `html` and relied on the `reduced-motion: reduce` block to explicitly turn it back off — the same end behavior today, but a failure (a dropped block, a future refactor) fails toward *more* motion rather than less.
@@ -818,7 +834,7 @@ Questions needing a human decision before rules can be written (distinct from §
 | Issue | Decision type | Owner |
 |---|---|---|
 | Should PAT-002/003/004 get enough mock evidence to make the readiness rule reachable, or is "insufficient evidence" part of the demo story? | Product | Author |
-| Should the Eval screen be deep-linkable (routing), given it's deliberately outside primary nav? | Product/design | Author |
+| ~~Should the Eval screen be deep-linkable (routing), given it's deliberately outside primary nav?~~ RESOLVED by the shipped implementation (`0c72cb7`): yes — `#eval` deep-links to it, while §6.2 is preserved (Eval enters the nav only while open); see §30/§34 | Product/design | Author |
 | ~~Adopt the OPS-022 token scale migration as a dedicated pass (when)?~~ RESOLVED 2026-07-07 — done as the fluid rem system (Option D); see §5.2/§30 | Implementation | Author |
 | Should metric severity move from status-text substring matching to an explicit data field? | Implementation | Author |
 | README "Honest positioning" feature bullet — keep or reword (borderline self-grading)? | Content | Author |

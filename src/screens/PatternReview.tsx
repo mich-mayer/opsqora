@@ -17,13 +17,6 @@ const trendLabel: Record<PatternTrend, string> = {
   down: 'Down',
 }
 
-function decisionTone(decision: EvidenceDecision) {
-  if (decision === 'Belongs') return 'ok' as const
-  if (decision === 'Unsure') return 'warn' as const
-  if (decision === 'Does not belong') return 'bad' as const
-  return 'line' as const
-}
-
 function TrendIndicator({ trend }: { trend: PatternTrend }) {
   const Icon = trend === 'up' ? ArrowUpRight : trend === 'down' ? ArrowDownRight : Minus
   return <span className={`trend trend--${trend}`}>
@@ -139,7 +132,6 @@ export function PatternReview({
                   <Chip tone={confirmations[evidence.id] ? 'ok' : 'accent'} square>
                     {confirmations[evidence.id] ? (pattern.id === 'PAT-001' ? 'Pre-confirmed (demo)' : 'Confirmed') : 'AI suggested'}
                   </Chip>
-                  <Chip tone={decisionTone(decisions[evidence.id])} square>{decisions[evidence.id]}</Chip>
                 </span>
               </header>
               <blockquote>{evidence.quote}</blockquote>

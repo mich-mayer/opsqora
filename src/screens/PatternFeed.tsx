@@ -4,6 +4,7 @@ import {
   ArrowUpRight,
   Minus,
   Search,
+  X,
 } from 'lucide-react'
 import { Chip, EmptyState, ScreenHead } from '../components/primitives'
 import { READINESS_RULE, getReadiness } from '../mock'
@@ -82,15 +83,21 @@ export function PatternFeed({
     <div className="feed-toolbar">
       <p><strong>{patterns.length} patterns</strong> · {readyCount} ready — evidence: {confirmedEvidence} confirmed · {totalEvidence - confirmedEvidence} AI-suggested</p>
       <label className="search-field">
-        <Search size={14} />
+        <Search size={14} aria-hidden="true" />
         <input
           value={search}
           onChange={event => onSearch(event.target.value)}
           placeholder="Search patterns"
           aria-label="Search patterns"
         />
+        {search && <button type="button" className="search-clear" aria-label="Clear search" onClick={() => onSearch('')}>
+          <X size={14} aria-hidden="true" />
+        </button>}
       </label>
     </div>
+    <span className="visually-hidden" role="status" aria-live="polite">
+      {search.trim() ? `${filteredPatterns.length} of ${patterns.length} patterns match` : ''}
+    </span>
 
     {filteredPatterns.length === 0
       ? <EmptyState>No pattern matches “{search}”. Try a product area such as Planning or Automation.</EmptyState>
