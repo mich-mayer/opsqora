@@ -436,7 +436,10 @@ function CaseStudy() {
 
     <footer className="case-foot">
       <Wordmark href={BASE} />
-      <span>© 2026 — Phase 1 prototype · synthetic data · no real AI calls</span>
+      <div className="case-foot-meta">
+        <span className="case-foot-line">AI suggests patterns. The PM decides — it never self-approves.</span>
+        <span>© 2026 — Phase 1 prototype · synthetic data · no real AI calls</span>
+      </div>
       <nav aria-label="Footer links">
         <a href={BASE}>Live demo</a>
         <a href={REPO_URL}>Repository</a>
