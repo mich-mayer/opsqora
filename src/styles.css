@@ -2081,6 +2081,15 @@ table {
   margin-bottom: 0;
 }
 
+.case-prose + #eval,
+.case-results + .case-prose {
+  margin-top: 2rem;
+}
+
+#eval + .case-scope-columns {
+  margin-top: 2rem;
+}
+
 .case-figures {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -2772,6 +2781,15 @@ table {
 
   .case-section {
     margin-bottom: 4.5rem;
+  }
+
+  .case-prose + #eval,
+  .case-results + .case-prose {
+    margin-top: 1.75rem;
+  }
+
+  #eval + .case-scope-columns {
+    margin-top: 1.75rem;
   }
 
   .case-boundary {
