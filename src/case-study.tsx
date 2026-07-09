@@ -329,7 +329,7 @@ function CaseStudy() {
         </div>
         <div id="eval">
           <DemoFrame
-            url={`${LIVE_URL_LABEL} — AI eval`}
+            url={LIVE_URL_LABEL}
             height={800}
             note="The live eval screen: quality and cost tables with plain-language definitions, threshold/action rules, and hand-rolled SVG charts."
           >

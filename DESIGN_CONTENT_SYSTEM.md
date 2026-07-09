@@ -793,6 +793,14 @@ Any change to this system (new rule, changed rule, new component class, new term
 
 Update this file and, for visual-direction changes, `docs/design-direction.md` in the same change. Do not change the system merely to match Atlassian, Carbon, GDS, or any external benchmark — external systems inform, project needs decide. Keep both entry pages and `npm run verify` green.
 
+### 2026-07-09 demo-frame chrome label + overflow fix (sync with FlatFeed)
+
+- **Problem:** the AI-eval demo frame's chrome label carried a descriptive suffix (`${LIVE_URL_LABEL} — AI eval`) that added no reader value over the plain host, and `.demo-frame-chrome em` had no `min-width`/overflow handling, so at mid-range viewports a long label could wrap and push `.demo-frame-live` ("Live · synthetic data") past the frame's right border.
+- **Rationale:** the chrome label's job is to look like an address bar, not to caption the mockup. Structurally, flex children need `min-width: 0` to shrink below content size — adding that plus `overflow: hidden; white-space: nowrap; text-overflow: ellipsis` on the label and `flex: none` on the dots/live-label makes the frame overflow-proof for any future label length. Sibling FlatFeed received the identical fix in the same pass, applied to both of its demo frames.
+- **Affected surfaces:** `src/case-study.tsx` (`url={LIVE_URL_LABEL}` for the eval frame, dropping the `— AI eval` suffix), `src/styles.css` (`.demo-frame-chrome em`, `.demo-frame-dots`, `.demo-frame-live`), this file (§34).
+- **Compatibility impact:** none — the provenance marker (`Live · synthetic data`) is unchanged; only the address-bar text and its container's overflow behavior changed. The existing mobile rule hiding `em` entirely is unchanged.
+- **Migration consideration:** fixed now on both demo-frame instances (hero + eval); other app screens, README, and eval numbers untouched.
+
 ### 2026-07-09 §29 debt-cluster polish pass (OPS-019, OPS-020, OPS-021, OPS-026, OPS-028, OPS-029)
 
 - **Problem:** six low/medium-priority items sat in §29 as known but unfixed: a duplicate decision indicator in the evidence card header (OPS-019); unlabeled, partly-duplicated meta in the brief document head (OPS-020); a 10.5px floor below the readable minimum for two load-bearing status labels (OPS-021); a search input with no way to clear it and no announced result count for assistive tech (OPS-026); a Stat note ("Key value metric") that stated neither a target nor a definition, unlike its siblings (OPS-028); and unitless numeric ticks on the quality trend chart (OPS-029). Individually low-severity, together they were the most visible remaining "not quite finished" texture in the demo app a reviewer would actually click through.

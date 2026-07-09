@@ -2001,6 +2001,7 @@ table {
    window chrome (see DESIGN_CONTENT_SYSTEM.md §5.5). */
 .demo-frame-dots {
   display: inline-flex;
+  flex: none;
   gap: 0.5rem;
 }
 
@@ -2027,10 +2028,15 @@ table {
   font-style: normal;
   color: var(--ink-3);
   letter-spacing: 0.03em;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .demo-frame-live {
   margin-left: auto;
+  flex: none;
   display: inline-flex;
   align-items: center;
   gap: 0.4375rem;
