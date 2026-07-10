@@ -6,8 +6,8 @@ Visual direction and implementation spec for the current Opsqora prototype.
 
 - Phase 1, frontend-only.
 - Active product: support feedback pattern validation.
-- Active app workflow: Patterns, Review, and Brief.
-- The case study keeps the AI Eval explanation/demo outside the main product path.
+- Active app workflow: Patterns, Review, Brief, and Eval.
+- AI Eval is a permanent product nav tab; the case study demo and the live product stay in sync.
 - Case study embeds the live product (the real `App` component), not screenshots.
 
 ## Scope & Guardrails
@@ -111,7 +111,7 @@ Rules:
    a sticky rail for readiness, verdict, and brief action. On mobile, a compact sticky readiness
    summary keeps the gate and brief action visible while evidence cards scroll.
 3. Brief: concise PM-owned document plus a small readiness status rail.
-4. AI Eval: secondary case-study/demo surface, not part of the primary workflow.
+4. AI Eval: permanent nav tab in the product, same screen the case study embeds.
 
 ## Case Study Structure
 

@@ -20,6 +20,7 @@ const navItems: { id: ConceptBPage; label: string }[] = [
   { id: 'patterns', label: 'Patterns' },
   { id: 'review-pattern', label: 'Review' },
   { id: 'brief', label: 'Brief' },
+  { id: 'eval', label: 'Eval' },
 ]
 
 type HashState = {
@@ -86,6 +87,7 @@ export default function App({
   const [search, setSearch] = useState('')
   const [toast, setToast] = useState<ToastState | null>(null)
   const mainRef = useRef<HTMLDivElement>(null)
+  const navRef = useRef<HTMLElement>(null)
   const mainId = useId()
   const selectedPattern = patterns.find(pattern => pattern.id === selectedPatternId) ?? patterns[0]
   const selectedDecisions = decisions[selectedPattern.id]
@@ -97,9 +99,6 @@ export default function App({
       getReadiness(pattern, decisions[pattern.id], verdicts[pattern.id], confirmations[pattern.id]).ready,
     ]),
   ), [confirmations, decisions, patterns, verdicts])
-  const visibleNavItems = page === 'eval'
-    ? [...navItems, { id: 'eval' as const, label: 'Eval' }]
-    : navItems
 
   useEffect(() => {
     if (embedded) return undefined
@@ -120,6 +119,11 @@ export default function App({
       window.removeEventListener('popstate', applyHashState)
     }
   }, [embedded, patternIds])
+
+  useEffect(() => {
+    const activeButton = navRef.current?.querySelector('.is-active')
+    activeButton?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: shouldReduceMotion() ? 'auto' : 'smooth' })
+  }, [page])
 
   const showToast = (message: string, tone: ToastState['tone'] = 'success') => {
     setToast({ message, tone })
@@ -188,8 +192,8 @@ export default function App({
     <a className="skip-link" href={`#${mainId}`}>Skip to content</a>
     <header className="topbar">
       <Wordmark href={embedded ? undefined : BASE} />
-      <nav className="topnav" aria-label="Primary navigation">
-        {visibleNavItems.map((item) => <button
+      <nav className="topnav" ref={navRef} aria-label="Primary navigation">
+        {navItems.map((item) => <button
           key={item.id}
           aria-current={page === item.id ? 'page' : undefined}
           className={page === item.id ? 'is-active' : ''}
