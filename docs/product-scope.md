@@ -7,10 +7,9 @@ Opsqora uses recurring feedback patterns as the unit of work. The main product w
 - Patterns: AI-suggested recurring feedback patterns with product area, signal strength, search, and readiness state.
 - Review: representative support evidence quotes, four evidence decisions, five pattern verdicts, and visible readiness logic.
 - Brief: concise mocked backlog candidate generated from a ready pattern.
+- AI Eval: quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
 
-The case study also contains a secondary AI Eval surface with quality metrics, cost metrics, production thresholds/actions, trend charts, and cost by AI task.
-
-- Case Study: public narrative page at `case-study.html`.
+- Case Study: public narrative page at `case-study.html`, embedding the live product including the Eval screen.
 
 ## Data Model
 

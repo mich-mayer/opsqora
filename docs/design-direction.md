@@ -94,8 +94,8 @@ Rules:
 
 ## App Shell
 
-- Top bar (56px): typographic wordmark (accent square with white "O" + "Opsqora"), three-item
-  workflow nav, and a synthetic-data note.
+- Top bar (56px): typographic wordmark (accent square with white "O" + "Opsqora"), four-item
+  nav (Patterns · Review · Brief · Eval), and a synthetic-data note.
 - The shell fills the viewport; `.shell-main` is the internal scroll container.
 - Keyboard users get a focus-visible skip link before the app shell and case study shell.
 - `App` accepts `embedded` (renders inside case-study demo frames, height 100%) and

@@ -9,7 +9,7 @@ This directory contains the React/Vite source for Opsqora.
 - `screens/PatternFeed.tsx`: concise pattern table with search, area, signal strength, and readiness state.
 - `screens/PatternReview.tsx`: pattern switcher, evidence decisions, pattern verdict, readiness logic, and brief action.
 - `screens/ProductBriefScreen.tsx`: generated brief document and readiness snapshot.
-- `screens/EvalDashboard.tsx`: secondary case-study/demo surface with quality/cost metric tables, threshold/action rules, and hand-rolled SVG charts (no charting library).
+- `screens/EvalDashboard.tsx`: AI Eval screen with quality/cost metric tables, threshold/action rules, and hand-rolled SVG charts (no charting library).
 - `components/primitives.tsx`: shared wordmark, kicker, screen header, chip, stat, rule check, and empty state.
 - `mock/index.ts`: deterministic patterns, evidence snippets, eval metrics, costs, product briefs, and mocked outcomes.
 - `types.ts`: domain types for pattern validation.

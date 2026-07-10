@@ -22,7 +22,7 @@ This document answers: *exactly how should interface elements and texts in this 
 **Who uses it:** AI coding agents (Claude/Fable, Codex), human developers, and anyone doing design, code, or content review on Opsqora.
 
 **Surfaces covered:**
-1. **Product application** — `/` (`index.html` → `src/App.tsx`): Patterns, Review, Brief screens, plus the secondary AI Eval screen.
+1. **Product application** — `/` (`index.html` → `src/App.tsx`): Patterns, Review, Brief, and AI Eval screens.
 2. **Case study landing page** — `/case-study.html` (`src/case-study.tsx`), including its two live `<App embedded />` frames and the readiness playground.
 
 **Not covered:** repo-internal docs (`docs/`, `AGENTS.md`, `CLAUDE.md`) except where they are reader-facing evidence (README, CASE_STUDY.md are public and follow the content rules in §§16–26); build tooling; future backend surfaces (out of Phase 1 scope).
@@ -38,7 +38,7 @@ Confirmed by `docs/project-brief.md`, `docs/product-scope.md`, `docs/product-dec
 - **Category:** support feedback pattern validation tool for small B2B SaaS product teams. Phase 1 is a frontend-only React/Vite prototype on deterministic synthetic data; no backend, auth, persistence, or real AI calls.
 - **Primary users:** (a) a reviewer/PM validating patterns in the product; (b) case-study readers — recruiters, hiring managers, Heads of Product, AI PMs.
 - **Unit of work:** the *recurring feedback pattern*. Support feedback items appear only as evidence snippets attached to patterns.
-- **Core workflow:** Patterns (queue) → Review (evidence decisions + verdict) → readiness rule → Brief (backlog candidate). AI Eval is a secondary, case-study-facing surface, deliberately outside primary navigation.
+- **Core workflow:** Patterns (queue) → Review (evidence decisions + verdict) → readiness rule → Brief (backlog candidate). AI Eval sits alongside the workflow as the model quality/cost governance screen — a permanent fourth nav item, also embedded in the case study.
 - **Role of AI:** assistive suggestion layer only — suggests patterns, attaches evidence, estimates confidence, drafts a brief template. Canonical boundary (`MODEL_BOUNDARY`, `src/mock/index.ts:19`): *"AI suggests patterns; the human validates evidence; transparent rules compute readiness; the PM decides. The AI never decides what enters the backlog and never self-approves."*
 - **Role of human review:** the reviewer marks each evidence snippet, chooses the pattern verdict; a transparent rule (≥5 snippets marked Belongs, verdict = Valid, confidence ≥ 70%) computes readiness; the PM makes the backlog decision.
 - **Honesty constraint (product-level):** anything that would require a backend or live data MUST be visibly labeled mocked/illustrative/synthetic.
@@ -98,7 +98,7 @@ References inform rules; they are never templates. Deviation from a reference is
 | Area | Primary reference | Secondary reference | Project-specific rule |
 |---|---|---|---|
 | App layout | Atlassian Design System | — | Top bar + single scroll container + centered 1080px content (§6.1) |
-| Navigation | Atlassian | — | Three-item workflow nav; Eval appears in nav only while open (§6.2) |
+| Navigation | Atlassian | — | Four-item nav: workflow order + Eval as governance surface (§6.2) |
 | Grid | IBM Carbon | — | One 1080px container; two-column main/rail grids (§5.4) |
 | Spacing | Carbon | — | Fluid rem scale on one root clamp; relationship-based values (§5.3) |
 | Data tables | Carbon | Atlassian | Full container width, one data point per column, shared column rhythm (§10) |
@@ -229,7 +229,7 @@ Spacing is authored in `rem` and scales with the fluid type root (§5.2), so pad
 **When not to use:** the case study has its own shell (§6.7); don't nest app shells.
 
 ### 6.2 Navigation — ADOPT
-Three workflow items: **Patterns · Review · Brief** — in workflow order. Active item gets `aria-current="page"` and the active underline. **Eval** appears as a fourth item only while the Eval screen is open (it has no entry point in primary nav — a documented product decision, not a bug). MUST NOT add nav items for surfaces outside the primary workflow; MUST NOT reorder against the workflow.
+Four permanent items: **Patterns · Review · Brief · Eval** — workflow order first, Eval last as the governance surface. Active item gets `aria-current="page"` and the active underline; on narrow viewports the nav scrolls horizontally and the active item auto-scrolls into view. MUST NOT add nav items for surfaces outside the product; MUST NOT reorder against the workflow.
 
 ### 6.3 Screen header (compact operational head) — ADOPT (post-LC-04)
 **Anatomy:** mono index (`01`–`04`, accent) + uppercase kicker + h1 on one line; optional one-line lede; optional right-side aside (e.g., the `Mocked / Illustrative` chip on Eval); 2px rule below.
@@ -715,7 +715,7 @@ Insufficient evidence for a rule — do not invent one; use the temporary defaul
 |---|---|---|---|
 | ~~Final type/spacing token scale values~~ | RESOLVED 2026-07-07 — adopted the fluid rem system (Option D): one root clamp drives the scale, everything authored in rem (1rem=16px), hairlines stay px, breakpoints in em (§5.2/§5.3/§14); verified before/after at 375–1600px | — | A *named* 4/8 step scale stays optional (§5.3), no longer blocking |
 | Readiness rule vs small evidence sets (PAT-002/003/004 can never reach 5 Belongs) | Product decision: parameterize the threshold, add mock evidence, or keep "insufficient evidence" as a designed state | Author's product intent for the demo narrative | Keep current honest copy ("…5 required, need more evidence"); don't silently change the rule or the data |
-| ~~URL/hash routing shape~~ | RESOLVED — shipped in `App.tsx` (commit `0c72cb7`, 2026-07-07) exactly per the temporary default: hash-based (`#patterns`, `#review/PAT-002`, `#brief/PAT-002`, `#eval`), no router library; unknown pattern IDs fall back to PAT-001, unknown hashes fall back to the default screen; verified 2026-07-09 (§34) | — | Eval is deep-linkable via `#eval` while staying out of primary nav (§6.2 preserved — the nav item appears only while Eval is open) |
+| ~~URL/hash routing shape~~ | RESOLVED — shipped in `App.tsx` (commit `0c72cb7`, 2026-07-07) exactly per the temporary default: hash-based (`#patterns`, `#review/PAT-002`, `#brief/PAT-002`, `#eval`), no router library; unknown pattern IDs fall back to PAT-001, unknown hashes fall back to the default screen; verified 2026-07-09 (§34) | — | Eval is deep-linkable via `#eval`; since 2026-07-10 it is also a permanent fourth nav item (§6.2) |
 | Eval "Watchlist"/status source of truth | Chip severity is derived from status-text substrings — fragile if mock data wording changes | Decision: move severity to an explicit field in `src/mock` | Keep wording of `status` strings stable when editing mock data |
 | Case-study section numbering vs content growth | RESOLVED 2026-07-07 — the concrete proposal arrived: "Why AI" (§02) surfaces the AI-fluency beat §22's 30-second scan requires but no heading delivered | — | Sections are now 01–07. Further additions still must clear the bar of being a distinct scan-level beat, not content that fits an existing section |
 | Mobile as a first-class surface | Currently a supported viewing mode only (§14) | Any real mobile-usage requirement | Don't design mobile-only features; keep the ≤920/≤620 behaviors working |
@@ -850,7 +850,7 @@ Questions needing a human decision before rules can be written (distinct from §
 | Issue | Decision type | Owner |
 |---|---|---|
 | Should PAT-002/003/004 get enough mock evidence to make the readiness rule reachable, or is "insufficient evidence" part of the demo story? | Product | Author |
-| ~~Should the Eval screen be deep-linkable (routing), given it's deliberately outside primary nav?~~ RESOLVED by the shipped implementation (`0c72cb7`): yes — `#eval` deep-links to it, while §6.2 is preserved (Eval enters the nav only while open); see §30/§34 | Product/design | Author |
+| ~~Should the Eval screen be deep-linkable (routing), given it's deliberately outside primary nav?~~ RESOLVED, then superseded 2026-07-10: `#eval` deep-links to it, and Eval is now a permanent fourth nav item (§6.2 updated) so the product matches the case study | Product/design | Author |
 | ~~Adopt the OPS-022 token scale migration as a dedicated pass (when)?~~ RESOLVED 2026-07-07 — done as the fluid rem system (Option D); see §5.2/§30 | Implementation | Author |
 | Should metric severity move from status-text substring matching to an explicit data field? | Implementation | Author |
 | README "Honest positioning" feature bullet — keep or reword (borderline self-grading)? | Content | Author |
