@@ -1901,6 +1901,18 @@ table {
   gap: 1.25rem;
   height: 4rem;
   border-bottom: 1px solid var(--line);
+  /* Keep the sticky element itself visually inert: Safari 26 (iOS Liquid Glass)
+     reads background/backdrop-filter off sticky elements near the viewport edge
+     and mis-renders them (header detaches from the top with a content gap).
+     The translucent glass layer lives on the absolute ::before instead. */
+  background: transparent;
+}
+
+.case-top::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
 }
@@ -2670,17 +2682,15 @@ table {
   }
 
   .mobile-readiness-bar {
-    position: sticky;
-    top: 0;
-    z-index: 35;
+    /* Scrolls with the page: keeping it sticky made it pile up under the
+       sticky topbar and cover section headings mid-scroll. */
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 0.75rem;
     border: 1px solid var(--line);
     border-left: 3px solid var(--accent);
-    background: color-mix(in srgb, var(--surface) 96%, transparent);
-    backdrop-filter: blur(8px);
+    background: var(--surface);
     padding: 0.625rem 0.75rem;
     margin: -0.75rem 0 1.125rem;
   }
