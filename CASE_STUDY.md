@@ -2,7 +2,7 @@
 
 ## 1. The Problem
 
-Small product teams receive recurring support feedback in many different phrasings, and PMs need a reliable way to separate a genuine product pattern from noise before committing roadmap attention.
+Product teams handling fragmented customer feedback receive recurring complaints in many different phrasings, and PMs need a reliable way to separate a genuine product pattern from noise before committing roadmap attention.
 
 ## 2. Why AI?
 

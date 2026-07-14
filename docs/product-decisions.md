@@ -4,7 +4,7 @@ This document captures the product choices that should stay stable while Opsqora
 
 ## Positioning
 
-Opsqora is a support feedback pattern validation tool for small B2B SaaS product teams.
+Opsqora is a support feedback pattern validation tool for product teams handling fragmented customer feedback.
 
 The product turns recurring support feedback into validated product evidence. It should be presented as a focused AI Product Manager prototype with evidence review, readiness logic, product brief generation, and AI eval discipline.
 

@@ -35,7 +35,7 @@ This document answers: *exactly how should interface elements and texts in this 
 
 Confirmed by `docs/project-brief.md`, `docs/product-scope.md`, `docs/product-decisions.md`:
 
-- **Category:** support feedback pattern validation tool for small B2B SaaS product teams. Phase 1 is a frontend-only React/Vite prototype on deterministic synthetic data; no backend, auth, persistence, or real AI calls.
+- **Category:** support feedback pattern validation tool for product teams handling fragmented customer feedback. Phase 1 is a frontend-only React/Vite prototype on deterministic synthetic data; no backend, auth, persistence, or real AI calls.
 - **Primary users:** (a) a reviewer/PM validating patterns in the product; (b) case-study readers — recruiters, hiring managers, Heads of Product, AI PMs.
 - **Unit of work:** the *recurring feedback pattern*. Support feedback items appear only as evidence snippets attached to patterns.
 - **Core workflow:** Patterns (queue) → Review (evidence decisions + verdict) → readiness rule → Brief (backlog candidate). AI Eval sits alongside the workflow as the model quality/cost governance screen — a permanent fourth nav item, also embedded in the case study.

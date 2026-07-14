@@ -206,7 +206,7 @@ function CaseStudy() {
         <Kicker>AI product management — case study · 2026</Kicker>
         <h1>I built Opsqora to turn recurring support complaints into product decisions a PM can defend.</h1>
         <p className="case-lede">
-          Opsqora helps a small product team find recurring complaints, verify the supporting
+          Opsqora helps product teams handling fragmented customer feedback find recurring complaints, verify the supporting
           evidence, and turn confirmed patterns into product briefs — with AI kept assistive: it
           suggests, humans decide. Phase 1 is a frontend prototype on synthetic data.
         </p>
